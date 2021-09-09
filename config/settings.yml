@@ -1,0 +1,4 @@
+discourse_reactions:
+  discourse_rewards_enabled:
+    default: true
+    client: true

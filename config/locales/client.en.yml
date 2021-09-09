@@ -1,0 +1,7 @@
+en:
+  js:
+    user:
+      summary:
+        total_earned_points:
+          one: "Total Earned Point"
+          other: "Total Earned Points"
