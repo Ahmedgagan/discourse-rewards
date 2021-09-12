@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # name: discourse-rewards
-# about: Gives points to user and allows user to redeem their points
+# about: Gives points to user and allows user to redeem their points with available rewards
 # version: 0.1
 # author: Ahmed Gagan
 # url: https://github.com/Ahmedgagan/discourse-rewards
@@ -38,15 +38,24 @@ after_initialize do
 
   [
     "../lib/discourse-rewards/user_extension.rb",
+    "../app/models/user_reward.rb",
+    "../app/models/redemeed_point.rb",
+    "../app/controllers/rewards_controller.rb",
+    "../app/models/reward.rb",
     "../app/models/user_point.rb",
     "../jobs/scheduled/grant_active_member_badges",
     "../jobs/scheduled/grant_best_liked_in_a_month_badges",
     "../jobs/scheduled/grant_conversation_maker_badges",
-    "../jobs/scheduled/grant_embassador_badges"
+    "../jobs/scheduled/grant_embassador_badges",
+    "../config/routes"
   ].each { |path| require File.expand_path(path, __FILE__) }
 
   reloadable_patch do |plugin|
     User.class_eval { prepend DiscourseRewards::UserExtension }
+  end
+
+  Discourse::Application.routes.append do
+    mount ::DiscourseRewards::Engine, at: '/'
   end
 
   add_to_serializer(:current_user, :total_earned_points) do
