@@ -15,7 +15,7 @@ WikiMaster = <<~SQL
   JOIN posts p ON p.id = X.id
 SQL
 
-Badge.seed do |b|
+Badge.seed(:name) do |b|
   b.name = "Best liked in a month"
   b.badge_type_id = BadgeType::Bronze
   b.multiple_grant = true
@@ -27,7 +27,7 @@ Badge.seed do |b|
   b.system = true
 end
 
-Badge.seed do |b|
+Badge.seed(:name) do |b|
   b.name = "Conversation Maker"
   b.badge_type_id = BadgeType::Bronze
   b.multiple_grant = true
@@ -39,7 +39,7 @@ Badge.seed do |b|
   b.system = true
 end
 
-Badge.seed do |b|
+Badge.seed(:name) do |b|
   b.name = "Embassador"
   b.badge_type_id = BadgeType::Bronze
   b.multiple_grant = false
@@ -51,7 +51,7 @@ Badge.seed do |b|
   b.system = true
 end
 
-Badge.seed do |b|
+Badge.seed(:name) do |b|
   b.name = "Wiki Master"
   b.badge_type_id = BadgeType::Bronze
   b.multiple_grant = true
@@ -63,7 +63,7 @@ Badge.seed do |b|
   b.system = true
 end
 
-Badge.seed do |b|
+Badge.seed(:name) do |b|
   b.name = "Active Member"
   b.badge_type_id = BadgeType::Bronze
   b.multiple_grant = false

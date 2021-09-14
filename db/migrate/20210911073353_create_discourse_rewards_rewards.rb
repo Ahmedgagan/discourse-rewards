@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateDiscourseRewardsRewards < ActiveRecord::Migration[6.1]
   def change
     create_table :discourse_rewards_rewards do |t|

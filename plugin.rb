@@ -8,6 +8,8 @@
 
 enabled_site_setting :discourse_rewards_enabled
 
+CUSTOM_BADGES = ['Embassador', 'Best liked in a month', 'Conversation Maker', 'Active Member', 'Wiki Master']
+
 after_initialize do
   SeedFu.fixture_paths << Rails.root.join("plugins", "discourse-rewards", "db", "fixtures").to_s
 
@@ -63,7 +65,7 @@ after_initialize do
   end
 
   on(:notification_created) do |notification|
-    if notification.notification_type == Notification.types[:granted_badge]
+    if notification.notification_type == Notification.types[:granted_badge] && CUSTOM_BADGES.include?(JSON.parse(notification.data).with_indifferent_access[:badge_name])
       data = JSON.parse(notification.data).with_indifferent_access
 
       user_badge = UserBadge.where(user_id: notification.user_id, badge_id: data[:badge_id]).order(created_at: :desc).first
