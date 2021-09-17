@@ -15,6 +15,12 @@ WikiMaster = <<~SQL
   JOIN posts p ON p.id = X.id
 SQL
 
+BadgeGrouping.seed do |g|
+  g.id = 6
+  g.name = 'Reward Badges'
+  g.default_position = 15
+end
+
 Badge.seed(:name) do |b|
   b.name = "Best liked in a month"
   b.badge_type_id = BadgeType::Bronze
@@ -22,7 +28,7 @@ Badge.seed(:name) do |b|
   b.target_posts = false
   b.show_posts = false
   b.query = nil
-  b.default_badge_grouping_id = BadgeGrouping::Community
+  b.default_badge_grouping_id = 6
   b.trigger = Badge::Trigger::None
   b.system = true
 end
@@ -34,7 +40,7 @@ Badge.seed(:name) do |b|
   b.target_posts = false
   b.show_posts = false
   b.query = nil
-  b.default_badge_grouping_id = BadgeGrouping::Community
+  b.default_badge_grouping_id = 6
   b.trigger = Badge::Trigger::None
   b.system = true
 end
@@ -46,7 +52,7 @@ Badge.seed(:name) do |b|
   b.target_posts = false
   b.show_posts = false
   b.query = nil
-  b.default_badge_grouping_id = BadgeGrouping::Community
+  b.default_badge_grouping_id = 6
   b.trigger = Badge::Trigger::None
   b.system = true
 end
@@ -58,7 +64,7 @@ Badge.seed(:name) do |b|
   b.target_posts = false
   b.show_posts = false
   b.query = WikiMaster
-  b.default_badge_grouping_id = BadgeGrouping::Community
+  b.default_badge_grouping_id = 6
   b.trigger = Badge::Trigger::PostRevision
   b.system = true
 end
@@ -70,7 +76,7 @@ Badge.seed(:name) do |b|
   b.target_posts = false
   b.show_posts = false
   b.query = nil
-  b.default_badge_grouping_id = BadgeGrouping::Community
+  b.default_badge_grouping_id = 6
   b.trigger = Badge::Trigger::PostRevision
   b.system = true
 end
