@@ -1,0 +1,20 @@
+<div class="badges">
+  <div class="badges-header">
+    <h3 class="badges-heading">{{i18n "admin.badges.title"}}</h3>
+    <div class="create-new-badge">
+      {{d-button
+        action=(action "addReward")
+        class="btn-primary"
+        icon="plus"
+        label="admin.rewards.new"
+      }}
+    </div>
+  </div>
+  <div class="content-list">
+    <ul class="admin-badge-list">
+      {{#each model as |reward|}}
+        {{reward-card reward=reward save=save destroy=destroy}}
+      {{/each}}
+    </ul>
+  </div>
+</div>

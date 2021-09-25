@@ -1,5 +1,15 @@
 en:
   js:
+    admin:
+      rewards:
+        title: "Rewards"
+        points: "Points"
+        quantity: "Quantity"
+        title: "Title"
+        description: "Description"
+        save: "Save"
+        delete: "Delete"
+        edit: "Edit"
     user:
       summary:
         total_earned_points:

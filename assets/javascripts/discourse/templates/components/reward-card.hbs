@@ -1,0 +1,12 @@
+<div class="card">
+  <img src={{reward.image_url}} alt="Denim Jeans" style="width:100%">
+  <h1>{{reward.title}}</h1>
+  <p class="price">{{reward.points}}</p>
+  <p>{{reward.description}}</p>
+  {{d-button
+    action=(action "editReward" reward)
+    class="btn-primary"
+    icon="pencil-alt"
+    label="admin.rewards.edit"
+  }}
+</div>

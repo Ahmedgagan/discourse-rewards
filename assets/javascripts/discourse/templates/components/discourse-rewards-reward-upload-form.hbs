@@ -1,0 +1,57 @@
+{{#d-modal-body
+  title="discourse_video.modal_title"
+  subtitle="discourse_video.modal_subtitle"
+  class="discourse-video-upload-modal"
+}}
+  {{#d-section class="current-badge content-body"}}
+    <form class="form-horizontal">
+      <div>
+        <label for="points">{{i18n "admin.rewards.points"}}</label>
+        {{input type="number" name="points" value=reward.points}}
+      </div>
+
+      <div>
+        <label for="quantity">{{i18n "admin.rewards.quantity"}}</label>
+        {{input type="number" name="quantity" value=reward.quantity}}
+      </div>
+
+      <div>
+        <label for="graphic">{{i18n "admin.badges.graphic"}}</label>
+        {{image-uploader
+          imageUrl=reward.image_url
+          onUploadDone=(action "setImage")
+          onUploadDeleted=(action "removeImage")
+          type="badge_image"
+          class="no-repeat contain-image"}}
+        <div class="control-instructions">
+          <p class="help">{{i18n "admin.badges.image_help"}}</p>
+        </div>
+      </div>
+
+      <div>
+        <label for="title">{{i18n "admin.rewards.title"}}</label>
+        {{input type="text" name="title" value=reward.title}}
+      </div>
+
+      <div>
+        <label for="description">{{i18n "admin.rewards.description"}}</label>
+        {{textarea name="description" value=reward.description}}
+      </div>
+
+      <div class="buttons">
+        {{d-button
+          class="btn-primary"
+          action=(action "saveReward")
+          type="submit"
+          disabled=saving
+          label="admin.rewards.save"}}
+        <span class="saving">{{savingStatus}}</span>
+        {{d-button
+          action=(action "destroyReward")
+          class="btn-danger"
+          label="admin.rewards.delete"
+        }}
+      </div>
+    </form>
+  {{/d-section}}
+{{/d-modal-body}}
