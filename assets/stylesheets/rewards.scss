@@ -1,0 +1,157 @@
+.discourse-rewards-reward-card {
+  border: 1px solid var(--primary-low);
+  padding: 0.5em;
+
+  .points {
+    color: var(--tertiary);
+    font-weight: bold;
+    font-size: $font-up-2;
+    margin: 0.5em 0;
+
+    span {
+      font-weight: normal;
+      font-size: $font-down-2;
+    }
+  }
+
+  .quantity {
+    margin: 0.5em 0;
+  }
+
+  .quantity span {
+    font-weight: 600;
+  }
+
+  .title {
+    margin: 0.5em 0;
+    font-weight: bold;
+    font-size: $font-up-4;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .contents {
+    padding: 0.5em;
+  }
+
+  .reward-image{
+    object-fit: cover;
+    width: 100%;
+    height: 157px;
+  }
+
+  .description {
+    white-space: pre-wrap;
+  }
+
+  &:not(.full-view) {
+    .description {
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* number of lines to show */
+      -webkit-box-orient: vertical;
+      word-wrap: break-word;
+      max-width: 40ch;
+      overflow: hidden;
+      height: 3em;
+    }
+  }
+
+  &.full-view {
+    border: 0px;
+    width: 528px;
+
+    .reward-image {
+      object-fit: cover;
+      width: 528px;
+      height: 297px;
+    }
+
+    .title {
+      font-size: $font-up-4;
+    }
+
+    .points {
+      font-size: $font-up-2;
+
+      span {
+        font-size: $font-down-1;
+      }
+    }
+  }
+}
+
+.rewards-header {
+  display: flex;
+  align-items: center;
+  flex: 1 0 100%;
+  padding-bottom: 10px;
+
+  .rewards-heading {
+    margin: 0;
+    padding: 0 10px;
+  }
+
+  .create-new-reward {
+    margin-left: auto;
+  }
+}
+
+.discourse-rewards-rewards-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1em;
+}
+
+.discourse-rewards-available-points {
+  width: auto !important;
+
+  .available-points-container {
+    text-align: center;
+    display: contents;
+
+    .d-icon {
+      width: 1em !important;
+    }
+
+    .available-points-count {
+      padding-right: 0.25em;
+      font-size: $font-up-2;
+      font-weight: bold;
+      color: var(--header_primary-low-mid);
+    }
+  }
+
+  &:hover {
+    .available-points-count {
+      color: var(--primary-high);
+    }
+  }
+}
+
+.discourse-edit-reward-modal {
+  max-width: 425px;
+
+  .points, .quantity, .title {
+    width: 400px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    width: 400px;
+  }
+
+  .description {
+    width: 400px !important;
+    height: 250px !important;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+  }
+}

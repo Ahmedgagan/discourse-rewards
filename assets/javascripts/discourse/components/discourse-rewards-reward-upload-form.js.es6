@@ -56,7 +56,7 @@ export default Component.extend({
 
   actions: {
     saveReward() {
-      this.save(this.reward);
+      this.save(EmberObject.create(this.reward));
     },
 
     destroyReward() {

@@ -5,12 +5,67 @@ import { action } from "@ember/object";
 import showModal from "discourse/lib/show-modal";
 import Reward from "../models/reward";
 import I18n from "I18n";
-import bootbox from "bootbox";
+import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
-import { set } from '@ember/object';
 
 export default Controller.extend({
   routing: service("-routing"),
+  page: 0,
+  loading: false,
+
+  init() {
+    this._super(...arguments);
+
+    this.messageBus.subscribe(`/u/rewards`, (data) => {
+      this.replaceReward(data)
+    });
+  },
+
+  replaceReward(data) {
+    let index = this.model.indexOf(this.model.find((searchReward) => searchReward.id === data.reward_id));
+
+    if(data.create) {
+      if (index >= 0) {
+        this.model.unshiftObject(Reward.createFromJson(data));
+      }
+
+      return;
+    }
+
+    if(data.destroy) {
+      if (index >= 0) {
+        this.model.removeObject(this.model[index]);
+      }
+
+      return;
+    }
+
+    this.model.removeObject(this.model[index]);
+    this.model.splice(index, 0, Reward.createFromJson(data));
+
+    this.set("model", this.model);
+  },
+
+  findRewards() {
+    if (this.loading || !this.model) {
+      return;
+    }
+
+    this.set("loading", true);
+    this.set("page", this.page + 1);
+
+    ajax('/rewards.json', {
+      type: "GET",
+      data: { page: this.page },
+    }).then((result) => {
+      this.model.pushObjects(Reward.createFromJson(result));
+    }).finally(() => this.set("loading", false));
+  },
+
+  @action
+  loadMore() {
+    this.findRewards();
+  },
 
   @discourseComputed("routing.currentRouteName")
   selectedRoute() {
@@ -67,9 +122,14 @@ export default Controller.extend({
         .save(data)
         .then((result) => {
           if (newReward) {
-            this.model.pushObject(reward);
+            this.model.unshiftObject(reward);
+            this.send("closeModal");
           } else {
-            this.model.splice(this.model.indexOf(reward), 1, result.reward);
+            let index = this.model.indexOf(this.model.find((searchReward) => searchReward.id === reward.id));
+            this.model.removeObject(this.model[index]);
+            this.model.splice(index, 0, result);
+
+            this.set("model", this.model);
             this.set("savingStatus", I18n.t("saved"));
             this.send("closeModal");
           }
@@ -89,7 +149,7 @@ export default Controller.extend({
     }
 
     return bootbox.confirm(
-      I18n.t("admin.badges.delete_confirm"),
+      I18n.t("admin.rewards.delete_confirm"),
       I18n.t("no_value"),
       I18n.t("yes_value"),
       (result) => {
@@ -98,6 +158,7 @@ export default Controller.extend({
             .destroy(reward)
             .then(() => {
               this.model.removeObject(reward);
+              this.set("model", this.model);
               this.send("closeModal");
             })
             .catch(() => {

@@ -2,7 +2,7 @@
 class CreateDiscourseRewardsRewards < ActiveRecord::Migration[6.1]
   def change
     create_table :discourse_rewards_rewards do |t|
-      t.integer :uploaded_by, null: false
+      t.integer :created_by_id, null: false
       t.integer :points, null: false
       t.integer :quantity, null: false
       t.string :title, null: false

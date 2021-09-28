@@ -8,6 +8,13 @@
 
 enabled_site_setting :discourse_rewards_enabled
 
+register_asset 'stylesheets/rewards.scss'
+register_asset 'stylesheets/mobile/rewards.scss', :mobile
+
+if respond_to?(:register_svg_icon)
+  register_svg_icon "fas fa-trophy"
+end
+
 CUSTOM_BADGES = ['Embassador', 'Best liked in a month', 'Conversation Maker', 'Active Member', 'Wiki Master']
 
 after_initialize do
@@ -39,7 +46,9 @@ after_initialize do
   end
 
   [
-    "../lib/discourse-rewards/user_extension.rb",
+    "../app/serializers/reward_serializer.rb",
+    "../app/serializers/user_reward_serializer.rb",
+    "../lib/discourse-rewards/user_extension.rb",    
     "../app/models/user_reward.rb",
     "../app/models/redemeed_point.rb",
     "../app/controllers/rewards_controller.rb",
@@ -58,10 +67,35 @@ after_initialize do
 
   Discourse::Application.routes.append do
     mount ::DiscourseRewards::Engine, at: '/'
+    get "rewards" => "groups#index"
+  end
+
+  add_to_class(:user, :total_earned_points) do
+    self.user_points.sum(:reward_points)
+  end
+
+  add_to_class(:user, :available_points) do
+    self.total_earned_points - self.user_rewards.sum(:points)
+  end
+
+  add_to_class(:user, :rewards) do
+    DiscourseRewards::Reward.where(created_by_id: self.id)
   end
 
   add_to_serializer(:current_user, :total_earned_points) do
-    scope.user.user_points.sum(:reward_points)
+    scope.user.total_earned_points
+  end
+
+  add_to_serializer(:current_user, :available_points) do
+    scope.user.available_points
+  end
+
+  add_to_serializer(:current_user, :user_rewards) do
+    scope.user.user_rewards
+  end
+
+  add_to_serializer(:current_user, :rewards) do
+    scope.user.rewards
   end
 
   on(:notification_created) do |notification|

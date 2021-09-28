@@ -1,0 +1,20 @@
+{{#load-more selector=".discourse-rewards-rewards-list div" action=(action "loadMore")}}
+  <div class="rewards">
+    <div class="rewards-header">
+      <h3 class="rewards-heading">{{i18n "discourse_rewards.title"}}</h3>
+      <div class="create-new-reward">
+        {{d-button
+          action=(action "addReward")
+          class="btn-primary"
+          icon="plus"
+          label="admin.rewards.new"
+        }}
+      </div>
+    </div>
+    <div class="discourse-rewards-rewards-list">
+      {{#each model as |reward|}}
+        {{reward-card reward=reward save=save destroy=destroy}}
+      {{/each}}
+    </div>
+  </div>
+{{/load-more}}

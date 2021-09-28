@@ -1,0 +1,13 @@
+{{#load-more selector=".discourse-rewards-rewards-list div" action=(action "loadMore")}}
+  <div class="rewards">
+    <div class="rewards-header">
+      <h3 class="rewards-heading">{{i18n "discourse_rewards.title"}}</h3>
+    </div>
+    <div class="discourse-rewards-rewards-list">
+      {{#each model as |reward|}}
+        {{reward-card reward=reward grant=grant redeem=true}}
+      {{/each}}      
+    </div>
+    {{!-- {{conditional-loading-spinner condition=loading}} --}}
+  </div>
+{{/load-more}}

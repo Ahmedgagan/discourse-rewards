@@ -2,6 +2,8 @@ import EmberObject from "@ember/object";
 import { Promise } from "rsvp";
 import RestModel from "discourse/models/rest";
 import { ajax } from "discourse/lib/ajax";
+import User from "discourse/models/user";
+import UserReward from "../models/user-reward";
 import discourseComputed from "discourse-common/utils/decorators";
 import getURL from "discourse-common/lib/get-url";
 import { alias, none } from "@ember/object/computed";
@@ -9,10 +11,6 @@ import { alias, none } from "@ember/object/computed";
 const Reward = RestModel.extend({});
 
 Reward.reopenClass({
-  // updateFromJson(json) {
-  //   Object.keys(json.reward).forEach((key) => this.set(key, json.badge[key]));
-  // },
-
   save(data) {
     let url = "/rewards",
       type = "POST";
@@ -42,6 +40,16 @@ Reward.reopenClass({
     });
   },
 
+  grant(reward) {
+    if (!reward.id) {
+      return Promise.resolve();
+    }
+
+    return ajax(`/rewards/${reward.id}/grant`, {
+      type: "post",
+    });
+  },
+
   findById(id) {
     return ajax(`/rewards/${id}`).then((rewardJson) =>
       this.createFromJson(rewardJson)
@@ -52,14 +60,15 @@ Reward.reopenClass({
     let rewards = [];
     if ("reward" in json) {
       rewards = [json.reward];
-    } else if (json.rewards) {
-      rewards = json.rewards;
+    } else {
+      rewards = json;
     }
 
     rewards = rewards.map((rewardJson) => {
-      const reward = Reward.create(rewardJson);
+       rewardJson.created_by = User.create(rewardJson.created_by);
+       rewardJson.user_rewards = UserReward.create(rewardJson.user_rewards);
 
-      return reward;
+      return rewardJson;
     });
 
     if ("reward" in json) {

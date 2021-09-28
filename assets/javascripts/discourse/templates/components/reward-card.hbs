@@ -1,12 +1,39 @@
-<div class="card">
-  <img src={{reward.image_url}} alt="Denim Jeans" style="width:100%">
-  <h1>{{reward.title}}</h1>
-  <p class="price">{{reward.points}}</p>
-  <p>{{reward.description}}</p>
-  {{d-button
-    action=(action "editReward" reward)
-    class="btn-primary"
-    icon="pencil-alt"
-    label="admin.rewards.edit"
-  }}
-</div>
+{{#d-modal-body 
+  title="discourse_rewards.reward.modal_title"
+  class="discourse-video-upload-modal"}}
+  <div class="discourse-rewards-reward-card {{if fullView "full-view"}}">
+    <div class="card">
+      <img src={{reward.image_url}} alt={{i18n "admin.rewards.image"}} class="reward-image">
+      <div class="contents">
+        <p class="title">{{reward.title}}</p>
+        <p class="points">{{reward.points}} <span>Points</span></p>
+        <p class="quantity">Available quantity: <span>{{reward.quantity}} Left</span></p>
+        <hr>
+        <p class="description">{{reward.description}}</p>
+        {{#unless fullView}}
+          {{#if redeem}}
+            {{d-button
+              action=(action "grantReward" reward)
+              class="btn-primary button"
+              label="admin.rewards.redeem"
+              disabled=disableRedeemButton
+            }}
+          {{else if user_reward}}
+            {{d-button
+              action=(action "grantUserReward" user_reward)
+              class="btn-primary button"
+              label="admin.rewards.grant_reward"
+            }}
+          {{else}}
+            {{d-button
+              action=(action "editReward" reward)
+              class="btn-primary button"
+              icon="pencil-alt"
+              label="admin.rewards.edit"
+            }}
+          {{/if}}
+        {{/unless}}
+      </div>
+    </div>
+  </div>
+{{/d-modal-body}}

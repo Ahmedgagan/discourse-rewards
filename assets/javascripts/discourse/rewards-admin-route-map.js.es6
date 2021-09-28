@@ -3,7 +3,9 @@ export default {
   map() {
     this.route(
       "adminRewards",
-      { path: "/rewards", resetNamespace: true }
+      { path: "/rewards", resetNamespace: true }, function() {
+        this.route('grant');
+      }
     );
   },
 };

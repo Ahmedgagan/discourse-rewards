@@ -2,7 +2,16 @@ en:
   js:
     admin:
       rewards:
-        title: "Rewards"
+        image: 'Reward image'
+        grant_confirm: 'Are you sure you want to grant this reward?'
+        delete_confirm: 'Are you sure you want to grant this reward?'
+        redeem_confirm: 'Are you sure you want to redeem this reward?'
+        new: 'New'
+        rewards:
+          nav: 'Rewards'
+        user_rewards:
+          nav: 'User Rewards'
+        nav_title: "Rewards"
         points: "Points"
         quantity: "Quantity"
         title: "Title"
@@ -10,8 +19,18 @@ en:
         save: "Save"
         delete: "Delete"
         edit: "Edit"
+        redeem: "Redeem"
+        grant_reward: "Grant Reward"
     user:
       summary:
         total_earned_points:
           one: "Total Earned Point"
           other: "Total Earned Points"
+    discourse_rewards:
+      edit_reward:
+        modal_title: 'Edit Reward'
+      title: 'Rewards'
+      user_rewards:
+        title: 'User Rewards'
+      reward:
+        modal_title: "Reward Details"

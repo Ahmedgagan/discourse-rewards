@@ -7,6 +7,6 @@ module DiscourseRewards
     belongs_to :user
     belongs_to :reward
 
-    enum status: [:granted]
+    enum status: [:applied, :granted]
   end
 end

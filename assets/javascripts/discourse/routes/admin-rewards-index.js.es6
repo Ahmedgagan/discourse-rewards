@@ -4,7 +4,15 @@ import { ajax } from "discourse/lib/ajax";
 import { action } from "@ember/object";
 
 export default DiscourseRoute.extend({
-  redirect() {
-    this.transitionTo('adminRewards.index');
+  model() {
+    return ajax("/rewards.json").then((json) => {
+      return Reward.createFromJson(json);
+    });
+  },
+
+  setupController(controller, model) {
+    controller.setProperties({
+      model
+    });
   },
 });
