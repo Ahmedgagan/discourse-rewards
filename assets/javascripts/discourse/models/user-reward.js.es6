@@ -1,12 +1,8 @@
-import EmberObject from "@ember/object";
 import { Promise } from "rsvp";
 import RestModel from "discourse/models/rest";
 import { ajax } from "discourse/lib/ajax";
 import User from "discourse/models/user";
 import Reward from "../models/reward";
-import discourseComputed from "discourse-common/utils/decorators";
-import getURL from "discourse-common/lib/get-url";
-import { alias, none } from "@ember/object/computed";
 
 const UserReward = RestModel.extend({});
 

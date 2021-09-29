@@ -15,22 +15,24 @@ export default Controller.extend({
     this._super(...arguments);
 
     this.messageBus.subscribe(`/u/rewards`, (data) => {
-      this.replaceReward(data)
+      this.replaceReward(data);
     });
   },
 
   replaceReward(data) {
-    let index = this.model.indexOf(this.model.find((searchReward) => searchReward.id === data.reward_id));
+    let index = this.model.indexOf(
+      this.model.find((searchReward) => searchReward.id === data.reward_id)
+    );
 
-    if(data.create) {
-      if (index >= 0) {
+    if (data.create) {
+      if (index < 0) {
         this.model.unshiftObject(Reward.createFromJson(data));
       }
 
       return;
     }
 
-    if(data.destroy) {
+    if (data.destroy) {
       if (index >= 0) {
         this.model.removeObject(this.model[index]);
       }
@@ -52,12 +54,14 @@ export default Controller.extend({
     this.set("loading", true);
     this.set("page", this.page + 1);
 
-    ajax('/rewards.json', {
+    ajax("/rewards.json", {
       type: "GET",
       data: { page: this.page },
-    }).then((result) => {
-      this.model.pushObjects(Reward.createFromJson(result));
-    }).finally(() => this.set("loading", false));
+    })
+      .then((result) => {
+        this.model.pushObjects(Reward.createFromJson(result));
+      })
+      .finally(() => this.set("loading", false));
   },
 
   @action
@@ -77,8 +81,7 @@ export default Controller.extend({
       I18n.t("yes_value"),
       (result) => {
         if (result) {
-          return Reward
-            .grant(reward)
+          return Reward.grant(reward)
             .then(() => {
               // this.model.removeObject(reward);
               // this.send("closeModal");

@@ -1,5 +1,27 @@
 en:
   js:
+    reward:
+      image:
+        help: "Upload a reward image."
+      points:
+        validation:
+          required: 'Please enter points.'
+          less_than_1: 'Please enter points greater than 0.'
+          ok: 'Reward Points.'
+        instructions: 'Points needed to redeem this reward.'
+      title:
+        validation:
+          required: 'Please enter reward title.'
+          ok: 'Reward Title.'
+        instructions: 'title of this reward.'
+      description:
+        instructions: 'Description of this reward.'
+      quantity:
+        validation:
+          required: 'Please enter quantity.'
+          less_than_1: 'Please enter quantity greater than 0.'
+          ok: 'Reward Quantity.'
+        instructions: 'Quantity of this reward.'
     admin:
       rewards:
         image: 'Reward image'

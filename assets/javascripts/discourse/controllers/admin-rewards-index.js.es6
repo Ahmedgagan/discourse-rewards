@@ -17,26 +17,20 @@ export default Controller.extend({
     this._super(...arguments);
 
     this.messageBus.subscribe(`/u/rewards`, (data) => {
-      this.replaceReward(data)
+      this.replaceReward(data);
     });
   },
 
   replaceReward(data) {
-    let index = this.model.indexOf(this.model.find((searchReward) => searchReward.id === data.reward_id));
-
-    if(data.create) {
-      if (index >= 0) {
-        this.model.unshiftObject(Reward.createFromJson(data));
-      }
-
+    if (data.create || data.destroy || data.update) {
       return;
     }
 
-    if(data.destroy) {
-      if (index >= 0) {
-        this.model.removeObject(this.model[index]);
-      }
+    let index = this.model.indexOf(
+      this.model.find((searchReward) => searchReward.id === data.reward_id)
+    );
 
+    if (index < 0) {
       return;
     }
 
@@ -54,12 +48,14 @@ export default Controller.extend({
     this.set("loading", true);
     this.set("page", this.page + 1);
 
-    ajax('/rewards.json', {
+    ajax("/rewards.json", {
       type: "GET",
       data: { page: this.page },
-    }).then((result) => {
-      this.model.pushObjects(Reward.createFromJson(result));
-    }).finally(() => this.set("loading", false));
+    })
+      .then((result) => {
+        this.model.pushObjects(Reward.createFromJson(result));
+      })
+      .finally(() => this.set("loading", false));
   },
 
   @action
@@ -84,8 +80,8 @@ export default Controller.extend({
       model: {
         reward: null,
         save: this.save,
-        destroy: this.destroy
-      }
+        destroy: this.destroy,
+      },
     });
   },
 
@@ -99,8 +95,8 @@ export default Controller.extend({
         "quantity",
         "title",
         "description",
-        "image",
-        "image_url",
+        "upload_id",
+        "upload_url",
       ];
 
       this.set("saving", true);
@@ -118,14 +114,15 @@ export default Controller.extend({
 
       const newReward = !reward.id;
 
-      return Reward
-        .save(data)
+      return Reward.save(data)
         .then((result) => {
           if (newReward) {
             this.model.unshiftObject(reward);
             this.send("closeModal");
           } else {
-            let index = this.model.indexOf(this.model.find((searchReward) => searchReward.id === reward.id));
+            let index = this.model.indexOf(
+              this.model.find((searchReward) => searchReward.id === reward.id)
+            );
             this.model.removeObject(this.model[index]);
             this.model.splice(index, 0, result);
 
@@ -154,8 +151,7 @@ export default Controller.extend({
       I18n.t("yes_value"),
       (result) => {
         if (result) {
-          return Reward
-            .destroy(reward)
+          return Reward.destroy(reward)
             .then(() => {
               this.model.removeObject(reward);
               this.set("model", this.model);

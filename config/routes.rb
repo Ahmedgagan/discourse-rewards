@@ -7,6 +7,5 @@ DiscourseRewards::Engine.routes.draw do
   post "rewards/:id/grant" => "rewards#grant"
   get "user-rewards" => "rewards#user_rewards"
   post "user-rewards/:id" => "rewards#grant_user_reward"
-  # , constraints: StaffConstraint.new
   resources :rewards
 end

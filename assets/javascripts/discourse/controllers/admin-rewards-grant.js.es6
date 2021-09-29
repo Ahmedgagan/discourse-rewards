@@ -16,12 +16,14 @@ export default Controller.extend({
     this.set("loading", true);
     this.set("page", this.page + 1);
 
-    ajax('/user-rewards.json', {
+    ajax("/user-rewards.json", {
       type: "GET",
       data: { page: this.page },
-    }).then((result) => {
-      this.model.pushObjects(UserReward.createFromJson(result));
-    }).finally(() => this.set("loading", false));
+    })
+      .then((result) => {
+        this.model.pushObjects(UserReward.createFromJson(result));
+      })
+      .finally(() => this.set("loading", false));
   },
 
   @action
@@ -41,8 +43,7 @@ export default Controller.extend({
       I18n.t("yes_value"),
       (result) => {
         if (result) {
-          return UserReward
-            .grant(user_reward)
+          return UserReward.grant(user_reward)
             .then(() => {
               this.model.removeObject(user_reward);
               this.send("closeModal");

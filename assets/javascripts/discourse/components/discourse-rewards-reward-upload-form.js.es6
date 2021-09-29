@@ -1,16 +1,10 @@
-import Controller, { inject as controller } from "@ember/controller";
 import Component from "@ember/component";
 import discourseComputed, { observes } from "discourse-common/utils/decorators";
 import I18n from "I18n";
-import bootbox from "bootbox";
-import { popupAjaxError } from "discourse/lib/ajax-error";
 import { propertyNotEqual } from "discourse/lib/computed";
-import { equal, reads } from "@ember/object/computed";
-import { run } from "@ember/runloop";
-import { action } from "@ember/object";
-import Reward from "../models/reward";
 import getURL from "discourse-common/lib/get-url";
-import EmberObject from "@ember/object";
+import EmberObject, { action } from "@ember/object";
+import { isEmpty } from "@ember/utils";
 
 const IMAGE = "image";
 
@@ -18,14 +12,119 @@ export default Component.extend({
   saving: false,
   savingStatus: "",
   selectedGraphicType: null,
+  forceValidationReason: false,
+  userFields: null,
   showDisplayName: propertyNotEqual("name", "displayName"),
 
   init() {
     this._super(...arguments);
 
-    if(!this.reward) {
+    if (!this.reward) {
       this.set("reward", EmberObject.create());
     }
+  },
+
+  // Check the points
+  @discourseComputed("reward.points", "forceValidationReason")
+  pointsValidation(points, forceValidationReason) {
+    const failedAttrs = {
+      failed: true,
+      ok: false,
+      element: document.querySelector("#reward-points"),
+    };
+
+    // If blank, fail without a reason
+    if (isEmpty(points)) {
+      return EmberObject.create(
+        Object.assign(failedAttrs, {
+          message: I18n.t("reward.points.validation.required"),
+          reason: forceValidationReason
+            ? I18n.t("reward.points.validation.required")
+            : null,
+        })
+      );
+    }
+
+    if (!(parseInt(points, 10) > 0)) {
+      return EmberObject.create(
+        Object.assign(failedAttrs, {
+          message: I18n.t("reward.points.validation.less_than_1"),
+          reason: forceValidationReason
+            ? I18n.t("reward.points.validation.less_than_1")
+            : null,
+        })
+      );
+    }
+
+    return EmberObject.create({
+      ok: true,
+      reason: I18n.t("reward.points.validation.ok"),
+    });
+  },
+
+  // Check the quantity
+  @discourseComputed("reward.quantity", "forceValidationReason")
+  quantityValidation(quantity, forceValidationReason) {
+    const failedAttrs = {
+      failed: true,
+      ok: false,
+      element: document.querySelector("#reward-quantity"),
+    };
+
+    // If blank, fail without a reason
+    if (isEmpty(quantity)) {
+      return EmberObject.create(
+        Object.assign(failedAttrs, {
+          message: I18n.t("reward.quantity.validation.required"),
+          reason: forceValidationReason
+            ? I18n.t("reward.quantity.validation.required")
+            : null,
+        })
+      );
+    }
+
+    if (!(parseInt(quantity, 10) > 0)) {
+      return EmberObject.create(
+        Object.assign(failedAttrs, {
+          message: I18n.t("reward.quantity.validation.less_than_1"),
+          reason: forceValidationReason
+            ? I18n.t("reward.quantity.validation.less_than_1")
+            : null,
+        })
+      );
+    }
+
+    return EmberObject.create({
+      ok: true,
+      reason: I18n.t("reward.quantity.validation.ok"),
+    });
+  },
+
+  // Check the title
+  @discourseComputed("reward.title", "forceValidationReason")
+  titleValidation(title, forceValidationReason) {
+    const failedAttrs = {
+      failed: true,
+      ok: false,
+      element: document.querySelector("#reward-quantity"),
+    };
+
+    // If blank, fail without a reason
+    if (isEmpty(title)) {
+      return EmberObject.create(
+        Object.assign(failedAttrs, {
+          message: I18n.t("reward.title.validation.required"),
+          reason: forceValidationReason
+            ? I18n.t("reward.title.validation.required")
+            : null,
+        })
+      );
+    }
+
+    return EmberObject.create({
+      ok: true,
+      reason: I18n.t("reward.title.validation.ok"),
+    });
   },
 
   @observes("model.id")
@@ -40,27 +139,47 @@ export default Component.extend({
 
   @action
   setImage(upload) {
-    this.reward.setProperties({
-      image: upload.id,
-      image_url: getURL(upload.url),
-    });
+    this.set("reward.upload_id", upload.id);
+    this.set("reward.upload_url", getURL(upload.url));
   },
 
   @action
   removeImage() {
     this.reward.setProperties({
-      image: null,
-      image_url: null
+      upload_id: null,
+      upload_url: null,
     });
   },
 
   actions: {
     saveReward() {
+      this.set("forceValidationReason", true);
+      const validation = [this.pointsValidation, this.quantityValidation].find(
+        (v) => v.failed
+      );
+
+      if (validation) {
+        const element = validation.element;
+        if (element) {
+          if (element.tagName === "DIV") {
+            if (element.scrollIntoView) {
+              element.scrollIntoView();
+            }
+            element.click();
+          } else {
+            element.focus();
+          }
+        }
+
+        return;
+      }
+
+      this.set("forceValidationReason", false);
       this.save(EmberObject.create(this.reward));
     },
 
     destroyReward() {
       this.destroy(this.reward);
-    }
-  }
+    },
+  },
 });

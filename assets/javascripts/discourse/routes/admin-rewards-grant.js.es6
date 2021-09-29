@@ -1,7 +1,6 @@
 import UserReward from "../models/user-reward";
 import DiscourseRoute from "discourse/routes/discourse";
 import { ajax } from "discourse/lib/ajax";
-import { action } from "@ember/object";
 
 export default DiscourseRoute.extend({
   model() {
@@ -12,7 +11,7 @@ export default DiscourseRoute.extend({
 
   setupController(controller, model) {
     controller.setProperties({
-      model
+      model,
     });
   },
 });

@@ -3,37 +3,72 @@
   class="discourse-edit-reward-modal"
 }}
   <form class="form-horizontal">
-    <div>
+    <div class="input-group">
       <label for="points">{{i18n "admin.rewards.points"}}</label>
-      {{input type="number" name="points" value=reward.points class="points"}}
+      {{input
+        type="number"
+        autofocus="autofocus"
+        name="points"
+        value=reward.points
+        class="points"
+        id="reward-points"
+        aria-invalid=pointsValidation.failed
+      }}
+      {{input-tip validation=pointsValidation id="reward-points-validation"}}
+      <div class="control-instructions">
+        <p class="help">{{i18n "reward.points.instructions"}}</p>
+      </div>
     </div>
 
     <div>
       <label for="quantity">{{i18n "admin.rewards.quantity"}}</label>
-      {{input type="number" name="quantity" value=reward.quantity class="quantity"}}
+      {{input type="number"
+        id="reward-quantity"
+        name="quantity"
+        value=reward.quantity
+        class="quantity"
+        aria-invalid=quantityValidation.failed
+      }}
+      {{input-tip validation=quantityValidation id="reward-quantity-validation"}}
+      <div class="control-instructions">
+        <p class="help">{{i18n "reward.quantity.instructions"}}</p>
+      </div>
     </div>
 
     <div>
       <label for="image">{{i18n "admin.rewards.image"}}</label>
       {{image-uploader
-        imageUrl=reward.image_url
+        imageUrl=reward.upload_url
         onUploadDone=(action "setImage")
         onUploadDeleted=(action "removeImage")
         type="reward_image"
         class="no-repeat contain-image"}}
       <div class="control-instructions">
-        <p class="help">{{i18n "admin.rewards.image_help"}}</p>
+        <p class="help">{{i18n "reward.image.help"}}</p>
       </div>
     </div>
 
     <div>
       <label for="title">{{i18n "admin.rewards.title"}}</label>
-      {{input type="text" name="title" value=reward.title class="title"}}
+      {{input type="text"
+        name="title"
+        value=reward.title
+        class="title"
+        aria-invalid=titleValidation.failed
+        id="reward-title"
+      }}
+      {{input-tip validation=titleValidation id="reward-title-validation"}}
+      <div class="control-instructions">
+        <p class="help">{{i18n "reward.title.instructions"}}</p>
+      </div>
     </div>
 
     <div>
       <label for="description">{{i18n "admin.rewards.description"}}</label>
       {{textarea name="description" value=reward.description class="description"}}
+      <div class="control-instructions">
+        <p class="help">{{i18n "reward.description.instructions"}}</p>
+      </div>
     </div>
 
     <div class="buttons">

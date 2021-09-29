@@ -19,6 +19,7 @@ CUSTOM_BADGES = ['Embassador', 'Best liked in a month', 'Conversation Maker', 'A
 
 after_initialize do
   SeedFu.fixture_paths << Rails.root.join("plugins", "discourse-rewards", "db", "fixtures").to_s
+  UploadSecurity.register_custom_public_type("reward_image")
 
   module ::DiscourseRewards
     PLUGIN_NAME ||= 'discourse-rewards'
@@ -48,7 +49,7 @@ after_initialize do
   [
     "../app/serializers/reward_serializer.rb",
     "../app/serializers/user_reward_serializer.rb",
-    "../lib/discourse-rewards/user_extension.rb",    
+    "../lib/discourse-rewards/user_extension.rb",
     "../app/models/user_reward.rb",
     "../app/models/redemeed_point.rb",
     "../app/controllers/rewards_controller.rb",

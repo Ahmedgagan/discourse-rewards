@@ -2,4 +2,26 @@
   .discourse-rewards-rewards-list {
     grid-template-columns: 1fr;
   }
+
+  .discourse-rewards-reward-card {
+    &.full-view {
+      padding: 0;
+      width: 100%;
+
+      .reward-image {
+        object-fit: cover;
+        width: 100%;
+        height: 143px;
+      }
+    }
+  }
+
+  .discourse-edit-reward-modal {
+    .points,
+    .quantity,
+    .title,
+    .description {
+      width: 100% !important;
+    }
+  }
 }

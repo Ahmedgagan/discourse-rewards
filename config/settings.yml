@@ -2,3 +2,6 @@ discourse_reactions:
   discourse_rewards_enabled:
     default: true
     client: true
+  discourse_rewards_grant_topic_category:
+    type: category
+    default: ""

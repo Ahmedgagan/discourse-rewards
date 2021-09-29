@@ -1,13 +1,8 @@
-import EmberObject from "@ember/object";
 import { Promise } from "rsvp";
 import RestModel from "discourse/models/rest";
 import { ajax } from "discourse/lib/ajax";
 import User from "discourse/models/user";
 import UserReward from "../models/user-reward";
-import discourseComputed from "discourse-common/utils/decorators";
-import getURL from "discourse-common/lib/get-url";
-import { alias, none } from "@ember/object/computed";
-
 const Reward = RestModel.extend({});
 
 Reward.reopenClass({
@@ -23,7 +18,7 @@ Reward.reopenClass({
 
     return ajax(url, { type, data })
       .then((rewardJson) => {
-        return this.createFromJson(rewardJson)
+        return this.createFromJson(rewardJson);
       })
       .catch((error) => {
         throw new Error(error);
@@ -65,8 +60,8 @@ Reward.reopenClass({
     }
 
     rewards = rewards.map((rewardJson) => {
-       rewardJson.created_by = User.create(rewardJson.created_by);
-       rewardJson.user_rewards = UserReward.create(rewardJson.user_rewards);
+      rewardJson.created_by = User.create(rewardJson.created_by);
+      rewardJson.user_rewards = UserReward.create(rewardJson.user_rewards);
 
       return rewardJson;
     });

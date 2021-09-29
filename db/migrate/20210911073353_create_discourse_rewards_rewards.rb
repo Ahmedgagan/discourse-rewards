@@ -6,8 +6,9 @@ class CreateDiscourseRewardsRewards < ActiveRecord::Migration[6.1]
       t.integer :points, null: false
       t.integer :quantity, null: false
       t.string :title, null: false
-      t.string :description
-      t.string :image
+      t.text :description, null: false
+      t.integer :upload_id
+      t.string :upload_url
       t.boolean :is_active, default: true, null: false
       t.datetime :deleted_at
       t.timestamps

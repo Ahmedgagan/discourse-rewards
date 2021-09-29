@@ -2,6 +2,9 @@
 
 module DiscourseRewards
   class RewardsController < ::ApplicationController
+    requires_login
+    before_action :ensure_admin, only: [:create, :update, :destroy, :grant_user_reward]
+
     PAGE_SIZE = 30
 
     def create
@@ -16,8 +19,8 @@ module DiscourseRewards
         quantity: params[:quantity].to_i,
         title: params[:title],
         description: params[:description],
-        image: params[:image],
-        image_url: params[:image_url]
+        upload_id: params[:upload_id],
+        upload_url: params[:upload_url]
       )
 
       message = {
@@ -27,6 +30,8 @@ module DiscourseRewards
       }
 
       MessageBus.publish("/u/rewards", message)
+
+      PostUpload.create(post_id: Post.first.id, upload_id: params[:upload_id]) unless PostUpload.find_by(upload_id: params[:upload_id])
 
       render_serialized(reward, RewardSerializer)
     end
@@ -52,14 +57,17 @@ module DiscourseRewards
 
       reward = DiscourseRewards::Reward.find(params[:id])
 
-      reward.update!(params.permit(:points, :quantity, :title, :description, :image, :image_url))
+      reward.update!(params.permit(:points, :quantity, :title, :description, :upload_id, :upload_url))
 
       message = {
         reward_id: reward.id,
-        reward: reward.attributes
+        reward: reward.attributes,
+        update: true
       }
 
       MessageBus.publish("/u/rewards", message)
+
+      PostUpload.create(post_id: Post.first.id, upload_id: params[:upload_id]) if params[:upload_id] && !PostUpload.find_by(upload_id: params[:upload_id])
 
       render_serialized(reward, RewardSerializer)
     end
@@ -128,6 +136,14 @@ module DiscourseRewards
         user_reward_id: user_reward.id,
         user_reward: user_reward.attributes
       }
+
+      PostCreator.new(
+        current_user,
+        title: 'Reward Grant',
+        raw: "We are glad to announce that @#{user_reward.user.username} has won #{user_reward.reward.title} Award",
+        category: SiteSetting.discourse_rewards_grant_topic_category,
+        skip_validations: true
+      ).create!
 
       MessageBus.publish("/u/user-rewards", message)
 

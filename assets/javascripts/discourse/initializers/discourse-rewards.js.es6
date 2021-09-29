@@ -6,34 +6,36 @@ import DiscourseURL from "discourse/lib/url";
 function initializeDiscourseRewards(api) {
   const currentUser = api.getCurrentUser();
 
-  api.createWidget("discourse-rewards-available-points", {
-    tagName: "li.discourse-rewards-available-points.icon",
+  if (currentUser) {
+    api.createWidget("discourse-rewards-available-points", {
+      tagName: "li.discourse-rewards-available-points.icon",
 
-    buildKey: () => `discourse-rewards-total-points`,
- 
-    buildId: () => `discourse-rewards-total-points`,
+      buildKey: () => `discourse-rewards-total-points`,
 
-    click() {
-      return DiscourseURL.routeTo("/available-rewards");
-    },
+      buildId: () => `discourse-rewards-total-points`,
 
-    html() {
-      let result = [
-        h("div.available-points-container", {}, [
-          h(
-            "p.available-points-count",
-            { title: currentUser.available_points },
-            `${currentUser.available_points}`
-          ),
-          iconNode("trophy"),
-        ]),
-      ];
+      click() {
+        return DiscourseURL.routeTo("/available-rewards");
+      },
 
-      return result;
-    },
-  });
+      html() {
+        let result = [
+          h("div.available-points-container", {}, [
+            h(
+              "p.available-points-count",
+              { title: currentUser.available_points },
+              `${currentUser.available_points}`
+            ),
+            iconNode("trophy"),
+          ]),
+        ];
 
-  api.addToHeaderIcons("discourse-rewards-available-points");
+        return result;
+      },
+    });
+
+    api.addToHeaderIcons("discourse-rewards-available-points");
+  }
 }
 
 export default {
