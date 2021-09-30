@@ -70,8 +70,32 @@ Badge.seed(:name) do |b|
 end
 
 Badge.seed(:name) do |b|
-  b.name = "Active Member"
+  b.name = "Active Member Bronze"
   b.badge_type_id = BadgeType::Bronze
+  b.multiple_grant = false
+  b.target_posts = false
+  b.show_posts = false
+  b.query = nil
+  b.default_badge_grouping_id = 6
+  b.trigger = Badge::Trigger::PostRevision
+  b.system = true
+end
+
+Badge.seed(:name) do |b|
+  b.name = "Active Member Silver"
+  b.badge_type_id = BadgeType::Silver
+  b.multiple_grant = false
+  b.target_posts = false
+  b.show_posts = false
+  b.query = nil
+  b.default_badge_grouping_id = 6
+  b.trigger = Badge::Trigger::PostRevision
+  b.system = true
+end
+
+Badge.seed(:name) do |b|
+  b.name = "Active Member Gold"
+  b.badge_type_id = BadgeType::Gold
   b.multiple_grant = false
   b.target_posts = false
   b.show_posts = false

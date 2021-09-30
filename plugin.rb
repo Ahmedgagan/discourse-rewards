@@ -15,8 +15,6 @@ if respond_to?(:register_svg_icon)
   register_svg_icon "fas fa-trophy"
 end
 
-CUSTOM_BADGES = ['Embassador', 'Best liked in a month', 'Conversation Maker', 'Active Member', 'Wiki Master']
-
 after_initialize do
   SeedFu.fixture_paths << Rails.root.join("plugins", "discourse-rewards", "db", "fixtures").to_s
   UploadSecurity.register_custom_public_type("reward_image")
@@ -55,7 +53,9 @@ after_initialize do
     "../app/controllers/rewards_controller.rb",
     "../app/models/reward.rb",
     "../app/models/user_point.rb",
-    "../jobs/scheduled/grant_active_member_badges",
+    "../jobs/scheduled/grant_active_member_bronze_badges",
+    "../jobs/scheduled/grant_active_member_silver_badges",
+    "../jobs/scheduled/grant_active_member_gold_badges",
     "../jobs/scheduled/grant_best_liked_in_a_month_badges",
     "../jobs/scheduled/grant_conversation_maker_badges",
     "../jobs/scheduled/grant_embassador_badges",
@@ -104,12 +104,24 @@ after_initialize do
   end
 
   on(:notification_created) do |notification|
-    if notification.notification_type == Notification.types[:granted_badge] && CUSTOM_BADGES.include?(JSON.parse(notification.data).with_indifferent_access[:badge_name])
-      data = JSON.parse(notification.data).with_indifferent_access
+    data = JSON.parse(notification.data).with_indifferent_access
 
+    badge = Badge.find(data[:badge_id]) if notification.notification_type == Notification.types[:granted_badge]
+
+    if badge && badge.badge_grouping_id == 6
       user_badge = UserBadge.where(user_id: notification.user_id, badge_id: data[:badge_id]).order(created_at: :desc).first
 
-      DiscourseRewards::UserPoint.create(user_id: notification.user_id, user_badge_id: user_badge.id, reward_points: 200)
+      points = 0
+
+      if badge.badge_type_id == BadgeType::Bronze
+        points = SiteSetting.discourse_rewards_points_for_bronze_badges
+      elsif badge.badge_type_id == BadgeType::Silver
+        points = SiteSetting.discourse_rewards_points_for_silver_badges
+      elsif badge.badge_type_id == BadgeType::Gold
+        points = SiteSetting.discourse_rewards_points_for_gold_badges
+      end
+
+      DiscourseRewards::UserPoint.create(user_id: notification.user_id, user_badge_id: user_badge.id, reward_points: points) if points > 0
     end
   end
 end

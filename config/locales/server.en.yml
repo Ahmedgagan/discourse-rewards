@@ -1,1 +1,7 @@
 en:
+  site_settings:
+    discourse_rewards_enabled: "Enable Discourse Rewards"
+    discourse_rewards_points_for_bronze_badges: "Reward points for earning bronze badges"
+    discourse_rewards_points_for_silver_badges: "Reward points for earning silver badges"
+    discourse_rewards_points_for_gold_badges: "Reward points for earning gold badges"
+    discourse_rewards_grant_topic_category: "Category in which reward greeting topic will be created"

@@ -2,6 +2,7 @@ import { withPluginApi } from "discourse/lib/plugin-api";
 import { h } from "virtual-dom";
 import { iconNode } from "discourse-common/lib/icon-library";
 import DiscourseURL from "discourse/lib/url";
+import MessageBus from "message-bus-client";
 
 function initializeDiscourseRewards(api) {
   const currentUser = api.getCurrentUser();
@@ -16,6 +17,15 @@ function initializeDiscourseRewards(api) {
 
       click() {
         return DiscourseURL.routeTo("/available-rewards");
+      },
+
+      init() {
+        MessageBus.subscribe(`/u/${currentUser.id}/rewards`, (data) => {
+          if (data.available_points) {
+            currentUser.set("available_points", data.available_points);
+            this.scheduleRerender();
+          }
+        });
       },
 
       html() {

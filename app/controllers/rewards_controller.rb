@@ -103,14 +103,20 @@ module DiscourseRewards
         points: reward.points
       )
 
-      reward.update!(quantity: user_reward.reward.quantity - 1)
+      reward.update!(quantity: reward.quantity - 1)
 
       message = {
         reward_id: reward.id,
-        reward: reward.attributes
+        reward: reward.attributes,
+        quantity: true
+      }
+
+      current_user_message = {
+        available_points: current_user.available_points
       }
 
       MessageBus.publish("/u/rewards", message)
+      MessageBus.publish("/u/#{current_user.id}/rewards", current_user_message)
 
       render_serialized(reward, RewardSerializer)
     end

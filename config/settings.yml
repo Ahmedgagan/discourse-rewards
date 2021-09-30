@@ -2,6 +2,15 @@ discourse_reactions:
   discourse_rewards_enabled:
     default: true
     client: true
+  discourse_rewards_points_for_bronze_badges:
+    client: true
+    default: 100
+  discourse_rewards_points_for_silver_badges:
+    client: true
+    default: 200
+  discourse_rewards_points_for_gold_badges:
+    client: true
+    default: 300
   discourse_rewards_grant_topic_category:
     type: category
     default: ""
