@@ -83,6 +83,10 @@ after_initialize do
     DiscourseRewards::Reward.where(created_by_id: self.id)
   end
 
+  add_to_serializer(:basic_user, :total_earned_points) do
+    scope.user.total_earned_points
+  end
+
   add_to_serializer(:current_user, :total_earned_points) do
     scope.user.total_earned_points
   end

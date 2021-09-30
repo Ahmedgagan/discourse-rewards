@@ -1,0 +1,7 @@
+{{#if siteSettings.discourse_rewards_enabled}}
+  {{#if user.total_earned_points}}
+    {{d-icon "trophy"}}
+    <h3><span class="desc">{{i18n "user.summary.total_earned_points" count=user.total_earned_points}}</span>
+      {{user.total_earned_points}}</h3>
+  {{/if}}
+{{/if}}

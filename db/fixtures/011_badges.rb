@@ -18,7 +18,7 @@ SQL
 BadgeGrouping.seed do |g|
   g.id = 6
   g.name = 'Reward Badges'
-  g.default_position = 15
+  g.default_position = 0
 end
 
 Badge.seed(:name) do |b|
