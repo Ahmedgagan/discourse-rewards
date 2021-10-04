@@ -21,8 +21,8 @@ UserReward.reopenClass({
     let userRewards = [];
     if ("user_reward" in json) {
       userRewards = [json.user_reward];
-    } else {
-      userRewards = json;
+    } else if ("user_reward_list" in json) {
+      userRewards = json["user_reward_list"]["user_rewards"];
     }
 
     userRewards = userRewards.map((userRewardJson) => {
@@ -35,7 +35,7 @@ UserReward.reopenClass({
     if ("user_reward" in json) {
       return userRewards[0];
     } else {
-      return userRewards;
+      return { userRewards, count: json["user_reward_list"]["count"] };
     }
   },
 });

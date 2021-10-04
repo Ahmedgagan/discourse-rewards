@@ -9,6 +9,10 @@ export default Controller.extend({
   loading: false,
 
   findRewards() {
+    if (this.page * 30 >= this.model.count) {
+      return;
+    }
+
     if (this.loading || !this.model) {
       return;
     }
@@ -21,7 +25,9 @@ export default Controller.extend({
       data: { page: this.page },
     })
       .then((result) => {
-        this.model.pushObjects(UserReward.createFromJson(result));
+        this.model.userRewards.pushObjects(
+          UserReward.createFromJson(result).userRewards
+        );
       })
       .finally(() => this.set("loading", false));
   },
@@ -45,7 +51,7 @@ export default Controller.extend({
         if (result) {
           return UserReward.grant(user_reward)
             .then(() => {
-              this.model.removeObject(user_reward);
+              this.model.userRewards.removeObject(user_reward);
               this.send("closeModal");
             })
             .catch(() => {

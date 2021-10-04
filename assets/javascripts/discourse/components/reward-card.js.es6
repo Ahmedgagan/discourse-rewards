@@ -4,10 +4,6 @@ import { action, computed } from "@ember/object";
 
 export default Component.extend({
   click() {
-    if (!this.site.mobileView) {
-      return;
-    }
-
     showModal("reward-view", {
       model: {
         reward: this.reward,

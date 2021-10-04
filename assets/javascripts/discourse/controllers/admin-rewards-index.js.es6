@@ -26,21 +26,27 @@ export default Controller.extend({
       return;
     }
 
-    let index = this.model.indexOf(
-      this.model.find((searchReward) => searchReward.id === data.reward_id)
+    let index = this.model.rewards.indexOf(
+      this.model.rewards.find(
+        (searchReward) => searchReward.id === data.reward_id
+      )
     );
 
     if (index < 0) {
       return;
     }
 
-    this.model.removeObject(this.model[index]);
-    this.model.splice(index, 0, Reward.createFromJson(data));
+    this.model.rewards.removeObject(this.model.rewards[index]);
+    this.model.rewards.splice(index, 0, Reward.createFromJson(data));
 
-    this.set("model", this.model);
+    this.set("model.rewards", this.model.rewards);
   },
 
   findRewards() {
+    if (this.page * 30 >= this.model.count) {
+      return;
+    }
+
     if (this.loading || !this.model) {
       return;
     }
@@ -53,7 +59,7 @@ export default Controller.extend({
       data: { page: this.page },
     })
       .then((result) => {
-        this.model.pushObjects(Reward.createFromJson(result));
+        this.model.rewards.pushObjects(Reward.createFromJson(result).rewards);
       })
       .finally(() => this.set("loading", false));
   },
@@ -117,16 +123,18 @@ export default Controller.extend({
       return Reward.save(data)
         .then((result) => {
           if (newReward) {
-            this.model.unshiftObject(reward);
+            this.model.rewards.unshiftObject(data.reward);
             this.send("closeModal");
           } else {
-            let index = this.model.indexOf(
-              this.model.find((searchReward) => searchReward.id === reward.id)
+            let index = this.model.rewards.indexOf(
+              this.model.rewards.find(
+                (searchReward) => searchReward.id === reward.id
+              )
             );
-            this.model.removeObject(this.model[index]);
-            this.model.splice(index, 0, result);
+            this.model.rewards.removeObject(this.model.rewards[index]);
+            this.model.rewards.splice(index, 0, result);
 
-            this.set("model", this.model);
+            this.set("model.rewards", this.model.rewards);
             this.set("savingStatus", I18n.t("saved"));
             this.send("closeModal");
           }
@@ -153,8 +161,8 @@ export default Controller.extend({
         if (result) {
           return Reward.destroy(reward)
             .then(() => {
-              this.model.removeObject(reward);
-              this.set("model", this.model);
+              this.model.rewards.removeObject(reward);
+              this.set("model.rewards", this.model.rewards);
               this.send("closeModal");
             })
             .catch(() => {

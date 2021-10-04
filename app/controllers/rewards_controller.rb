@@ -41,7 +41,9 @@ module DiscourseRewards
 
       rewards = DiscourseRewards::Reward.order(created_at: :desc).offset(page * PAGE_SIZE).limit(PAGE_SIZE)
 
-      render_serialized(rewards, RewardSerializer)
+      reward_list = DiscourseRewards::RewardList.new(rewards: rewards, count: DiscourseRewards::Reward.all.count)
+
+      render_serialized(reward_list, RewardListSerializer)
     end
 
     def show
@@ -126,7 +128,9 @@ module DiscourseRewards
 
       user_rewards = DiscourseRewards::UserReward.where(status: 'applied').offset(page * PAGE_SIZE).limit(PAGE_SIZE)
 
-      render_serialized(user_rewards, UserRewardSerializer)
+      user_reward_list = DiscourseRewards::UserRewardList.new(user_rewards: user_rewards, count: DiscourseRewards::UserReward.where(status: 'applied').count)
+
+      render_serialized(user_reward_list, UserRewardListSerializer)
     end
 
     def grant_user_reward

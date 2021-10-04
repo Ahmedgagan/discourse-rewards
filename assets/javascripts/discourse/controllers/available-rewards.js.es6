@@ -20,13 +20,15 @@ export default Controller.extend({
   },
 
   replaceReward(data) {
-    let index = this.model.indexOf(
-      this.model.find((searchReward) => searchReward.id === data.reward_id)
+    let index = this.model.rewards.indexOf(
+      this.model.rewards.find(
+        (searchReward) => searchReward.id === data.reward_id
+      )
     );
 
     if (data.create) {
       if (index < 0) {
-        this.model.unshiftObject(Reward.createFromJson(data));
+        this.model.rewards.unshiftObject(Reward.createFromJson(data));
       }
 
       return;
@@ -34,19 +36,23 @@ export default Controller.extend({
 
     if (data.destroy) {
       if (index >= 0) {
-        this.model.removeObject(this.model[index]);
+        this.model.rewards.removeObject(this.model.rewards[index]);
       }
 
       return;
     }
 
-    this.model.removeObject(this.model[index]);
-    this.model.splice(index, 0, Reward.createFromJson(data));
+    this.model.rewards.removeObject(this.model.rewards[index]);
+    this.model.rewards.splice(index, 0, Reward.createFromJson(data));
 
-    this.set("model", this.model);
+    this.set("model.rewards", this.model.rewards);
   },
 
   findRewards() {
+    if (this.page * 30 >= this.model.rewards.count) {
+      return;
+    }
+
     if (this.loading || !this.model) {
       return;
     }
@@ -59,7 +65,7 @@ export default Controller.extend({
       data: { page: this.page },
     })
       .then((result) => {
-        this.model.pushObjects(Reward.createFromJson(result));
+        this.model.rewards.pushObjects(Reward.createFromJson(result).rewards);
       })
       .finally(() => this.set("loading", false));
   },

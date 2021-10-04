@@ -55,8 +55,8 @@ Reward.reopenClass({
     let rewards = [];
     if ("reward" in json) {
       rewards = [json.reward];
-    } else {
-      rewards = json;
+    } else if ("reward_list" in json) {
+      rewards = json["reward_list"]["rewards"];
     }
 
     rewards = rewards.map((rewardJson) => {
@@ -69,7 +69,7 @@ Reward.reopenClass({
     if ("reward" in json) {
       return rewards[0];
     } else {
-      return rewards;
+      return { rewards, count: json["reward_list"]["count"] };
     }
   },
 });

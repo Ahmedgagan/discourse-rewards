@@ -12,9 +12,10 @@
       </div>
     </div>
     <div class="discourse-rewards-rewards-list">
-      {{#each model as |reward|}}
+      {{#each model.rewards as |reward|}}
         {{reward-card reward=reward save=save destroy=destroy}}
       {{/each}}
     </div>
+    {{conditional-loading-spinner condition=loading}}
   </div>
 {{/load-more}}

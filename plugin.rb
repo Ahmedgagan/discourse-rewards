@@ -47,12 +47,16 @@ after_initialize do
   [
     "../app/serializers/reward_serializer.rb",
     "../app/serializers/user_reward_serializer.rb",
+    "../app/serializers/reward_list_serializer.rb",
+    "../app/serializers/user_reward_list_serializer.rb",
     "../lib/discourse-rewards/user_extension.rb",
     "../app/models/user_reward.rb",
     "../app/models/redemeed_point.rb",
     "../app/controllers/rewards_controller.rb",
     "../app/models/reward.rb",
     "../app/models/user_point.rb",
+    "../app/models/reward_list.rb",
+    "../app/models/user_reward_list.rb",
     "../jobs/scheduled/grant_active_member_bronze_badges",
     "../jobs/scheduled/grant_active_member_silver_badges",
     "../jobs/scheduled/grant_active_member_gold_badges",
@@ -84,7 +88,7 @@ after_initialize do
   end
 
   add_to_serializer(:basic_user, :total_earned_points) do
-    scope.user.total_earned_points
+    user&.total_earned_points
   end
 
   add_to_serializer(:current_user, :total_earned_points) do
