@@ -160,6 +160,20 @@ module DiscourseRewards
       render_serialized(user_reward, UserRewardSerializer)
     end
 
+    def leaderboard
+      page = params[:page].to_i || 1
+
+      users = User.where("silenced_till IS NULL AND active=true AND id>0")
+
+      count = users.count
+
+      users = users.offset(page * PAGE_SIZE).limit(PAGE_SIZE)
+
+      users = users.sort_by { |user| [-user.total_earned_points.to_i, user[:username_lower]] }
+
+      render_json_dump({ count: count, users: serialize_data(users, BasicUserSerializer) })
+    end
+
     def display
     end
   end

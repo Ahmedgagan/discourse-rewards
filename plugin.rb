@@ -51,7 +51,6 @@ after_initialize do
     "../app/serializers/user_reward_list_serializer.rb",
     "../lib/discourse-rewards/user_extension.rb",
     "../app/models/user_reward.rb",
-    "../app/models/redemeed_point.rb",
     "../app/controllers/rewards_controller.rb",
     "../app/models/reward.rb",
     "../app/models/user_point.rb",

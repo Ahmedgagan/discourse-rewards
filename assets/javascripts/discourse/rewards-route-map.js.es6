@@ -3,4 +3,9 @@ export default function () {
     path: "/available-rewards",
     resetNamespace: true,
   });
+
+  this.route("leaderboard", {
+    path: "/leaderboard",
+    resetNamespace: true,
+  });
 }

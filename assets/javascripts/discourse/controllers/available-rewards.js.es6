@@ -49,7 +49,7 @@ export default Controller.extend({
   },
 
   findRewards() {
-    if (this.page * 30 >= this.model.rewards.count) {
+    if (this.page * 30 >= this.model.count) {
       return;
     }
 

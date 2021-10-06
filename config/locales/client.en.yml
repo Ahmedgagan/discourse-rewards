@@ -49,6 +49,15 @@ en:
           one: "Total Earned Point"
           other: "Total Earned Points"
     discourse_rewards:
+      available_rewards:
+        nav: "Available Rewards"
+      available_quantity: "Available quantity: "
+      point:
+        one: "point"
+        other: "Points"
+      leaderboard:
+        nav: "Leaderboard"
+        title: "Leaderboard"
       edit_reward:
         modal_title: 'Edit Reward'
       title: 'Rewards'

@@ -105,6 +105,80 @@
   grid-gap: 1em;
 }
 
+.leaderboard-users-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 1em;
+}
+
+.rank {
+  border: 1px solid var(--tertiary-medium);
+  background-color: var(--tertiary-low);
+  border-radius: 2em;
+  position: absolute;
+  margin: 1em !important;
+
+  p {
+    padding: 0.25em;
+    margin: 0;
+    font-weight: bold;
+    font-size: $font-up-2;
+
+    span {
+      font-weight: normal;
+      font-size: $font-down-2;
+    }
+  }
+}
+
+.stack-top {
+  z-index: 9;
+  margin: 20px; /* for demo purpose  */
+}
+
+.leaderboard-card {
+  border: 1px solid var(--primary-low);
+  padding: 0.5em;
+  display: flex;
+  justify-content: center;
+  position: relative;
+
+  .card {
+    text-align: center;
+  }
+
+  .break-line {
+    width: 100px;
+    margin: auto;
+  }
+
+  .points {
+    color: var(--tertiary);
+    font-weight: bold;
+    font-size: $font-up-2;
+    margin: 0.5em 0;
+
+    p {
+      margin: 0;
+      font-weight: normal;
+      font-size: $font-down-2;
+    }
+  }
+
+  .name {
+    margin: 0.5em 0;
+    font-weight: bold;
+    font-size: $font-up-2;
+  }
+
+  .username {
+    color: var(--primary-high);
+    margin: 0.5em 0;
+    font-weight: bold;
+    font-size: $font-0;
+  }
+}
+
 .discourse-rewards-available-points {
   width: auto !important;
 
