@@ -23,6 +23,9 @@ en:
           ok: 'Reward Quantity.'
         instructions: 'Quantity of this reward.'
     admin:
+      site_settings:
+        categories:
+          discourse_rewards: "Discourse Rewards"
       rewards:
         image: 'Reward image'
         grant_confirm: 'Are you sure you want to grant this reward?'

@@ -5,3 +5,6 @@ en:
     discourse_rewards_points_for_silver_badges: "Reward points for earning silver badges"
     discourse_rewards_points_for_gold_badges: "Reward points for earning gold badges"
     discourse_rewards_grant_topic_category: "Category in which reward greeting topic will be created"
+    discourse_rewards_points_for_post_create: "Reward points for creating a post"
+    discourse_rewards_points_for_topic_create: "Reward points for creating a topic"
+    discourse_rewards_points_for_like_received: "Reward points for receving a like"

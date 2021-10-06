@@ -117,14 +117,62 @@ after_initialize do
       points = 0
 
       if badge.badge_type_id == BadgeType::Bronze
-        points = SiteSetting.discourse_rewards_points_for_bronze_badges
+        points = SiteSetting.discourse_rewards_points_for_bronze_badges.to_i
       elsif badge.badge_type_id == BadgeType::Silver
-        points = SiteSetting.discourse_rewards_points_for_silver_badges
+        points = SiteSetting.discourse_rewards_points_for_silver_badges.to_i
       elsif badge.badge_type_id == BadgeType::Gold
-        points = SiteSetting.discourse_rewards_points_for_gold_badges
+        points = SiteSetting.discourse_rewards_points_for_gold_badges.to_i
       end
 
       DiscourseRewards::UserPoint.create(user_id: notification.user_id, user_badge_id: user_badge.id, reward_points: points) if points > 0
+
+      user_message = {
+        available_points: user_badge.user.available_points
+      }
+
+      MessageBus.publish("/u/#{user_badge.user.id}/rewards", user_message)
     end
+  end
+
+  on(:post_created) do |post|
+    points = SiteSetting.discourse_rewards_points_for_post_create.to_i
+
+    user = User.find(post.user_id)
+
+    DiscourseRewards::UserPoint.create(user_id: post.user_id, reward_points: SiteSetting.discourse_rewards_points_for_post_create) if points > 0
+
+    user_message = {
+      available_points: user.available_points
+    }
+
+    MessageBus.publish("/u/#{user.id}/rewards", user_message)
+  end
+
+  on(:topic_created) do |topic|
+    points = SiteSetting.discourse_rewards_points_for_topic_create.to_i
+
+    user = User.find(topic.user_id)
+
+    DiscourseRewards::UserPoint.create(user_id: user.id, reward_points: points) if points > 0
+
+    user_message = {
+      available_points: user.available_points
+    }
+
+    MessageBus.publish("/u/#{user.id}/rewards", user_message)
+  end
+
+  on(:like_created) do |like|
+    points = SiteSetting.discourse_rewards_points_for_like_received.to_i
+
+    user = Post.find(like.post_id).user
+
+    DiscourseRewards::UserPoint.create(user_id: user.id, reward_points: points) if points > 0
+
+    user_message = {
+      available_points: user.available_points
+    }
+
+    MessageBus.publish("/u/#{user.id}/rewards", user_message)
   end
 end
