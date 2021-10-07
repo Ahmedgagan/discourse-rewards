@@ -1,0 +1,16 @@
+<div class="rank stack-top {{if appendString "append"}}">
+  <p class="details">{{rank}}<span>{{appendString}}</span></p>
+</div>
+<div class="leaderboard-card {{if fullView "full-view"}}">
+  <div class="card">
+    <a href={{path}} data-user-card={{user.username}}>
+      {{avatar user imageSize="huge"}}
+    </a>
+    {{#if user.name}}
+      <p class="name">{{user.name}}</p>
+    {{/if}}
+    <p class="username">{{user.username}}</p>
+    <hr class="break-line">
+    <p class="points">{{user.total_earned_points}}<p>{{i18n "discourse_rewards.point" count=user.total_earned_points}}</p></p>    
+  </div>
+</div>

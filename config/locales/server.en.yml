@@ -1,1 +1,46 @@
 en:
+  site_settings:
+    discourse_rewards_enabled: "Enable Discourse Rewards"
+    discourse_rewards_points_for_bronze_badges: "Reward points for earning bronze badges"
+    discourse_rewards_points_for_silver_badges: "Reward points for earning silver badges"
+    discourse_rewards_points_for_gold_badges: "Reward points for earning gold badges"
+    discourse_rewards_grant_topic_category: "Category in which reward greeting topic will be created"
+    discourse_rewards_points_for_post_create: "Reward points for creating a post"
+    discourse_rewards_points_for_topic_create: "Reward points for creating a topic"
+    discourse_rewards_points_for_like_received: "Reward points for receving a like"
+  badges:
+    best_liked_in_a_month:
+      name: "Best Liked in a month"
+      description: Best Liked in a month
+      long_description: |
+        This badge is granted when you have earned most likes in a month. More posts from you are encourages. Write more such posts.
+    conversation_maker:
+      name: Conversation Maker
+      description: Received most replies on a topic in a month.
+      long_description: |
+        This badge is granted when your topic has received most number of posts in a month. More such topics are encouraged. Write more interesting stuffs.
+    embassador:
+      name: Embassadror
+      description: Invited user transforms to trust level 2.
+      long_description: |
+        This badge is granted when you are an invited user & have earned trust level 2.
+    wiki_master:
+      name: Wiki Master
+      description: Post a topic in wiki category.
+      long_description: |
+        This badge is granted when user posts topic in wiki category.
+    interested:
+      name: Interested
+      description: Joined forum in last 3 months and visited 6 days.
+      long_description: |
+        This badge is granted when user have joined the forum 3 months ago and has visited atleast 6 days.
+    obsessed:
+      name: Obsessed
+      description: Joined forum in last 6 months and visited 12 days.
+      long_description: |
+        This badge is granted when user have joined the forum 6 months ago and has visited atleast 12 days.
+    active_member:
+      name: Active Member
+      description: Joined forum in last 12 months and visited 24 days.
+      long_description: |
+        This badge is granted when user have joined the forum 12 months ago and has visited atleast 24 days.

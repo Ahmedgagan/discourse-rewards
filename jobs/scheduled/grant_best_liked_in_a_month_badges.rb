@@ -15,10 +15,10 @@ module Jobs
 
       user_id = DB.query_single <<~SQL
         SELECT p.user_id, count(p.id)
-        FROM post_actions pa 
-        INNER JOIN posts p 
-        ON pa.post_id = p.id 
-        INNER JOIN users u 
+        FROM post_actions pa
+        INNER JOIN posts p
+        ON pa.post_id = p.id
+        INNER JOIN users u
         ON p.user_id = u.id
         WHERE pa.post_action_type_id=2
         AND pa.created_at BETWEEN '#{previous_month_beginning}' AND '#{previous_month_end}'

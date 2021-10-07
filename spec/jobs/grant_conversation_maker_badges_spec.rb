@@ -31,6 +31,6 @@ describe Jobs::GrantConversationMakerBadges do
     badge = user.user_badges.where(badge_id: Badge.find_by(name: 'Conversation Maker').id)
     expect(badge.count).to eq(1)
 
-    expect(user.user_points.sum(:reward_points)).to be(200)
+    expect(user.user_points.sum(:reward_points)).to be(SiteSetting.discourse_rewards_points_for_bronze_badges)
   end
 end
