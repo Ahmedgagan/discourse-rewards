@@ -5,7 +5,7 @@ module Jobs
     every 1.day
 
     def execute(args)
-      badge = Badge.find_by_name('Active Member Silver')
+      badge = Badge.find_by_name('Obsessed')
       return unless SiteSetting.enable_badges? && badge.enabled?
       six_months = 6.months.ago.iso8601(6)
 

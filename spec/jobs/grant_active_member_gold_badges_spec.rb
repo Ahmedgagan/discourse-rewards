@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 def badge(user)
-  user.user_badges.where(badge_id: Badge.find_by(name: 'Active Member Gold').id)
+  user.user_badges.where(badge_id: Badge.find_by(name: 'Active Member').id)
 end
 
 describe Jobs::GrantActiveMemberGoldBadges do

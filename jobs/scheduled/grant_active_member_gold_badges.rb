@@ -5,7 +5,7 @@ module Jobs
     every 1.day
 
     def execute(args)
-      badge = Badge.find_by_name('Active Member Gold')
+      badge = Badge.find_by_name('Active Member')
       return unless SiteSetting.enable_badges? && badge.enabled?
       last_year = 1.year.ago.iso8601(6)
 

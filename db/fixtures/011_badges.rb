@@ -70,7 +70,7 @@ Badge.seed(:name) do |b|
 end
 
 Badge.seed(:name) do |b|
-  b.name = "Active Member Bronze"
+  b.name = "Interested"
   b.badge_type_id = BadgeType::Bronze
   b.multiple_grant = false
   b.target_posts = false
@@ -82,7 +82,7 @@ Badge.seed(:name) do |b|
 end
 
 Badge.seed(:name) do |b|
-  b.name = "Active Member Silver"
+  b.name = "Obsessed"
   b.badge_type_id = BadgeType::Silver
   b.multiple_grant = false
   b.target_posts = false
@@ -94,7 +94,7 @@ Badge.seed(:name) do |b|
 end
 
 Badge.seed(:name) do |b|
-  b.name = "Active Member Gold"
+  b.name = "Active Member"
   b.badge_type_id = BadgeType::Gold
   b.multiple_grant = false
   b.target_posts = false

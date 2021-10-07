@@ -28,14 +28,14 @@ describe Jobs::GrantEmbassadorBadges do
 
     badge = invited_user.user.user_badges.where(badge_id: Badge.find_by(name: 'Embassador').id)
     expect(badge.count).to eq(1)
-    expect(invited_user.user.user_points.sum(:reward_points)).to be(200)
+    expect(invited_user.user.user_points.sum(:reward_points)).to be(SiteSetting.discourse_rewards_points_for_bronze_badges)
 
     badge = invited_user1.user.user_badges.where(badge_id: Badge.find_by(name: 'Embassador').id)
     expect(badge.count).to eq(1)
-    expect(invited_user1.user.user_points.sum(:reward_points)).to be(200)
+    expect(invited_user1.user.user_points.sum(:reward_points)).to be(SiteSetting.discourse_rewards_points_for_bronze_badges)
 
     badge = invited_user2.user.user_badges.where(badge_id: Badge.find_by(name: 'Embassador').id)
     expect(badge.count).to eq(1)
-    expect(invited_user2.user.user_points.sum(:reward_points)).to be(200)
+    expect(invited_user2.user.user_points.sum(:reward_points)).to be(SiteSetting.discourse_rewards_points_for_bronze_badges)
   end
 end

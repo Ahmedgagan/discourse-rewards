@@ -79,11 +79,13 @@
         disabled=saving
         label="admin.rewards.save"}}
       <span class="saving">{{savingStatus}}</span>
-      {{d-button
-        action=(action "destroyReward")
-        class="btn-danger"
-        label="admin.rewards.delete"
-      }}
+      {{#if reward.id}}
+        {{d-button
+          action=(action "destroyReward")
+          class="btn-danger"
+          label="admin.rewards.delete"
+        }}
+      {{/if}}
     </div>
   </form>
 {{/d-modal-body}}

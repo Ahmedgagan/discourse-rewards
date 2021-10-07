@@ -17,7 +17,7 @@ export default Component.extend({
   @computed("current_user.available_points", "reward.points")
   get disableRedeemButton() {
     return (
-      this.reward.points >= this.currentUser.available_points ||
+      this.reward.points > this.currentUser.available_points ||
       this.reward.quantity < 1
     );
   },
