@@ -115,6 +115,9 @@
   border: 1px solid var(--tertiary-medium);
   background-color: var(--tertiary-low);
   border-radius: 2em;
+  min-width: 2.5em;
+  display: flex;
+  justify-content: center;
   position: absolute;
   margin: 1em !important;
 
