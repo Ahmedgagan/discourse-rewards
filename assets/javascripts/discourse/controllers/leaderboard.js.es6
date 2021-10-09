@@ -25,7 +25,7 @@ export default Controller.extend({
       data: { page: this.page },
     })
       .then((result) => {
-        this.model.users.pushObjects(result.rewards);
+        this.model.users.pushObjects(result.users);
         this.model.count = result.count;
       })
       .finally(() => this.set("loading", false));
