@@ -17,6 +17,16 @@ UserReward.reopenClass({
     });
   },
 
+  cancelReward(user_reward) {
+    if (!user_reward.id) {
+      return Promise.resolve();
+    }
+
+    return ajax(`/user-rewards/${user_reward.id}`, {
+      type: "delete",
+    });
+  },
+
   createFromJson(json) {
     let userRewards = [];
     if ("user_reward" in json) {

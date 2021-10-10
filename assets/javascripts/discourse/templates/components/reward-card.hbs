@@ -22,11 +22,18 @@
               disabled=disableRedeemButton
             }}
           {{else if user_reward}}
-            {{d-button
-              action=(action "grantUserReward" user_reward)
-              class="btn-primary button"
-              label="admin.rewards.grant_reward"
-            }}
+            <div class="buttons">
+              {{d-button
+                action=(action "grantUserReward" user_reward)
+                class="btn-primary button"
+                label="admin.rewards.grant_reward"
+              }}
+              {{d-button
+                action=(action "cancelUserReward" user_reward)
+                class="btn-danger button"
+                label="admin.rewards.cancel_grant"
+              }}
+            </div>
           {{else}}
             {{d-button
               action=(action "editReward" reward)

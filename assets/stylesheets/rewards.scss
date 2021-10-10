@@ -32,6 +32,16 @@
     width: 100%;
   }
 
+  .buttons {
+    width: 100%;
+    display: inline-flex;
+
+    .button {
+      margin-left: 0.25em;
+      margin-right: 0.25em;
+    }
+  }
+
   .contents {
     padding: 0.5em;
   }

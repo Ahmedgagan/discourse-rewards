@@ -123,7 +123,9 @@ export default Controller.extend({
       return Reward.save(data)
         .then((result) => {
           if (newReward) {
-            this.model.rewards.unshiftObject(Reward.createFromJson({ reward: result }));
+            this.model.rewards.unshiftObject(
+              Reward.createFromJson({ reward: result })
+            );
             this.send("closeModal");
           } else {
             let index = this.model.rewards.indexOf(
@@ -132,7 +134,11 @@ export default Controller.extend({
               )
             );
             this.model.rewards.removeObject(this.model.rewards[index]);
-            this.model.rewards.splice(index, 0, Reward.createFromJson({ reward: result }));
+            this.model.rewards.splice(
+              index,
+              0,
+              Reward.createFromJson({ reward: result })
+            );
 
             this.set("model.rewards", this.model.rewards);
             this.set("savingStatus", I18n.t("saved"));

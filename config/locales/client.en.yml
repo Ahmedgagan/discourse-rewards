@@ -5,37 +5,38 @@ en:
         help: "Upload a reward image."
       points:
         validation:
-          required: 'Please enter points.'
-          less_than_1: 'Please enter points greater than 0.'
-          ok: 'Reward Points.'
-        instructions: 'Points needed to redeem this reward.'
+          required: "Please enter points."
+          less_than_1: "Please enter points greater than 0."
+          ok: "Reward Points."
+        instructions: "Points needed to redeem this reward."
       title:
         validation:
-          required: 'Please enter reward title.'
-          ok: 'Reward Title.'
-        instructions: 'title of this reward.'
+          required: "Please enter reward title."
+          ok: "Reward Title."
+        instructions: "title of this reward."
       description:
-        instructions: 'Description of this reward.'
+        instructions: "Description of this reward."
       quantity:
         validation:
-          required: 'Please enter quantity.'
-          less_than_1: 'Please enter quantity greater than 0.'
-          ok: 'Reward Quantity.'
-        instructions: 'Quantity of this reward.'
+          required: "Please enter quantity."
+          less_than_1: "Please enter quantity greater than 0."
+          ok: "Reward Quantity."
+        instructions: "Quantity of this reward."
     admin:
       site_settings:
         categories:
           discourse_rewards: "Discourse Rewards"
       rewards:
-        image: 'Reward image'
-        grant_confirm: 'Are you sure you want to grant this reward?'
-        delete_confirm: 'Are you sure you want to grant this reward?'
-        redeem_confirm: 'Are you sure you want to redeem this reward?'
-        new: 'New'
+        image: "Reward image"
+        grant_confirm: "Are you sure you want to grant this reward?"
+        cancel_grant_confirm: "Are you sure you don't want to grant this reward?"
+        delete_confirm: "Are you sure you want to grant this reward?"
+        redeem_confirm: "Are you sure you want to redeem this reward?"
+        new: "New"
         rewards:
-          nav: 'Rewards'
+          nav: "Rewards"
         user_rewards:
-          nav: 'User Rewards'
+          nav: "User Rewards"
         nav_title: "Rewards"
         points: "Points"
         quantity: "Quantity"
@@ -46,6 +47,7 @@ en:
         edit: "Edit"
         redeem: "Redeem"
         grant_reward: "Grant Reward"
+        cancel_grant: "Cancel"
     user:
       summary:
         total_earned_points:
@@ -64,9 +66,9 @@ en:
         nav: "Leaderboard"
         title: "Leaderboard"
       edit_reward:
-        modal_title: 'Edit Reward'
-      title: 'Rewards'
+        modal_title: "Edit Reward"
+      title: "Rewards"
       user_rewards:
-        title: 'User Rewards'
+        title: "User Rewards"
       reward:
         modal_title: "Reward Details"

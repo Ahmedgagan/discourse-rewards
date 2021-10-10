@@ -5,7 +5,7 @@
     </div>
     <div class="discourse-rewards-rewards-list">
       {{#each model.userRewards as |user_reward|}}
-        {{reward-card reward=user_reward.reward username=user_reward.user.username user_reward=user_reward grant=grant}}
+        {{reward-card reward=user_reward.reward username=user_reward.user.username user_reward=user_reward grant=grant cancelReward=cancelReward}}
       {{/each}}
     </div>
     {{conditional-loading-spinner condition=loading}}

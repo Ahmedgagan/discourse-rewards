@@ -9,5 +9,6 @@ DiscourseRewards::Engine.routes.draw do
   post "rewards/:id/grant" => "rewards#grant"
   get "user-rewards" => "rewards#user_rewards"
   post "user-rewards/:id" => "rewards#grant_user_reward"
+  delete "user-rewards/:id" => "rewards#cancel_user_reward"
   resources :rewards
 end

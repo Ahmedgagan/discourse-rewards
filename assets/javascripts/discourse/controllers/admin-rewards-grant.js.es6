@@ -61,4 +61,29 @@ export default Controller.extend({
       }
     );
   },
+
+  @action
+  cancelReward(user_reward) {
+    if (!user_reward || !user_reward.id) {
+      return;
+    }
+
+    return bootbox.confirm(
+      I18n.t("admin.rewards.cancel_grant_confirm"),
+      I18n.t("no_value"),
+      I18n.t("yes_value"),
+      (result) => {
+        if (result) {
+          return UserReward.cancelReward(user_reward)
+            .then(() => {
+              this.model.userRewards.removeObject(user_reward);
+              this.send("closeModal");
+            })
+            .catch(() => {
+              bootbox.alert(I18n.t("generic_error"));
+            });
+        }
+      }
+    );
+  },
 });

@@ -48,4 +48,9 @@ export default Component.extend({
   grantUserReward(user_reward) {
     this.grant(user_reward);
   },
+
+  @action
+  cancelUserReward(user_reward) {
+    this.cancelReward(user_reward);
+  },
 });

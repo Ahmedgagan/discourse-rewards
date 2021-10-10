@@ -160,6 +160,38 @@ module DiscourseRewards
       render_serialized(user_reward, UserRewardSerializer)
     end
 
+    def cancel_user_reward
+      params.require(:id)
+
+      user_reward = DiscourseRewards::UserReward.find(params[:id])
+      reward = user_reward.reward
+
+      user_reward.destroy!
+
+      reward.update!(quantity: reward.quantity + 1)
+
+      user_reward_message = {
+        user_reward_id: user_reward.id,
+        user_reward: user_reward.attributes
+      }
+
+      reward_message = {
+        reward_id: reward.id,
+        reward: reward.attributes,
+        quantity: true
+      }
+
+      user_message = {
+        available_points: user_reward.user.available_points
+      }
+
+      MessageBus.publish("/u/rewards", reward_message)
+      MessageBus.publish("/u/user-rewards", user_reward_message)
+      MessageBus.publish("/u/#{user_reward.user.id}/rewards", user_message)
+
+      render_serialized(user_reward, UserRewardSerializer)
+    end
+
     def leaderboard
       page = params[:page].to_i || 1
 
