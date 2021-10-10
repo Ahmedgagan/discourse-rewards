@@ -6,6 +6,9 @@
       <img src={{reward.upload_url}} alt={{i18n "admin.rewards.image"}} class="reward-image">
       <div class="contents">
         <p class="title">{{reward.title}}</p>
+        {{#if username}}
+          <p class="username">{{i18n "discourse_rewards.user.title"}} <a class="mention" href={{path}}>@{{username}}</a></p>
+        {{/if}}
         <p class="points">{{reward.points}} <span>{{i18n "discourse_rewards.point" count=reward.points}}</span></p>
         <p class="quantity">{{i18n "discourse_rewards.available_quantity"}}<span>{{reward.quantity}} Left</span></p>
         <hr>

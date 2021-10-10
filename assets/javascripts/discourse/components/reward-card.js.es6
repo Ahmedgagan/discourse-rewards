@@ -1,8 +1,14 @@
 import Component from "@ember/component";
 import showModal from "discourse/lib/show-modal";
 import { action, computed } from "@ember/object";
+import { userPath } from "discourse/lib/url";
 
 export default Component.extend({
+  @computed("username")
+  get path() {
+    return userPath(this.username);
+  },
+
   click() {
     showModal("reward-view", {
       model: {

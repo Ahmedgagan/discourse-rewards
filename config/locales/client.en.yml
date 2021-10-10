@@ -52,6 +52,8 @@ en:
           one: "Total Earned Point"
           other: "Total Earned Points"
     discourse_rewards:
+      user:
+        title: "User: "
       available_rewards:
         nav: "Available Rewards"
       available_quantity: "Available quantity: "
