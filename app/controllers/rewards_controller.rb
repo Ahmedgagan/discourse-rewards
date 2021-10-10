@@ -163,13 +163,15 @@ module DiscourseRewards
     def leaderboard
       page = params[:page].to_i || 1
 
-      users = User.where("silenced_till IS NULL AND active=true AND id>0")
+      users = User.joins("LEFT OUTER JOIN discourse_rewards_user_points p ON users.id = p.user_id")
+        .where("users.id NOT IN(select user_id from anonymous_users) AND silenced_till IS NULL AND active=true AND users.id > 0")
+        .group("users.id")
+        .order("total_earned_points, users.username_lower")
+        .select("users.*, SUM(p.reward_points) total_earned_points")
 
-      count = users.count
+      count = users.length
 
       users = users.offset(page * PAGE_SIZE).limit(PAGE_SIZE)
-
-      users = users.sort_by { |user| [-user.total_earned_points.to_i, user[:username_lower]] }
 
       render_json_dump({ count: count, users: serialize_data(users, BasicUserSerializer) })
     end
