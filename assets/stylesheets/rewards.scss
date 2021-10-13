@@ -246,3 +246,38 @@
     resize: none;
   }
 }
+
+.transactions {
+  td {
+    padding: 0.5em;
+    text-align: left;
+    word-wrap: break-word;
+  }
+
+  .transaction-item {
+    width: 100% !important;
+  }
+
+  .transaction-date {
+    width: 20%;
+  }
+
+  .transaction-details {
+    width: 80%;
+  }
+
+  .transaction-points {
+    width: 10%;
+  }
+
+  .transaction-details,
+  .transaction-points {
+    &:not(.header) {
+      color: var(--success);
+
+      &.redeemed {
+        color: var(--danger);
+      }
+    }
+  }
+}

@@ -16,7 +16,7 @@ function initializeDiscourseRewards(api) {
       buildId: () => `discourse-rewards-total-points`,
 
       click() {
-        return DiscourseURL.routeTo("/available-rewards");
+        return DiscourseURL.routeTo("/points-center");
       },
 
       init() {

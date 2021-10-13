@@ -49,6 +49,7 @@ after_initialize do
     "../app/serializers/user_reward_serializer.rb",
     "../app/serializers/reward_list_serializer.rb",
     "../app/serializers/user_reward_list_serializer.rb",
+    "../app/serializers/transaction_serializer.rb",
     "../lib/discourse-rewards/user_extension.rb",
     "../app/models/user_reward.rb",
     "../app/controllers/rewards_controller.rb",
@@ -56,6 +57,7 @@ after_initialize do
     "../app/models/user_point.rb",
     "../app/models/reward_list.rb",
     "../app/models/user_reward_list.rb",
+    "../app/models/transaction.rb",
     "../jobs/scheduled/grant_active_member_bronze_badges",
     "../jobs/scheduled/grant_active_member_silver_badges",
     "../jobs/scheduled/grant_active_member_gold_badges",
@@ -124,7 +126,11 @@ after_initialize do
         points = SiteSetting.discourse_rewards_points_for_gold_badges.to_i
       end
 
-      DiscourseRewards::UserPoint.create(user_id: notification.user_id, user_badge_id: user_badge.id, reward_points: points) if points > 0
+      description = {
+        badge_id: badge.id,
+        name: badge.name
+      }
+      DiscourseRewards::UserPoint.create(user_id: notification.user_id, user_badge_id: user_badge.id, reward_points: points, description: description.to_json) if points > 0
 
       user_message = {
         available_points: user_badge.user.available_points
@@ -135,44 +141,66 @@ after_initialize do
   end
 
   on(:post_created) do |post|
-    points = SiteSetting.discourse_rewards_points_for_post_create.to_i
+    if post.user_id > 0 && post.post_number > 1
+      points = SiteSetting.discourse_rewards_points_for_post_create.to_i
 
-    user = User.find(post.user_id)
+      user = User.find(post.user_id)
 
-    DiscourseRewards::UserPoint.create(user_id: post.user_id, reward_points: SiteSetting.discourse_rewards_points_for_post_create) if points > 0
+      description = {
+        post_id: post.id,
+        post_number: post.post_number,
+        topic_title: post.topic.title
+      }
+      DiscourseRewards::UserPoint.create(user_id: post.user_id, reward_points: points, description: description.to_json) if points > 0
 
-    user_message = {
-      available_points: user.available_points
-    }
+      user_message = {
+        available_points: post.user.available_points,
+        points: post.user.total_earned_points
+      }
 
-    MessageBus.publish("/u/#{user.id}/rewards", user_message)
+      MessageBus.publish("/u/#{post.user_id}/rewards", user_message)
+    end
   end
 
   on(:topic_created) do |topic|
-    points = SiteSetting.discourse_rewards_points_for_topic_create.to_i
+    if topic.user_id > 0
+      points = SiteSetting.discourse_rewards_points_for_topic_create.to_i
 
-    user = User.find(topic.user_id)
+      user = User.find(topic.user_id)
 
-    DiscourseRewards::UserPoint.create(user_id: user.id, reward_points: points) if points > 0
+      description = {
+        topic_id: topic.id,
+        topic_title: topic.title
+      }
 
-    user_message = {
-      available_points: user.available_points
-    }
+      DiscourseRewards::UserPoint.create(user_id: topic.user_id, reward_points: points, description: description.to_json) if points > 0
 
-    MessageBus.publish("/u/#{user.id}/rewards", user_message)
+      user_message = {
+        available_points: topic.user.available_points
+      }
+
+      MessageBus.publish("/u/#{topic.user_id}/rewards", user_message)
+    end
   end
 
   on(:like_created) do |like|
     points = SiteSetting.discourse_rewards_points_for_like_received.to_i
+    post = Post.find(like.post_id)
+    user = post.user
 
-    user = Post.find(like.post_id).user
+    if user.id > 0
+      description = {
+        type: 'like',
+        post_id: post.id,
+        topic_title: post.topic.title
+      }
+      DiscourseRewards::UserPoint.create(user_id: user.id, reward_points: points, description: description.to_json) if points > 0
 
-    DiscourseRewards::UserPoint.create(user_id: user.id, reward_points: points) if points > 0
+      user_message = {
+        available_points: user.available_points
+      }
 
-    user_message = {
-      available_points: user.available_points
-    }
-
-    MessageBus.publish("/u/#{user.id}/rewards", user_message)
+      MessageBus.publish("/u/#{user.id}/rewards", user_message)
+    end
   end
 end

@@ -208,6 +208,14 @@ module DiscourseRewards
       render_json_dump({ count: count, users: serialize_data(users, BasicUserSerializer) })
     end
 
+    def transactions
+      transactions = ActiveRecord::Base.connection.execute("SELECT user_id, null user_reward_id, id point_id, reward_points, created_at FROM discourse_rewards_user_points WHERE user_id=#{current_user.id} UNION SELECT user_id, id, null, points, created_at FROM discourse_rewards_user_rewards WHERE user_id=#{current_user.id} ORDER BY created_at DESC").to_a
+
+      transactions = transactions.map { |transaction| DiscourseRewards::Transaction.new(transaction.with_indifferent_access) }
+
+      render_json_dump({ count: transactions.length, transactions: serialize_data(transactions, TransactionSerializer) })
+    end
+
     def display
     end
   end

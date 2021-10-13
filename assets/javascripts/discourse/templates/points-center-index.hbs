@@ -1,0 +1,15 @@
+<div class="my-points">
+  <div class="transactions-list">
+    <table class="transactions">
+      <tr class="transaction-item">
+        <th class="transaction-date header">DATE</th>
+        <th class="transaction-details header">DETAILS</th>
+        <th class="transaction-points header">POINTS</th>
+      </tr>
+      {{#each model.transactions as |transaction index|}}
+        {{transaction-item transaction=transaction}}
+      {{/each}}
+    </table>
+  </div>
+  {{conditional-loading-spinner condition=loading}}
+</div>
