@@ -18,7 +18,7 @@ Transaction.reopenClass({
       transactionJson.created_by = User.create(transactionJson.user);
       if (transactionJson.user_reward) {
         transactionJson.user_reward = UserReward.createFromJson(
-          transactionJson
+          transactionJson.user_reward
         );
       }
 

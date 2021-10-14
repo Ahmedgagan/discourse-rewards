@@ -36,7 +36,7 @@ UserReward.reopenClass({
     }
 
     userRewards = userRewards.map((userRewardJson) => {
-      userRewardJson.reward = Reward.createFromJson(userRewardJson.user_reward);
+      userRewardJson.reward = Reward.createFromJson(userRewardJson);
       userRewardJson.user = User.create(userRewardJson.user);
 
       return userRewardJson;
