@@ -1,10 +1,15 @@
 <div class="my-points">
+  {{#unless siteSettings.discourse_rewards_show_points_on_site_header}}
+    <div class="points-count">
+      <p class="prefix">{{i18n "discourse_rewards.my_points_center.my_points"}}<span class="count">{{currentUser.available_points}}</span></p>
+    </div>
+  {{/unless}}
   <div class="transactions-list">
     <table class="transactions">
       <tr class="transaction-item">
-        <th class="transaction-date header">DATE</th>
-        <th class="transaction-details header">DETAILS</th>
-        <th class="transaction-points header">POINTS</th>
+        <th class="transaction-date header">{{i18n "discourse_rewards.my_points_center.th.time"}}</th>
+        <th class="transaction-details header">{{i18n "discourse_rewards.my_points_center.th.details"}}</th>
+        <th class="transaction-points header">{{i18n "discourse_rewards.my_points_center.th.points"}}</th>
       </tr>
       {{#each model.transactions as |transaction index|}}
         {{transaction-item transaction=transaction}}

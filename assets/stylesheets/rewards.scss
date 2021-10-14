@@ -247,6 +247,18 @@
   }
 }
 
+.points-count {
+  .prefix {
+    font-size: $font-up-2;
+    font-weight: bold;
+
+    .count {
+      font-weight: normal;
+      font-size: $font-down-1;
+    }
+  }
+}
+
 .transactions {
   td {
     padding: 0.5em;

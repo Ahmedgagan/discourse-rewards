@@ -14,4 +14,10 @@ export default DiscourseRoute.extend({
       model,
     });
   },
+
+  actions: {
+    refreshModel() {
+      this.refresh();
+    },
+  },
 });

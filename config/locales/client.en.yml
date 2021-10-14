@@ -55,6 +55,12 @@ en:
           other: "Total Earned Points"
     discourse_rewards:
       my_points_center:
+        th:
+          time: "Time"
+          details: "Details"
+          points: "Points"
+        my_points: "My Points: "
+        profile_link_name: "Points Center"
         nav: "My Points Center"
         redeemed: "Redeemed a reward: %{title}."
         topic_create: "Created a topic: %{title}."

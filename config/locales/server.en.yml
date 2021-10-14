@@ -8,6 +8,7 @@ en:
     discourse_rewards_points_for_post_create: "Reward points for creating a post"
     discourse_rewards_points_for_topic_create: "Reward points for creating a topic"
     discourse_rewards_points_for_like_received: "Reward points for receving a like"
+    discourse_rewards_show_points_on_site_header: "Display user points on site header"
   badges:
     best_liked_in_a_month:
       name: "Best Liked in a month"
