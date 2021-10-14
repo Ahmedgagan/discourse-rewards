@@ -56,6 +56,12 @@ en:
     discourse_rewards:
       my_points_center:
         nav: "My Points Center"
+        redeemed: "Redeemed a reward: %{title}."
+        topic_create: "Created a topic: %{title}."
+        post_create: "Created a post on: %{title} topic."
+        like_received: "Received a like on post id: %{post_id}."
+        badge: "Earned a reward badge: %{name}."
+        earned_points: "Earned reward points."
       user:
         title: "User: "
       available_rewards:
