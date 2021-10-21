@@ -190,6 +190,14 @@ module DiscourseRewards
       MessageBus.publish("/u/#{user_reward.user.id}/rewards", user_message)
 
       render_serialized(user_reward, UserRewardSerializer)
+
+      PostCreator.new(
+        current_user,
+        title: 'Unable to grant the reward',
+        raw: "We are sorry to announce that #{user_reward.reward.title} Award has not been granted to you. Please try to redeem another award @#{user_reward.user.username}",
+        category: SiteSetting.discourse_rewards_grant_topic_category,
+        skip_validations: true
+      ).create!
     end
 
     def leaderboard
