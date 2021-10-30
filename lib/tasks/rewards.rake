@@ -13,6 +13,8 @@ task "rewards:points" => [:environment] do |_, args|
   posts = Post.where(created_at: Time.zone.now.beginning_of_year..Time.zone.now.end_of_day).where("user_id > 0")
 
   posts.each do |post|
+    next if !post.topic
+
     description = nil
     points = nil
 
