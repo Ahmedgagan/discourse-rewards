@@ -156,6 +156,10 @@
   justify-content: center;
   position: relative;
 
+  &.current-user {
+    background-color: var(--primary-low);
+  }
+
   .card {
     text-align: center;
   }

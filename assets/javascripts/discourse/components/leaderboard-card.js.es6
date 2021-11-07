@@ -8,6 +8,11 @@ export default Component.extend({
     return userPath(this.user.username);
   },
 
+  @computed("user.username")
+  get isCurrentUser() {
+    return this.user.username === this.currentUser.username;
+  },
+
   @computed("index")
   get appendString() {
     if (this.rank === 1) {

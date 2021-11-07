@@ -1,7 +1,7 @@
 <div class="rank stack-top {{if appendString "append"}}">
   <p class="details">{{rank}}<span>{{appendString}}</span></p>
 </div>
-<div class="leaderboard-card {{if fullView "full-view"}}">
+<div class="leaderboard-card {{if fullView "full-view"}} {{if isCurrentUser "current-user"}}">
   <div class="card">
     <a href={{path}} data-user-card={{user.username}}>
       {{avatar user imageSize="huge"}}
