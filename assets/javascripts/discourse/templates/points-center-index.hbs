@@ -4,17 +4,81 @@
       <p class="prefix">{{i18n "discourse_rewards.my_points_center.my_points"}}<span class="count">{{currentUser.available_points}}</span></p>
     </div>
   {{/unless}}
-  <div class="transactions-list">
-    <table class="transactions">
-      <tr class="transaction-item">
-        <th class="transaction-date header">{{i18n "discourse_rewards.my_points_center.th.time"}}</th>
-        <th class="transaction-details header">{{i18n "discourse_rewards.my_points_center.th.details"}}</th>
-        <th class="transaction-points header">{{i18n "discourse_rewards.my_points_center.th.points"}}</th>
-      </tr>
-      {{#each model.transactions as |transaction index|}}
-        {{transaction-item transaction=transaction}}
-      {{/each}}
-    </table>
-  </div>
+  {{#if model.transactions.length}}
+    <div class="transactions-list">
+      <table class="transactions">
+        <tr class="transaction-header">
+          <th class="transaction-date header">{{i18n "discourse_rewards.my_points_center.th.time"}}</th>
+          <th class="transaction-details header">{{i18n "discourse_rewards.my_points_center.th.details"}}</th>
+          <th class="transaction-points header">{{i18n "discourse_rewards.my_points_center.th.points"}}</th>
+        </tr>
+      </table>
+
+      {{#if creationCategoryList.length}}
+        <div class="category create-category">
+          <fieldset class="heading">
+            <legend class="header-text">Topics/Posts created</legend>
+            <table class="transactions">
+              {{#each creationCategoryList as |transaction index|}}
+                {{transaction-item transaction=transaction}}
+              {{/each}}
+            </table>
+          </fieldset>
+        </div>
+      {{/if}}
+
+      {{#if likeCategoryList.length}}
+        <div class="category like-category">
+          <fieldset class="heading">
+            <legend class="header-text">Like Received</legend>
+            <table class="transactions">
+              {{#each likeCategoryList as |transaction index|}}
+                {{transaction-item transaction=transaction}}
+              {{/each}}
+            </table>
+          </fieldset>
+        </div>
+      {{/if}}
+
+      {{#if badgeCategoryList.length}}
+        <div class="category badge-category">
+          <fieldset class="heading">
+            <legend class="header-text">Reward Badges earned</legend>
+            <table class="transactions">
+              {{#each badgeCategoryList as |transaction index|}}
+                {{transaction-item transaction=transaction}}
+              {{/each}}
+            </table>
+          </fieldset>
+        </div>
+      {{/if}}
+
+      {{#if redeemCategoryList.length}}
+        <div class="category redeem-category">
+          <fieldset class="heading">
+            <legend class="header-text">Rewards Earned</legend>
+            <table class="transactions">
+              {{#each redeemCategoryList as |transaction index|}}
+                {{transaction-item transaction=transaction}}
+              {{/each}}
+            </table>
+          </fieldset>
+        </div>
+      {{/if}}
+
+      {{#if uncategorizedList.length}}
+        <div class="category uncategorized">
+          <fieldset class="heading">
+            <legend class="header-text">Uncategorized Transactions</legend>
+            <table class="transactions">
+              {{#each uncategorizedList as |transaction index|}}
+                {{transaction-item transaction=transaction}}
+              {{/each}}
+            </table>
+          </fieldset>
+        </div>
+      {{/if}}
+    </div>
+  {{/if}}
   {{conditional-loading-spinner condition=loading}}
 </div>

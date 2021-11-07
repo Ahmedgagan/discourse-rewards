@@ -12,4 +12,51 @@ export default Controller.extend({
       }
     });
   },
+
+  get creationCategoryList() {
+    return this.model.transactions.filter((transaction) => {
+      if (!transaction.user_point) return false;
+
+      const description = JSON.parse(transaction.user_point.description);
+
+      return (
+        description &&
+        !description.type &&
+        (description.post_id || description.topic_id)
+      );
+    });
+  },
+
+  get likeCategoryList() {
+    return this.model.transactions.filter((transaction) => {
+      if (!transaction.user_point) return false;
+
+      const description = JSON.parse(transaction.user_point.description);
+
+      return description && description.type;
+    });
+  },
+
+  get badgeCategoryList() {
+    return this.model.transactions.filter((transaction) => {
+      if (!transaction.user_point) return false;
+
+      const description = JSON.parse(transaction.user_point.description);
+
+      return description && description.name;
+    });
+  },
+
+  get redeemCategoryList() {
+    return this.model.transactions.filter(
+      (transaction) => transaction.user_reward
+    );
+  },
+
+  get uncategorizedList() {
+    return this.model.transactions.filter(
+      (transaction) =>
+        transaction.user_point && !transaction.user_point.description
+    );
+  },
 });

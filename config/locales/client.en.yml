@@ -66,7 +66,7 @@ en:
         topic_create: "Created a topic: %{title}."
         post_create: "Created a post on: %{title} topic."
         like_received: "Received a like on post id: %{post_id}."
-        badge: "Earned a reward badge: %{name}."
+        badge: "Earned a reward badge: %{title}."
         earned_points: "Earned reward points."
       user:
         title: "User: "
