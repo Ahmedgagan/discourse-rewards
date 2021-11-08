@@ -26,3 +26,12 @@ discourse_rewards:
   discourse_rewards_show_points_on_site_header:
     client: true
     default: true
+  discourse_rewards_daily_top_topics_to_grant_points:
+    client: true
+    default: 0
+  discourse_rewards_daily_top_replies_to_grant_points:
+    client: true
+    default: 0
+  discourse_rewards_daily_top_like_received_to_grant_points:
+    client: true
+    default: 0

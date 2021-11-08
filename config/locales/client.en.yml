@@ -54,6 +54,8 @@ en:
           one: "Total Earned Point"
           other: "Total Earned Points"
     discourse_rewards:
+      category:
+        rewards_points_for_topic_create: "Reward points for creating a topic in this category"
       my_points_center:
         th:
           time: "Time"

@@ -1,0 +1,13 @@
+<h3>{{i18n "discourse_rewards.title"}}</h3>
+<section class="field default-view-field">
+  <div class="rewards-points-for-topic-create">
+    <label class="checkbox-label">
+      {{i18n "discourse_rewards.category.rewards_points_for_topic_create"}}
+    </label>
+    {{input
+      type="number"
+      value=category.rewards_points_for_topic_create
+      change=(action "onChangeSetting")
+    }}
+  </div>
+</section>

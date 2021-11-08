@@ -108,6 +108,8 @@ after_initialize do
     scope.user.rewards
   end
 
+  Site.preloaded_category_custom_fields << "rewards_points_for_topic_create"
+
   on(:notification_created) do |notification|
     data = JSON.parse(notification.data).with_indifferent_access
 
@@ -142,44 +144,61 @@ after_initialize do
 
   on(:post_created) do |post|
     if post.user_id > 0 && post.post_number > 1
-      points = SiteSetting.discourse_rewards_points_for_post_create.to_i
+      top_posts = Post.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
+        .where("post_number > 1")
+        .order(:created_at)
+        .limit(SiteSetting.discourse_rewards_daily_top_replies_to_grant_points.to_i)
+        .pluck(:id) if SiteSetting.discourse_rewards_daily_top_replies_to_grant_points.to_i > 0
 
-      user = User.find(post.user_id)
+      if !top_posts || top_posts.include?(post.id)
+        points = SiteSetting.discourse_rewards_points_for_post_create.to_i
 
-      description = {
-        post_id: post.id,
-        post_number: post.post_number,
-        topic_title: post.topic.title
-      }
-      DiscourseRewards::UserPoint.create(user_id: post.user_id, reward_points: points, description: description.to_json) if points > 0
+        user = User.find(post.user_id)
 
-      user_message = {
-        available_points: post.user.available_points,
-        points: post.user.total_earned_points
-      }
+        description = {
+          post_id: post.id,
+          post_number: post.post_number,
+          topic_title: post.topic.title
+        }
+        DiscourseRewards::UserPoint.create(user_id: post.user_id, reward_points: points, description: description.to_json) if points > 0
 
-      MessageBus.publish("/u/#{post.user_id}/rewards", user_message)
+        user_message = {
+          available_points: post.user.available_points,
+          points: post.user.total_earned_points
+        }
+
+        MessageBus.publish("/u/#{post.user_id}/rewards", user_message)
+      end
     end
   end
 
   on(:topic_created) do |topic|
     if topic.user_id > 0
-      points = SiteSetting.discourse_rewards_points_for_topic_create.to_i
+      top_topics = Topic.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
+        .order(:created_at)
+        .limit(SiteSetting.discourse_rewards_daily_top_topics_to_grant_points.to_i)
+        .pluck(:id) if SiteSetting.discourse_rewards_daily_top_topics_to_grant_points.to_i > 0
 
-      user = User.find(topic.user_id)
+      if !top_topics || top_topics.include?(topic.id)
+        points = topic.category.custom_fields['rewards_points_for_topic_create'].to_i
 
-      description = {
-        topic_id: topic.id,
-        topic_title: topic.title
-      }
+        points = SiteSetting.discourse_rewards_points_for_topic_create.to_i if points <= 0
 
-      DiscourseRewards::UserPoint.create(user_id: topic.user_id, reward_points: points, description: description.to_json) if points > 0
+        user = User.find(topic.user_id)
 
-      user_message = {
-        available_points: topic.user.available_points
-      }
+        description = {
+          topic_id: topic.id,
+          topic_title: topic.title
+        }
 
-      MessageBus.publish("/u/#{topic.user_id}/rewards", user_message)
+        DiscourseRewards::UserPoint.create(user_id: topic.user_id, reward_points: points, description: description.to_json) if points > 0
+
+        user_message = {
+          available_points: topic.user.available_points
+        }
+
+        MessageBus.publish("/u/#{topic.user_id}/rewards", user_message)
+      end
     end
   end
 
@@ -189,18 +208,26 @@ after_initialize do
     user = post.user
 
     if user.id > 0
-      description = {
-        type: 'like',
-        post_id: post.id,
-        topic_title: post.topic.title
-      }
-      DiscourseRewards::UserPoint.create(user_id: user.id, reward_points: points, description: description.to_json) if points > 0
+      top_likes = PostAction.where(post_action_type_id: PostActionType.types[:like])
+        .where(post_id: Post.where(user_id: user.id), created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
+        .order(:created_at)
+        .limit(SiteSetting.discourse_rewards_daily_top_like_received_to_grant_points.to_i)
+        .pluck(:id) if SiteSetting.discourse_rewards_daily_top_like_received_to_grant_points.to_i > 0
 
-      user_message = {
-        available_points: user.available_points
-      }
+      if !top_likes || top_likes.include?(like.id)
+        description = {
+          type: 'like',
+          post_id: post.id,
+          topic_title: post.topic.title
+        }
+        DiscourseRewards::UserPoint.create(user_id: user.id, reward_points: points, description: description.to_json) if points > 0
 
-      MessageBus.publish("/u/#{user.id}/rewards", user_message)
+        user_message = {
+          available_points: user.available_points
+        }
+
+        MessageBus.publish("/u/#{user.id}/rewards", user_message)
+      end
     end
   end
 end
