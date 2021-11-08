@@ -22,7 +22,7 @@ export default Controller.extend({
   },
 
   replaceReward(data) {
-    if (data.create || data.destroy || data.update) {
+    if (this.model && (data.create || data.destroy || data.update)) {
       return;
     }
 

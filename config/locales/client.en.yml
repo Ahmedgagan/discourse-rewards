@@ -84,5 +84,12 @@ en:
       title: "Rewards"
       user_rewards:
         title: "User Rewards"
+        cancel_reward:
+          title: "Cancel Reward"
+          reason: "Reason"
+          reason_instructions: "Reason you want to cancel the reward"
+          reason_validation:
+            required: "You need to enter reason of cancellation to cancel this reward."
+            ok: "Reason is valid"
       reward:
         modal_title: "Reward Details"

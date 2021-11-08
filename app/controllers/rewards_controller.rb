@@ -162,10 +162,12 @@ module DiscourseRewards
 
     def cancel_user_reward
       params.require(:id)
+      params.require(:cancel_reason)
 
       user_reward = DiscourseRewards::UserReward.find(params[:id])
       reward = user_reward.reward
 
+      user_reward.update!(cancel_reason: params[:cancel_reason])
       user_reward.destroy!
 
       reward.update!(quantity: reward.quantity + 1)
@@ -194,7 +196,7 @@ module DiscourseRewards
       PostCreator.new(
         current_user,
         title: 'Unable to grant the reward',
-        raw: "We are sorry to announce that #{user_reward.reward.title} Award has not been granted to you. Please try to redeem another award @#{user_reward.user.username}",
+        raw: "We are sorry to announce that #{user_reward.reward.title} Award has not been granted to you because #{user_reward.cancel_reason}. Please try to redeem another award @#{user_reward.user.username}",
         category: SiteSetting.discourse_rewards_grant_topic_category,
         skip_validations: true
       ).create!

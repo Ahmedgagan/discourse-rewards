@@ -17,12 +17,13 @@ UserReward.reopenClass({
     });
   },
 
-  cancelReward(user_reward) {
+  cancelReward(user_reward, reason) {
     if (!user_reward.id) {
       return Promise.resolve();
     }
 
     return ajax(`/user-rewards/${user_reward.id}`, {
+      data: { cancel_reason: reason },
       type: "delete",
     });
   },

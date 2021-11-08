@@ -63,7 +63,7 @@ export default Controller.extend({
   },
 
   @action
-  cancelReward(user_reward) {
+  cancelReward(user_reward, reason) {
     if (!user_reward || !user_reward.id) {
       return;
     }
@@ -74,7 +74,7 @@ export default Controller.extend({
       I18n.t("yes_value"),
       (result) => {
         if (result) {
-          return UserReward.cancelReward(user_reward)
+          return UserReward.cancelReward(user_reward, reason)
             .then(() => {
               this.model.userRewards.removeObject(user_reward);
               this.send("closeModal");

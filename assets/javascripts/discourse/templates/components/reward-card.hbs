@@ -5,7 +5,12 @@
     <div class="card">
       <img src={{reward.upload_url}} alt={{i18n "admin.rewards.image"}} class="reward-image">
       <div class="contents">
-        <p class="title">{{reward.title}}</p>
+        <div class="title-contents">
+          <p class="title">{{reward.title}}</p>
+          {{#if user_reward}}
+            {{format-date user_reward.created_at format="tiny"}}
+          {{/if}}
+        </div>
         {{#if username}}
           <p class="username">{{i18n "discourse_rewards.user.title"}} <a class="mention" href={{path}}>@{{username}}</a></p>
         {{/if}}

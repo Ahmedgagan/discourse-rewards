@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <div>
+    <div class="input-group">
       <label for="quantity">{{i18n "admin.rewards.quantity"}}</label>
       {{input type="number"
         id="reward-quantity"
@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div>
+    <div class="input-group">
       <label for="image">{{i18n "admin.rewards.image"}}</label>
       {{image-uploader
         imageUrl=reward.upload_url
@@ -48,7 +48,7 @@
       </div>
     </div>
 
-    <div>
+    <div class="input-group">
       <label for="title">{{i18n "admin.rewards.title"}}</label>
       {{input type="text"
         name="title"
@@ -63,7 +63,7 @@
       </div>
     </div>
 
-    <div>
+    <div class="input-group">
       <label for="description">{{i18n "admin.rewards.description"}}</label>
       {{textarea name="description" value=reward.description class="description"}}
       <div class="control-instructions">

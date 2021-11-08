@@ -1,0 +1,19 @@
+{{#d-modal-body 
+  title="discourse_rewards.user_rewards.cancel_reward.title"
+  class="discourse-rewards-modal"}}
+  <div class="field">
+    <label for="reason">{{i18n "discourse_rewards.user_rewards.cancel_reward.reason"}}</label>
+    {{textarea name="reason" value=cancel_reason class="reason" id="reason"}}
+    {{input-tip validation=reasonValidation id="cancel-reason-validation"}}
+    <div class="control-instructions">
+      <p class="help">{{i18n "discourse_rewards.user_rewards.cancel_reward.reason_instructions"}}</p>
+    </div>
+  </div>
+
+  {{d-button
+      class="btn-danger button"
+      action=(action "cancelReward")
+      type="submit"
+      disabled=saving
+      label="admin.rewards.cancel_grant"}}
+{{/d-modal-body}}

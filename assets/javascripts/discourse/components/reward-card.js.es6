@@ -50,7 +50,12 @@ export default Component.extend({
   },
 
   @action
-  cancelUserReward(user_reward) {
-    this.cancelReward(user_reward);
+  cancelUserReward(user_reward, reason) {
+    showModal("cancel-reward", {
+      model: {
+        cancelReward: this.cancelReward,
+        user_reward: user_reward,
+      },
+    });
   },
 });
