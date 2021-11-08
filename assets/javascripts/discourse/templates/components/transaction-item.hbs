@@ -1,3 +1,5 @@
 <td class="transaction-date">{{format-date transaction.created_at leaveAgo="true"}}</td>
 <td class="transaction-details {{if transaction.user_reward "redeemed"}}">{{details}}</td>
-<td class="transaction-points {{if transaction.user_reward "redeemed"}}">{{transaction.reward_points}}</td>
+<td class="transaction-points {{if transaction.user_reward "redeemed"}}">
+  {{if transaction.user_reward '-' '+'}}{{transaction.reward_points}}
+</td>
