@@ -129,6 +129,7 @@ after_initialize do
       end
 
       description = {
+        type: 'badge',
         badge_id: badge.id,
         name: badge.name
       }
@@ -156,10 +157,14 @@ after_initialize do
         user = User.find(post.user_id)
 
         description = {
+          type: 'post',
           post_id: post.id,
           post_number: post.post_number,
+          topic_slug: post.topic.slug,
+          topic_id: post.topic.id,
           topic_title: post.topic.title
         }
+
         DiscourseRewards::UserPoint.create(user_id: post.user_id, reward_points: points, description: description.to_json) if points > 0
 
         user_message = {
@@ -187,6 +192,9 @@ after_initialize do
         user = User.find(topic.user_id)
 
         description = {
+          type: 'topic',
+          post_number: 1,
+          topic_slug: topic.slug,
           topic_id: topic.id,
           topic_title: topic.title
         }
@@ -218,8 +226,12 @@ after_initialize do
         description = {
           type: 'like',
           post_id: post.id,
+          post_number: post.post_number,
+          topic_id: post.topic.id,
+          topic_slug: post.topic.slug,
           topic_title: post.topic.title
         }
+
         DiscourseRewards::UserPoint.create(user_id: user.id, reward_points: points, description: description.to_json) if points > 0
 
         user_message = {

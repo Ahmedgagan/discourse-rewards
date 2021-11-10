@@ -21,8 +21,7 @@ export default Controller.extend({
 
       return (
         description &&
-        !description.type &&
-        (description.post_id || description.topic_id)
+        (description.type === "post" || description.type === "topic")
       );
     });
   },
@@ -33,7 +32,7 @@ export default Controller.extend({
 
       const description = JSON.parse(transaction.user_point.description);
 
-      return description && description.type;
+      return description && description.type === "like";
     });
   },
 

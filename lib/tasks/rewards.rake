@@ -20,6 +20,9 @@ task "rewards:points" => [:environment] do |_, args|
 
     if post.post_number == 1
       description = {
+        type: 'topic',
+        post_number: 1,
+        topic_slug: post.topic.slug,
         topic_id: post.topic.id,
         topic_title: post.topic.title
       }
@@ -27,8 +30,11 @@ task "rewards:points" => [:environment] do |_, args|
       points = SiteSetting.discourse_rewards_points_for_topic_create.to_i
     else
       description = {
+        type: 'post',
         post_id: post.id,
         post_number: post.post_number,
+        topic_slug: post.topic.slug,
+        topic_id: post.topic.id,
         topic_title: post.topic.title
       }
 
@@ -44,6 +50,9 @@ task "rewards:points" => [:environment] do |_, args|
     description = {
       type: 'like',
       post_id: like.post.id,
+      post_number: like.post.post_number,
+      topic_id: like.post.topic.id,
+      topic_slug: like.post.topic.slug,
       topic_title: like.post.topic.title
     }
 

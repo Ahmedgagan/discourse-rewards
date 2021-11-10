@@ -342,7 +342,7 @@
       width: 10%;
     }
 
-    .transaction-details,
+    .transaction-details .link,
     .transaction-points {
       &:not(.header) {
         color: var(--success);
