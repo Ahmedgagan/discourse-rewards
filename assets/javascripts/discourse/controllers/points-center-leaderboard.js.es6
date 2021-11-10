@@ -2,6 +2,7 @@ import { action, computed } from "@ember/object";
 import Controller from "@ember/controller";
 import { inject as service } from "@ember/service";
 import { ajax } from "discourse/lib/ajax";
+import I18n from "I18n";
 
 const top_10 = [
   "it's great.",
@@ -27,12 +28,12 @@ export default Controller.extend({
 
   get rankString() {
     if (this.myRank <= 10) {
-      return top_10[Math.floor(Math.random() * top_10.length)];
+      return I18n.t(`discourse_rewards.leaderboard.praise_user.top_10.praise_${Math.floor(Math.random() * 3) + 1}`);
     } else if (this.myRank > 10 && this.myRank <= 100) {
-      return top_100[Math.floor(Math.random() * top_100.length)];
+      return I18n.t(`discourse_rewards.leaderboard.praise_user.top_100.praise_${Math.floor(Math.random() * 3) + 1}`);
     }
 
-    return above_100[Math.floor(Math.random() * above_100.length)];
+    return I18n.t(`discourse_rewards.leaderboard.praise_user.above_100.praise_${Math.floor(Math.random() * 1) + 1}`);
   },
 
   findUsers() {

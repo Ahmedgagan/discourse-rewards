@@ -17,6 +17,7 @@ en:
       description:
         instructions: "Description of this reward."
       quantity:
+        left: "Left"
         validation:
           required: "Please enter quantity."
           less_than_1: "Please enter quantity greater than 0."
@@ -79,8 +80,20 @@ en:
         one: "point"
         other: "Points"
       leaderboard:
+        praise: "Your ranking is %{rank}, %{postfix}"
         nav: "Leaderboard"
         title: "Leaderboard"
+        praise_user:
+          top_10:
+            praise_1: "it's great."
+            praise_2: "the Internet of Things."
+            praise_3: "please accept my knees."
+          top_100:
+            praise_1: "surpassing most users."
+            praise_2: "very good."
+            praise_3: "please keep it up."
+          above_100:
+            praise_1: "please keep on going."
       edit_reward:
         modal_title: "Edit Reward"
       title: "Rewards"
@@ -95,3 +108,10 @@ en:
             ok: "Reason is valid"
       reward:
         modal_title: "Reward Details"
+      transaction:
+        categories:
+          creation: "Topics/Posts created"
+          like: "Like Received"
+          badge: "Reward Badges earned"
+          redeem: "Rewards Earned"
+          uncategorized: "Uncategorized Transactions"

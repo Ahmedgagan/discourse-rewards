@@ -17,7 +17,7 @@
       {{#if creationCategoryList.length}}
         <div class="category create-category">
           <fieldset class="heading">
-            <legend class="header-text">Topics/Posts created</legend>
+            <legend class="header-text">{{i18n "discourse_rewards.transaction.categories.creation"}}</legend>
             <table class="transactions">
               {{#each creationCategoryList as |transaction index|}}
                 {{transaction-item transaction=transaction}}
@@ -30,7 +30,7 @@
       {{#if likeCategoryList.length}}
         <div class="category like-category">
           <fieldset class="heading">
-            <legend class="header-text">Like Received</legend>
+            <legend class="header-text">{{i18n "discourse_rewards.transaction.categories.like"}}</legend>
             <table class="transactions">
               {{#each likeCategoryList as |transaction index|}}
                 {{transaction-item transaction=transaction}}
@@ -43,7 +43,7 @@
       {{#if badgeCategoryList.length}}
         <div class="category badge-category">
           <fieldset class="heading">
-            <legend class="header-text">Reward Badges earned</legend>
+            <legend class="header-text">{{i18n "discourse_rewards.transaction.categories.badge"}}</legend>
             <table class="transactions">
               {{#each badgeCategoryList as |transaction index|}}
                 {{transaction-item transaction=transaction}}
@@ -56,7 +56,7 @@
       {{#if redeemCategoryList.length}}
         <div class="category redeem-category">
           <fieldset class="heading">
-            <legend class="header-text">Rewards Earned</legend>
+            <legend class="header-text">{{i18n "discourse_rewards.transaction.categories.redeem"}}</legend>
             <table class="transactions">
               {{#each redeemCategoryList as |transaction index|}}
                 {{transaction-item transaction=transaction}}
@@ -69,7 +69,7 @@
       {{#if uncategorizedList.length}}
         <div class="category uncategorized">
           <fieldset class="heading">
-            <legend class="header-text">Uncategorized Transactions</legend>
+            <legend class="header-text">{{i18n "discourse_rewards.transaction.categories.uncategorized"}}</legend>
             <table class="transactions">
               {{#each uncategorizedList as |transaction index|}}
                 {{transaction-item transaction=transaction}}

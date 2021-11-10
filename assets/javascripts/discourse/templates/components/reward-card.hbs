@@ -15,7 +15,7 @@
           <p class="username">{{i18n "discourse_rewards.user.title"}} <a class="mention" href={{path}}>@{{username}}</a></p>
         {{/if}}
         <p class="points">{{reward.points}} <span>{{i18n "discourse_rewards.point" count=reward.points}}</span></p>
-        <p class="quantity">{{i18n "discourse_rewards.available_quantity"}}<span>{{reward.quantity}} Left</span></p>
+        <p class="quantity">{{i18n "discourse_rewards.available_quantity"}}<span>{{reward.quantity}} {{i18n "reward.quantity.left"}}</span></p>
         <hr>
         <p class="description">{{reward.description}}</p>
         {{#unless fullView}}

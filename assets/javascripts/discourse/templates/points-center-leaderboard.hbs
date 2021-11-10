@@ -1,6 +1,6 @@
 {{#load-more selector=".leaderboard-users-list div" action=(action "loadMore")}}
   <div class="leaderboard">
-    <p><h3>Your ranking is {{myRank}}, {{rankString}}</h3></p>
+    <p><h3>{{i18n "discourse_rewards.leaderboard.praise" rank=myRank postfix=rankString}}</h3></p>
     <div class="leaderboard-users-list">
       {{#each model.users as |user index|}}
         {{leaderboard-card user=user index=index}}
