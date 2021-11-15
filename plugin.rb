@@ -146,6 +146,7 @@ after_initialize do
   on(:post_created) do |post|
     if post.user_id > 0 && post.post_number > 1
       top_posts = Post.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
+        .where(user_id: post.user_id)
         .where("post_number > 1")
         .order(:created_at)
         .limit(SiteSetting.discourse_rewards_daily_top_replies_to_grant_points.to_i)
@@ -180,6 +181,7 @@ after_initialize do
   on(:topic_created) do |topic|
     if topic.user_id > 0
       top_topics = Topic.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
+        .where(user_id: topic.user_id)
         .order(:created_at)
         .limit(SiteSetting.discourse_rewards_daily_top_topics_to_grant_points.to_i)
         .pluck(:id) if SiteSetting.discourse_rewards_daily_top_topics_to_grant_points.to_i > 0
