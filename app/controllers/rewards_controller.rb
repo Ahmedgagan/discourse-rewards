@@ -206,7 +206,7 @@ module DiscourseRewards
       page = params[:page].to_i || 1
 
       users = User.joins("LEFT OUTER JOIN discourse_rewards_user_points p ON users.id = p.user_id")
-        .where("users.id NOT IN(select user_id from anonymous_users) AND silenced_till IS NULL AND active=true AND users.id > 0")
+        .where("users.id NOT IN(select user_id from anonymous_users) AND silenced_till IS NULL AND suspended_till IS NULL AND active=true AND users.id > 0")
         .group("users.id")
         .select("users.*, COALESCE(SUM(p.reward_points), 0) total_earned_points")
         .order("total_earned_points DESC, users.username_lower")
