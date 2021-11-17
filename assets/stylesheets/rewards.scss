@@ -284,14 +284,50 @@
   }
 }
 
-.points-count {
-  .prefix {
-    font-size: $font-up-2;
-    font-weight: bold;
+.my-points .points-center-header {
+  display: flex;
+  justify-content: space-between;
 
-    .count {
-      font-weight: normal;
-      font-size: $font-down-1;
+  .category-selector {
+    float: right;
+    display: flex;
+
+    .points-category-filter-header {
+      .filter-text {
+        margin-right: 0.5em;
+        color: var(--primary-medium);
+        cursor: pointer;
+        margin-bottom: 0;
+      }
+
+      .header-text {
+        color: var(--tertiary);
+        cursor: pointer;
+        margin-bottom: 0;
+      }
+
+      .d-icon {
+        color: var(--primary-medium);
+        margin: 0 0 0 0.25em;
+        font-size: $font-up-2;
+      }
+    }
+
+    .select-kit {
+      align-self: center;
+    }
+  }
+
+  .points-count {
+    float: left;
+    .prefix {
+      font-size: $font-up-2;
+      font-weight: bold;
+
+      .count {
+        font-weight: normal;
+        font-size: $font-down-1;
+      }
     }
   }
 }

@@ -1,9 +1,14 @@
 <div class="my-points">
-  {{#unless siteSettings.discourse_rewards_show_points_on_site_header}}
-    <div class="points-count">
-      <p class="prefix">{{i18n "discourse_rewards.my_points_center.my_points"}}<span class="count">{{currentUser.available_points}}</span></p>
+  <div class="points-center-header">
+    {{#unless siteSettings.discourse_rewards_show_points_on_site_header}}
+      <div class="points-count">
+        <p class="prefix">{{i18n "discourse_rewards.my_points_center.my_points"}}<span class="count">{{currentUser.available_points}}</span></p>
+      </div>
+    {{/unless}}
+    <div class="category-selector">
+      {{points-category-filter value=filter onChange=(action (mut filter))}}
     </div>
-  {{/unless}}
+  </div>
   {{#if model.transactions.length}}
     <div class="transactions-list">
       <table class="transactions">
@@ -14,7 +19,7 @@
         </tr>
       </table>
 
-      {{#if creationCategoryList.length}}
+      {{#if canDisplayCreationCategoryList}}
         <div class="category create-category">
           <fieldset class="heading">
             <legend class="header-text">{{i18n "discourse_rewards.transaction.categories.creation"}}</legend>
@@ -27,7 +32,7 @@
         </div>
       {{/if}}
 
-      {{#if likeCategoryList.length}}
+      {{#if canDisplayLikeCategoryList}}
         <div class="category like-category">
           <fieldset class="heading">
             <legend class="header-text">{{i18n "discourse_rewards.transaction.categories.like"}}</legend>
@@ -40,7 +45,7 @@
         </div>
       {{/if}}
 
-      {{#if badgeCategoryList.length}}
+      {{#if canDisplayBadgeCategoryList}}
         <div class="category badge-category">
           <fieldset class="heading">
             <legend class="header-text">{{i18n "discourse_rewards.transaction.categories.badge"}}</legend>
@@ -53,7 +58,7 @@
         </div>
       {{/if}}
 
-      {{#if redeemCategoryList.length}}
+      {{#if canDisplayRedeemCategoryList}}
         <div class="category redeem-category">
           <fieldset class="heading">
             <legend class="header-text">{{i18n "discourse_rewards.transaction.categories.redeem"}}</legend>
@@ -66,7 +71,7 @@
         </div>
       {{/if}}
 
-      {{#if uncategorizedList.length}}
+      {{#if canDisplayUncategorizedList}}
         <div class="category uncategorized">
           <fieldset class="heading">
             <legend class="header-text">{{i18n "discourse_rewards.transaction.categories.uncategorized"}}</legend>

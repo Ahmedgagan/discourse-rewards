@@ -110,6 +110,7 @@ en:
         modal_title: "Reward Details"
       transaction:
         categories:
+          all: "All"
           creation: "Topics/Posts created"
           like: "Like Received"
           badge: "Reward Badges earned"

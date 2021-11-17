@@ -28,12 +28,24 @@ export default Controller.extend({
 
   get rankString() {
     if (this.myRank <= 10) {
-      return I18n.t(`discourse_rewards.leaderboard.praise_user.top_10.praise_${Math.floor(Math.random() * 3) + 1}`);
+      return I18n.t(
+        `discourse_rewards.leaderboard.praise_user.top_10.praise_${
+          Math.floor(Math.random() * 3) + 1
+        }`
+      );
     } else if (this.myRank > 10 && this.myRank <= 100) {
-      return I18n.t(`discourse_rewards.leaderboard.praise_user.top_100.praise_${Math.floor(Math.random() * 3) + 1}`);
+      return I18n.t(
+        `discourse_rewards.leaderboard.praise_user.top_100.praise_${
+          Math.floor(Math.random() * 3) + 1
+        }`
+      );
     }
 
-    return I18n.t(`discourse_rewards.leaderboard.praise_user.above_100.praise_${Math.floor(Math.random() * 1) + 1}`);
+    return I18n.t(
+      `discourse_rewards.leaderboard.praise_user.above_100.praise_${
+        Math.floor(Math.random() * 1) + 1
+      }`
+    );
   },
 
   findUsers() {

@@ -1,7 +1,10 @@
 import Controller from "@ember/controller";
 import MessageBus from "message-bus-client";
+import { computed } from "@ember/object";
 
 export default Controller.extend({
+  filter: "all",
+
   init() {
     this._super(...arguments);
 
@@ -57,5 +60,50 @@ export default Controller.extend({
       (transaction) =>
         transaction.user_point && !transaction.user_point.description
     );
+  },
+
+  @computed("filter", "creationCategoryList")
+  get canDisplayCreationCategoryList() {
+    if (this.creationCategoryList.length <= 0) return false;
+    if (this.filter === "all") return true;
+    if (this.filter === "creation") return true;
+
+    return false;
+  },
+
+  @computed("filter", "likeCategoryList")
+  get canDisplayLikeCategoryList() {
+    if (this.likeCategoryList.length <= 0) return false;
+    if (this.filter === "all") return true;
+    if (this.filter === "like") return true;
+
+    return false;
+  },
+
+  @computed("filter", "badgeCategoryList")
+  get canDisplayBadgeCategoryList() {
+    if (this.badgeCategoryList.length <= 0) return false;
+    if (this.filter === "all") return true;
+    if (this.filter === "badge") return true;
+
+    return false;
+  },
+
+  @computed("filter", "redeemCategoryList")
+  get canDisplayRedeemCategoryList() {
+    if (this.redeemCategoryList.length <= 0) return false;
+    if (this.filter === "all") return true;
+    if (this.filter === "redeem") return true;
+
+    return false;
+  },
+
+  @computed("filter", "uncategorizedList")
+  get canDisplayUncategorizedList() {
+    if (this.uncategorizedList.length <= 0) return false;
+    if (this.filter === "all") return true;
+    if (this.filter === "uncategorized") return true;
+
+    return false;
   },
 });
