@@ -1,6 +1,6 @@
 import Controller from "@ember/controller";
 import MessageBus from "message-bus-client";
-import { computed } from "@ember/object";
+import discourseComputed from "discourse-common/utils/decorators";
 
 export default Controller.extend({
   filter: "all",
@@ -62,8 +62,8 @@ export default Controller.extend({
     );
   },
 
-  @computed("filter", "creationCategoryList")
-  get canDisplayCreationCategoryList() {
+  @discourseComputed("filter", "creationCategoryList")
+  canDisplayCreationCategoryList(filter, creationCategoryList) {
     if (this.creationCategoryList.length <= 0) return false;
     if (this.filter === "all") return true;
     if (this.filter === "creation") return true;
@@ -71,8 +71,8 @@ export default Controller.extend({
     return false;
   },
 
-  @computed("filter", "likeCategoryList")
-  get canDisplayLikeCategoryList() {
+  @discourseComputed("filter", "likeCategoryList")
+  canDisplayLikeCategoryList(filter, likeCategoryList) {
     if (this.likeCategoryList.length <= 0) return false;
     if (this.filter === "all") return true;
     if (this.filter === "like") return true;
@@ -80,8 +80,8 @@ export default Controller.extend({
     return false;
   },
 
-  @computed("filter", "badgeCategoryList")
-  get canDisplayBadgeCategoryList() {
+  @discourseComputed("filter", "badgeCategoryList")
+  canDisplayBadgeCategoryList(filter, badgeCategoryList) {
     if (this.badgeCategoryList.length <= 0) return false;
     if (this.filter === "all") return true;
     if (this.filter === "badge") return true;
@@ -89,8 +89,8 @@ export default Controller.extend({
     return false;
   },
 
-  @computed("filter", "redeemCategoryList")
-  get canDisplayRedeemCategoryList() {
+  @discourseComputed("filter", "redeemCategoryList")
+  canDisplayRedeemCategoryList(filter, redeemCategoryList) {
     if (this.redeemCategoryList.length <= 0) return false;
     if (this.filter === "all") return true;
     if (this.filter === "redeem") return true;
@@ -98,8 +98,8 @@ export default Controller.extend({
     return false;
   },
 
-  @computed("filter", "uncategorizedList")
-  get canDisplayUncategorizedList() {
+  @discourseComputed("filter", "uncategorizedList")
+  canDisplayUncategorizedList(filter, uncategorizedList) {
     if (this.uncategorizedList.length <= 0) return false;
     if (this.filter === "all") return true;
     if (this.filter === "uncategorized") return true;
