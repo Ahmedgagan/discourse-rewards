@@ -8,7 +8,7 @@ function initializeDiscourseRewards(api) {
   const currentUser = api.getCurrentUser();
   const siteSettings = api.container.lookup("site-settings:main");
 
-  if (currentUser) {
+  if (currentUser && !currentUser.is_anonymous) {
     if (siteSettings.discourse_rewards_show_points_on_site_header) {
       api.createWidget("discourse-rewards-available-points", {
         tagName: "li.discourse-rewards-available-points.icon",

@@ -11,7 +11,7 @@ DiscourseRewards::Engine.routes.draw do
   delete "user-rewards/:id" => "rewards#cancel_user_reward"
   resources :rewards
 
-  get "points-center" => "rewards#display"
-  get "points-center/leaderboard" => "rewards#display"
-  get "points-center/available-rewards" => "rewards#display"
+  get "points-center" => "rewards#display", constraints: DiscourseRewards::NonAnonymousUserConstraints.new
+  get "points-center/leaderboard" => "rewards#display", constraints: DiscourseRewards::NonAnonymousUserConstraints.new
+  get "points-center/available-rewards" => "rewards#display", constraints: DiscourseRewards::NonAnonymousUserConstraints.new
 end

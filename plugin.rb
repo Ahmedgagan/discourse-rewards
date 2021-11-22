@@ -50,6 +50,7 @@ after_initialize do
     "../app/serializers/reward_list_serializer.rb",
     "../app/serializers/user_reward_list_serializer.rb",
     "../app/serializers/transaction_serializer.rb",
+    "../lib/discourse-rewards/non_anonymous_user_constraint.rb",
     "../lib/discourse-rewards/user_extension.rb",
     "../app/models/user_reward.rb",
     "../app/controllers/rewards_controller.rb",
