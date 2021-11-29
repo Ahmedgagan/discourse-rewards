@@ -5,11 +5,13 @@
         <p class="prefix">{{i18n "discourse_rewards.my_points_center.my_points"}}<span class="count">{{currentUser.available_points}}</span></p>
       </div>
     {{/unless}}
-    <div class="category-selector">
-      {{points-category-filter value=filter onChange=(action (mut filter))}}
-    </div>
+    {{#if model.transactions.length}}
+      <div class="category-selector">
+        {{points-category-filter value=filter onChange=(action (mut filter))}}
+      </div>
+    {{/if}}
   </div>
-  {{#if model.transactions.length}}
+  {{#if canDisplayListHeader}}
     <div class="transactions-list">
       <table class="transactions">
         <tr class="transaction-header">
@@ -83,6 +85,13 @@
           </fieldset>
         </div>
       {{/if}}
+    </div>
+  {{else}}
+    <div class="empty-state">
+      <span class="empty-state-title">{{i18n "discourse_rewards.transaction.empty_state_title"}}</span>
+      <div class="empty-state-body">
+        <p>{{i18n "discourse_rewards.transaction.empty_state_body"}}</p>
+      </div>
     </div>
   {{/if}}
   {{conditional-loading-spinner condition=loading}}

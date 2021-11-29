@@ -1,7 +1,13 @@
 {{#load-more selector=".discourse-rewards-rewards-list div" action=(action "loadMore")}}
   <div class="rewards">
     <div class="rewards-header">
-      <h3 class="rewards-heading">{{i18n "discourse_rewards.title"}}</h3>
+      {{#if model.rewards.length}}
+        <h3 class="rewards-heading">{{i18n "discourse_rewards.title"}}</h3>
+      {{else}}
+        <div class="empty-state">
+          <span class="empty-state-title">{{i18n "admin.rewards.empty_state_title"}}</span>
+        </div>
+      {{/if}}
       <div class="create-new-reward">
         {{d-button
           action=(action "addReward")

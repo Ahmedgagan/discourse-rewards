@@ -49,6 +49,9 @@ en:
         redeem: "Redeem"
         grant_reward: "Grant Reward"
         cancel_grant: "Cancel"
+        empty_state_title: "There are no rewards uploaded yet."
+        rewards_grant:
+          empty_state_title: "There are no redeemed rewards."
     user:
       summary:
         total_earned_points:
@@ -75,6 +78,8 @@ en:
         title: "User: "
       available_rewards:
         nav: "Available Rewards"
+        empty_state_title: "There are no available rewards."
+        empty_state_body: "All Rewards will be displayed once admin uploads any. Here, you can redeem any reward from the availabe ones using your earned points."
       available_quantity: "Available quantity: "
       point:
         one: "point"
@@ -109,6 +114,8 @@ en:
       reward:
         modal_title: "Reward Details"
       transaction:
+        empty_state_title: "There are no transactions."
+        empty_state_body: "Seems like you dont have any transaction in the selected category."
         categories:
           all: "All"
           creation: "Topics/Posts created"

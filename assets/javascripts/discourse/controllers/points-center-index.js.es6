@@ -62,6 +62,19 @@ export default Controller.extend({
     );
   },
 
+  @discourseComputed("filter")
+  canDisplayListHeader(filter) {
+    if (this.filter === "all" && this.model.transactions.length) return true;
+
+    return (
+      this.canDisplayCreationCategoryList ||
+      this.canDisplayLikeCategoryList ||
+      this.canDisplayBadgeCategoryList ||
+      this.canDisplayRedeemCategoryList ||
+      this.canDisplayUncategorizedList
+    );
+  },
+
   @discourseComputed("filter", "creationCategoryList")
   canDisplayCreationCategoryList(filter, creationCategoryList) {
     if (this.creationCategoryList.length <= 0) return false;
