@@ -11,7 +11,7 @@
       </div>
     {{/if}}
   </div>
-  {{#if canDisplayListHeader}}
+  {{#if filteredTransactions.length}}
     <div class="transactions-list">
       <table class="transactions">
         <tr class="transaction-header">
@@ -19,72 +19,10 @@
           <th class="transaction-details header">{{i18n "discourse_rewards.my_points_center.th.details"}}</th>
           <th class="transaction-points header">{{i18n "discourse_rewards.my_points_center.th.points"}}</th>
         </tr>
+        {{#each filteredTransactions as |transaction index|}}
+          {{transaction-item transaction=transaction}}
+        {{/each}}
       </table>
-
-      {{#if canDisplayCreationCategoryList}}
-        <div class="category create-category">
-          <fieldset class="heading">
-            <legend class="header-text">{{i18n "discourse_rewards.transaction.categories.creation"}}</legend>
-            <table class="transactions">
-              {{#each creationCategoryList as |transaction index|}}
-                {{transaction-item transaction=transaction}}
-              {{/each}}
-            </table>
-          </fieldset>
-        </div>
-      {{/if}}
-
-      {{#if canDisplayLikeCategoryList}}
-        <div class="category like-category">
-          <fieldset class="heading">
-            <legend class="header-text">{{i18n "discourse_rewards.transaction.categories.like"}}</legend>
-            <table class="transactions">
-              {{#each likeCategoryList as |transaction index|}}
-                {{transaction-item transaction=transaction}}
-              {{/each}}
-            </table>
-          </fieldset>
-        </div>
-      {{/if}}
-
-      {{#if canDisplayBadgeCategoryList}}
-        <div class="category badge-category">
-          <fieldset class="heading">
-            <legend class="header-text">{{i18n "discourse_rewards.transaction.categories.badge"}}</legend>
-            <table class="transactions">
-              {{#each badgeCategoryList as |transaction index|}}
-                {{transaction-item transaction=transaction}}
-              {{/each}}
-            </table>
-          </fieldset>
-        </div>
-      {{/if}}
-
-      {{#if canDisplayRedeemCategoryList}}
-        <div class="category redeem-category">
-          <fieldset class="heading">
-            <legend class="header-text">{{i18n "discourse_rewards.transaction.categories.redeem"}}</legend>
-            <table class="transactions">
-              {{#each redeemCategoryList as |transaction index|}}
-                {{transaction-item transaction=transaction}}
-              {{/each}}
-            </table>
-          </fieldset>
-        </div>
-      {{/if}}
-
-      {{#if canDisplayUncategorizedList}}
-        <div class="category uncategorized">
-          <fieldset class="heading">
-            <legend class="header-text">{{i18n "discourse_rewards.transaction.categories.uncategorized"}}</legend>
-            <table class="transactions">
-              {{#each uncategorizedList as |transaction index|}}
-                {{transaction-item transaction=transaction}}
-              {{/each}}
-            </table>
-          </fieldset>
-        </div>
-      {{/if}}
     </div>
   {{else}}
     <div class="empty-state">

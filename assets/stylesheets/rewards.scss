@@ -333,25 +333,7 @@
 }
 
 .transactions-list {
-  .category {
-    width: 100% !important;
-
-    .heading {
-      border: 1px solid var(--primary-low);
-
-      .header-text {
-        padding: 0 1em 0 1em;
-        color: var(--primary-medium);
-      }
-    }
-
-    margin-bottom: 1.5em;
-  }
   .transactions {
-    tr {
-      border: none;
-    }
-
     .transaction-item {
       border-bottom: 1px solid var(--primary-low);
     }

@@ -3,6 +3,7 @@ import MessageBus from "message-bus-client";
 import discourseComputed from "discourse-common/utils/decorators";
 
 export default Controller.extend({
+  queryParams: ["filter"],
   filter: "all",
 
   init() {
@@ -63,60 +64,13 @@ export default Controller.extend({
   },
 
   @discourseComputed("filter")
-  canDisplayListHeader(filter) {
-    if (this.filter === "all" && this.model.transactions.length) return true;
+  filteredTransactions(filter) {
+    if (filter === "creation") return this.creationCategoryList;
+    if (filter === "like") return this.likeCategoryList;
+    if (filter === "badge") return this.badgeCategoryList;
+    if (filter === "redeem") return this.redeemCategoryList;
+    if (filter === "uncategorized") return this.uncategorizedList;
 
-    return (
-      this.canDisplayCreationCategoryList ||
-      this.canDisplayLikeCategoryList ||
-      this.canDisplayBadgeCategoryList ||
-      this.canDisplayRedeemCategoryList ||
-      this.canDisplayUncategorizedList
-    );
-  },
-
-  @discourseComputed("filter", "creationCategoryList")
-  canDisplayCreationCategoryList(filter, creationCategoryList) {
-    if (this.creationCategoryList.length <= 0) return false;
-    if (this.filter === "all") return true;
-    if (this.filter === "creation") return true;
-
-    return false;
-  },
-
-  @discourseComputed("filter", "likeCategoryList")
-  canDisplayLikeCategoryList(filter, likeCategoryList) {
-    if (this.likeCategoryList.length <= 0) return false;
-    if (this.filter === "all") return true;
-    if (this.filter === "like") return true;
-
-    return false;
-  },
-
-  @discourseComputed("filter", "badgeCategoryList")
-  canDisplayBadgeCategoryList(filter, badgeCategoryList) {
-    if (this.badgeCategoryList.length <= 0) return false;
-    if (this.filter === "all") return true;
-    if (this.filter === "badge") return true;
-
-    return false;
-  },
-
-  @discourseComputed("filter", "redeemCategoryList")
-  canDisplayRedeemCategoryList(filter, redeemCategoryList) {
-    if (this.redeemCategoryList.length <= 0) return false;
-    if (this.filter === "all") return true;
-    if (this.filter === "redeem") return true;
-
-    return false;
-  },
-
-  @discourseComputed("filter", "uncategorizedList")
-  canDisplayUncategorizedList(filter, uncategorizedList) {
-    if (this.uncategorizedList.length <= 0) return false;
-    if (this.filter === "all") return true;
-    if (this.filter === "uncategorized") return true;
-
-    return false;
+    return this.model.transactions;
   },
 });
