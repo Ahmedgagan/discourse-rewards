@@ -13,25 +13,7 @@ module DiscourseRewards
       raise Discourse::InvalidParameters.new(:quantity) if params[:quantity].to_i < 0
       raise Discourse::InvalidParameters.new(:title) unless params.has_key?(:title)
 
-      reward = DiscourseRewards::Reward.create(
-        created_by_id: current_user.id,
-        points: params[:points].to_i,
-        quantity: params[:quantity].to_i,
-        title: params[:title],
-        description: params[:description],
-        upload_id: params[:upload_id],
-        upload_url: params[:upload_url]
-      )
-
-      message = {
-        reward_id: reward.id,
-        reward: reward.attributes,
-        create: true
-      }
-
-      MessageBus.publish("/u/rewards", message)
-
-      PostUpload.create(post_id: Post.first.id, upload_id: params[:upload_id]) unless PostUpload.find_by(upload_id: params[:upload_id])
+      reward = DiscourseRewards::Rewards.new(current_user).add_reward(params)
 
       render_serialized(reward, RewardSerializer)
     end
@@ -59,17 +41,7 @@ module DiscourseRewards
 
       reward = DiscourseRewards::Reward.find(params[:id])
 
-      reward.update!(params.permit(:points, :quantity, :title, :description, :upload_id, :upload_url))
-
-      message = {
-        reward_id: reward.id,
-        reward: reward.attributes,
-        update: true
-      }
-
-      MessageBus.publish("/u/rewards", message)
-
-      PostUpload.create(post_id: Post.first.id, upload_id: params[:upload_id]) if params[:upload_id] && !PostUpload.find_by(upload_id: params[:upload_id])
+      reward = DiscourseRewards::Rewards.new(current_user, reward).update_reward(params.permit(:points, :quantity, :title, :description, :upload_id, :upload_url))
 
       render_serialized(reward, RewardSerializer)
     end
@@ -79,13 +51,7 @@ module DiscourseRewards
 
       reward = DiscourseRewards::Reward.find(params[:id]).destroy
 
-      message = {
-        reward_id: reward.id,
-        reward: reward.attributes,
-        destroy: true
-      }
-
-      MessageBus.publish("/u/rewards", message)
+      reward = DiscourseRewards::Rewards.new(current_user, reward).destroy_reward
 
       render_serialized(reward, RewardSerializer)
     end
@@ -98,27 +64,7 @@ module DiscourseRewards
       raise Discourse::InvalidAccess if current_user.user_points.sum(:reward_points) < reward.points
       raise Discourse::InvalidAccess if reward.quantity <= 0
 
-      user_reward = DiscourseRewards::UserReward.create(
-        user_id: current_user.id,
-        reward_id: reward.id,
-        status: 'applied',
-        points: reward.points
-      )
-
-      reward.update!(quantity: reward.quantity - 1)
-
-      message = {
-        reward_id: reward.id,
-        reward: reward.attributes,
-        quantity: true
-      }
-
-      current_user_message = {
-        available_points: current_user.available_points
-      }
-
-      MessageBus.publish("/u/rewards", message)
-      MessageBus.publish("/u/#{current_user.id}/rewards", current_user_message)
+      reward = DiscourseRewards::Rewards.new(current_user, reward).grant_user_reward
 
       render_serialized(reward, RewardSerializer)
     end
@@ -140,22 +86,7 @@ module DiscourseRewards
 
       raise Discourse::InvalidParameters.new(:id) if !user_reward
 
-      user_reward.update!(status: 'granted')
-
-      message = {
-        user_reward_id: user_reward.id,
-        user_reward: user_reward.attributes
-      }
-
-      PostCreator.new(
-        current_user,
-        title: 'Reward Grant',
-        raw: "We are glad to announce that @#{user_reward.user.username} has won #{user_reward.reward.title} Award",
-        category: SiteSetting.discourse_rewards_grant_topic_category,
-        skip_validations: true
-      ).create!
-
-      MessageBus.publish("/u/user-rewards", message)
+      user_reward = DiscourseRewards::Rewards.new(current_user, user_reward.reward, user_reward).approve_user_reward
 
       render_serialized(user_reward, UserRewardSerializer)
     end
@@ -165,41 +96,10 @@ module DiscourseRewards
       params.require(:cancel_reason)
 
       user_reward = DiscourseRewards::UserReward.find(params[:id])
-      reward = user_reward.reward
 
-      user_reward.update!(cancel_reason: params[:cancel_reason])
-      user_reward.destroy!
-
-      reward.update!(quantity: reward.quantity + 1)
-
-      user_reward_message = {
-        user_reward_id: user_reward.id,
-        user_reward: user_reward.attributes
-      }
-
-      reward_message = {
-        reward_id: reward.id,
-        reward: reward.attributes,
-        quantity: true
-      }
-
-      user_message = {
-        available_points: user_reward.user.available_points
-      }
-
-      MessageBus.publish("/u/rewards", reward_message)
-      MessageBus.publish("/u/user-rewards", user_reward_message)
-      MessageBus.publish("/u/#{user_reward.user.id}/rewards", user_message)
+      user_reward = DiscourseRewards::Rewards.new(current_user, user_reward.reward, user_reward).refuse_user_reward(params)
 
       render_serialized(user_reward, UserRewardSerializer)
-
-      PostCreator.new(
-        current_user,
-        title: 'Unable to grant the reward',
-        raw: "We are sorry to announce that #{user_reward.reward.title} Award has not been granted to you because #{user_reward.cancel_reason}. Please try to redeem another award @#{user_reward.user.username}",
-        category: SiteSetting.discourse_rewards_grant_topic_category,
-        skip_validations: true
-      ).create!
     end
 
     def leaderboard
