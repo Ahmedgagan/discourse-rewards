@@ -74,6 +74,7 @@ en:
         like_received: "Received a like on post id: %{post_id}."
         badge: "Earned a reward badge: %{title}."
         earned_points: "Earned reward points."
+        daily_login: "Visited on %{date}."
       user:
         title: "User: "
       available_rewards:
@@ -119,6 +120,7 @@ en:
         categories:
           all: "All"
           creation: "Topics/Posts created"
+          daily_login: "Daily Login"
           like: "Like Received"
           badge: "Reward Badges earned"
           redeem: "Rewards Earned"

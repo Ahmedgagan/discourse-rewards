@@ -12,16 +12,20 @@ export default DropdownSelectBoxComponent.extend({
         label: I18n.t("user.user_notifications.filters.all"),
       },
       {
+        id: "badge",
+        label: I18n.t("discourse_rewards.transaction.categories.badge"),
+      },
+      {
         id: "creation",
         label: I18n.t("discourse_rewards.transaction.categories.creation"),
       },
       {
-        id: "like",
-        label: I18n.t("discourse_rewards.transaction.categories.like"),
+        id: "daily_login",
+        label: I18n.t("discourse_rewards.transaction.categories.daily_login"),
       },
       {
-        id: "badge",
-        label: I18n.t("discourse_rewards.transaction.categories.badge"),
+        id: "like",
+        label: I18n.t("discourse_rewards.transaction.categories.like"),
       },
       {
         id: "redeem",

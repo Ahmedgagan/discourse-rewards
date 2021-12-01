@@ -73,6 +73,21 @@ after_initialize do
     User.class_eval { prepend DiscourseRewards::UserExtension }
   end
 
+  module UserClassMethods
+    def create_visit_record!(date, opts = {})
+      super
+      points = SiteSetting.discourse_rewards_points_for_daily_login.to_i
+      description = {
+        type: 'daily_login',
+        date: Date.today
+      }
+
+      DiscourseRewards::UserPoint.create(user_id: self.id, reward_points: points, description: description.to_json) if points > 0
+    end
+  end
+
+  User.prepend UserClassMethods if SiteSetting.discourse_rewards_enabled
+
   Discourse::Application.routes.append do
     mount ::DiscourseRewards::Engine, at: '/'
     get "rewards" => "groups#index"

@@ -29,6 +29,10 @@ export default Component.extend({
         return I18n.t("discourse_rewards.my_points_center.post_create", {
           title: description.topic_title,
         });
+      } else if (description.type === "daily_login") {
+        return I18n.t("discourse_rewards.my_points_center.daily_login", {
+          date: description.date,
+        });
       } else {
         return I18n.t("discourse_rewards.my_points_center.badge", {
           title: description.name,

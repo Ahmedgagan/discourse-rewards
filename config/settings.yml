@@ -23,6 +23,9 @@ discourse_rewards:
   discourse_rewards_points_for_like_received:
     client: true
     default: 0
+  discourse_rewards_points_for_daily_login:
+    client: true
+    default: 0
   discourse_rewards_show_points_on_site_header:
     client: true
     default: true

@@ -56,6 +56,14 @@ export default Controller.extend({
     );
   },
 
+  get dailyLoginCategoryList() {
+    return this.model.transactions.filter((transaction) => {
+      const description = JSON.parse(transaction.user_point.description);
+
+      return description && description.type === "daily_login";
+    });
+  },
+
   get uncategorizedList() {
     return this.model.transactions.filter(
       (transaction) =>
@@ -67,6 +75,7 @@ export default Controller.extend({
   filteredTransactions(filter) {
     if (filter === "creation") return this.creationCategoryList;
     if (filter === "like") return this.likeCategoryList;
+    if (filter === "daily_login") return this.dailyLoginCategoryList;
     if (filter === "badge") return this.badgeCategoryList;
     if (filter === "redeem") return this.redeemCategoryList;
     if (filter === "uncategorized") return this.uncategorizedList;
