@@ -58,6 +58,8 @@ export default Controller.extend({
 
   get dailyLoginCategoryList() {
     return this.model.transactions.filter((transaction) => {
+      if (!transaction.user_point) return false;
+
       const description = JSON.parse(transaction.user_point.description);
 
       return description && description.type === "daily_login";
