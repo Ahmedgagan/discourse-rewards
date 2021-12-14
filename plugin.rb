@@ -109,6 +109,10 @@ after_initialize do
     user&.total_earned_points
   end
 
+  add_to_serializer(:basic_user, :available_points) do
+    user&.available_points
+  end
+
   add_to_serializer(:current_user, :total_earned_points) do
     scope.user.total_earned_points
   end
