@@ -124,6 +124,6 @@ class DiscourseRewards::Rewards
       user_reward: @user_reward.attributes
     }
 
-    MessageBus.publish("/u/user-rewards", message) 
+    MessageBus.publish("/u/user-rewards", message)
   end
 end

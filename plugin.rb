@@ -60,6 +60,7 @@ after_initialize do
     "../app/models/reward_list.rb",
     "../app/models/user_reward_list.rb",
     "../app/models/transaction.rb",
+    "../app/models/user_points_category.rb",
     "../jobs/scheduled/grant_active_member_bronze_badges",
     "../jobs/scheduled/grant_active_member_silver_badges",
     "../jobs/scheduled/grant_active_member_gold_badges",
@@ -82,7 +83,7 @@ after_initialize do
         date: Date.today
       }
 
-      DiscourseRewards::UserPoint.create(user_id: self.id, reward_points: points, description: description.to_json) if points > 0
+      DiscourseRewards::UserPoint.create(user_id: self.id, user_points_category_id: 3, reward_points: points, description: description.to_json) if points > 0
     end
   end
 
@@ -154,7 +155,7 @@ after_initialize do
         badge_id: badge.id,
         name: badge.name
       }
-      DiscourseRewards::UserPoint.create(user_id: notification.user_id, user_badge_id: user_badge.id, reward_points: points, description: description.to_json) if points > 0
+      DiscourseRewards::UserPoint.create(user_id: notification.user_id, user_points_category_id: 1, user_badge_id: user_badge.id, reward_points: points, description: description.to_json) if points > 0
 
       user_message = {
         available_points: user_badge.user.available_points
@@ -187,7 +188,7 @@ after_initialize do
           topic_title: post.topic.title
         }
 
-        DiscourseRewards::UserPoint.create(user_id: post.user_id, reward_points: points, description: description.to_json) if points > 0
+        DiscourseRewards::UserPoint.create(user_id: post.user_id, user_points_category_id: 4, reward_points: points, description: description.to_json) if points > 0
 
         user_message = {
           available_points: post.user.available_points,
@@ -222,7 +223,7 @@ after_initialize do
           topic_title: topic.title
         }
 
-        DiscourseRewards::UserPoint.create(user_id: topic.user_id, reward_points: points, description: description.to_json) if points > 0
+        DiscourseRewards::UserPoint.create(user_id: topic.user_id, user_points_category_id: 4, reward_points: points, description: description.to_json) if points > 0
 
         user_message = {
           available_points: topic.user.available_points
@@ -255,7 +256,7 @@ after_initialize do
           topic_title: post.topic.title
         }
 
-        DiscourseRewards::UserPoint.create(user_id: user.id, reward_points: points, description: description.to_json) if points > 0
+        DiscourseRewards::UserPoint.create(user_id: user.id, user_points_category_id: 4, reward_points: points, description: description.to_json) if points > 0
 
         user_message = {
           available_points: user.available_points
