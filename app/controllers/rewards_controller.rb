@@ -108,7 +108,7 @@ module DiscourseRewards
       users = User.all
         .where("users.id NOT IN(select user_id from anonymous_users) AND silenced_till IS NULL AND suspended_till IS NULL AND active=true AND users.id > 0")
         .order(:username_lower)
-        .sort { |a, b| a.available_points <=> b.available_points }.reverse
+        .sort { |u| -u.available_points }
 
       count = users.length
 
