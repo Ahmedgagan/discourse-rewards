@@ -108,7 +108,7 @@ module DiscourseRewards
       users = User.all
         .where("users.id NOT IN(select user_id from anonymous_users) AND silenced_till IS NULL AND suspended_till IS NULL AND active=true AND users.id > 0")
         .order(:username_lower)
-        .sort { |a,b| a.available_points <=> b.available_points }.reverse
+        .sort { |a, b| a.available_points <=> b.available_points }.reverse
 
       count = users.length
 
@@ -118,7 +118,7 @@ module DiscourseRewards
     end
 
     def transactions
-      transactions = ActiveRecord::Base.connection.execute("SELECT user_id, null user_reward_id, id point_id, reward_points, created_at FROM discourse_rewards_user_points WHERE user_id=#{current_user.id} UNION SELECT user_id, id, null, points, created_at FROM discourse_rewards_user_rewards WHERE user_id=#{current_user.id} ORDER BY created_at DESC").to_a
+      transactions = ActiveRecord::Base.connection.execute("SELECT user_id, null user_reward_id, user_points_category_id,  id point_id, reward_points, created_at FROM discourse_rewards_user_points WHERE user_id=#{current_user.id} UNION SELECT user_id, id, null, null, points, created_at FROM discourse_rewards_user_rewards WHERE user_id=#{current_user.id} ORDER BY created_at DESC").to_a
 
       transactions = transactions.map { |transaction| DiscourseRewards::Transaction.new(transaction.with_indifferent_access) }
 

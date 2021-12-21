@@ -31,10 +31,6 @@ export default DropdownSelectBoxComponent.extend({
         id: "redeem",
         label: I18n.t("discourse_rewards.transaction.categories.redeem"),
       },
-      {
-        id: "uncategorized",
-        label: I18n.t("discourse_rewards.transaction.categories.uncategorized"),
-      },
     ];
   }),
 

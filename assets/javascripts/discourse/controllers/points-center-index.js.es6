@@ -17,70 +17,38 @@ export default Controller.extend({
     });
   },
 
-  get creationCategoryList() {
-    return this.model.transactions.filter((transaction) => {
-      if (!transaction.user_point) return false;
-
-      const description = JSON.parse(transaction.user_point.description);
-
-      return (
-        description &&
-        (description.type === "post" || description.type === "topic")
-      );
-    });
-  },
-
-  get likeCategoryList() {
-    return this.model.transactions.filter((transaction) => {
-      if (!transaction.user_point) return false;
-
-      const description = JSON.parse(transaction.user_point.description);
-
-      return description && description.type === "like";
-    });
-  },
-
-  get badgeCategoryList() {
-    return this.model.transactions.filter((transaction) => {
-      if (!transaction.user_point) return false;
-
-      const description = JSON.parse(transaction.user_point.description);
-
-      return description && description.name;
-    });
-  },
-
-  get redeemCategoryList() {
-    return this.model.transactions.filter(
-      (transaction) => transaction.user_reward
-    );
-  },
-
-  get dailyLoginCategoryList() {
-    return this.model.transactions.filter((transaction) => {
-      if (!transaction.user_point) return false;
-
-      const description = JSON.parse(transaction.user_point.description);
-
-      return description && description.type === "daily_login";
-    });
-  },
-
-  get uncategorizedList() {
-    return this.model.transactions.filter(
-      (transaction) =>
-        transaction.user_point && !transaction.user_point.description
-    );
-  },
-
   @discourseComputed("filter")
   filteredTransactions(filter) {
-    if (filter === "creation") return this.creationCategoryList;
-    if (filter === "like") return this.likeCategoryList;
-    if (filter === "daily_login") return this.dailyLoginCategoryList;
-    if (filter === "badge") return this.badgeCategoryList;
-    if (filter === "redeem") return this.redeemCategoryList;
-    if (filter === "uncategorized") return this.uncategorizedList;
+    if (filter === "creation")
+      return this.model.transactions.filter(
+        (transaction) =>
+          transaction.user_points_category &&
+          transaction.user_points_category.id === 2
+      );
+    if (filter === "like")
+      return this.model.transactions.filter(
+        (transaction) =>
+          transaction.user_points_category &&
+          transaction.user_points_category.id === 4
+      );
+    if (filter === "daily_login")
+      return this.model.transactions.filter(
+        (transaction) =>
+          transaction.user_points_category &&
+          transaction.user_points_category.id === 3
+      );
+    if (filter === "badge")
+      return this.model.transactions.filter(
+        (transaction) =>
+          transaction.user_points_category &&
+          transaction.user_points_category.id === 1
+      );
+    if (filter === "redeem")
+      return this.model.transactions.filter(
+        (transaction) =>
+          transaction.user_points_category &&
+          transaction.user_points_category.id === null
+      );
 
     return this.model.transactions;
   },

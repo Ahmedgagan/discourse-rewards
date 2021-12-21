@@ -16,6 +16,7 @@ Transaction.reopenClass({
 
     transactions = transactions.map((transactionJson) => {
       transactionJson.created_by = User.create(transactionJson.user);
+
       if (transactionJson.user_reward) {
         transactionJson.user_reward = UserReward.createFromJson(
           transactionJson.user_reward
