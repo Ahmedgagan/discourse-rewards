@@ -105,14 +105,36 @@ module DiscourseRewards
     def leaderboard
       page = params[:page].to_i || 1
 
-      users = User.all
-        .where("users.id NOT IN(select user_id from anonymous_users) AND silenced_till IS NULL AND suspended_till IS NULL AND active=true AND users.id > 0")
-        .order(:username_lower)
-        .sort { |u| -u.available_points }
+      query = <<~SQL
+        SELECT earned.*, total_spent_points, (total_earned_points - total_spent_points) AS total_available_points FROM (
+          SELECT users.*, COALESCE(SUM(discourse_rewards_user_points.reward_points), 0) total_earned_points FROM "users"
+          LEFT OUTER JOIN "discourse_rewards_user_points" ON "discourse_rewards_user_points"."user_id" = "users"."id"
+          WHERE (users.id NOT IN(select user_id from anonymous_users) AND
+            silenced_till IS NULL AND
+            suspended_till IS NULL AND
+            active=true AND
+            users.id > 0)
+          GROUP BY "users"."id"
+        ) earned INNER JOIN (
+          SELECT users.*, COALESCE(SUM(discourse_rewards_user_rewards.points), 0) total_spent_points FROM "users"
+          LEFT OUTER JOIN "discourse_rewards_user_rewards" ON "discourse_rewards_user_rewards"."user_id" = "users"."id"
+          WHERE (users.id NOT IN(select user_id from anonymous_users)
+            AND silenced_till IS NULL
+            AND suspended_till IS NULL
+            AND active=true
+            AND users.id > 0)
+          GROUP BY "users"."id"
+        ) spent ON earned.id = spent.id
+        ORDER BY total_available_points desc, earned.username_lower
+      SQL
+
+      users = ActiveRecord::Base.connection.execute(query).to_a
 
       count = users.length
 
       users = users.drop(page * PAGE_SIZE).first(PAGE_SIZE)
+
+      users = users.map { |user| User.new(user.with_indifferent_access.except!(:total_earned_points, :total_spent_points, :total_available_points)) } 
 
       render_json_dump({ count: count, users: serialize_data(users, BasicUserSerializer) })
     end
