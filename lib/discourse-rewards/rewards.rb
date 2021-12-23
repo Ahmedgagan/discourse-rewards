@@ -18,6 +18,8 @@ class DiscourseRewards::Rewards
       upload_url: opts[:upload_url]
     )
 
+    DiscourseRewards::RewardNotification.new(@reward, @user, DiscourseRewards::RewardNotification.types[:new]).create
+
     publish_reward!(create: true)
 
     link_image_to_post(opts[:upload_id])
@@ -52,6 +54,8 @@ class DiscourseRewards::Rewards
     )
 
     @reward.update!(quantity: @reward.quantity - 1)
+
+    DiscourseRewards::RewardNotification.new(@reward, @user, DiscourseRewards::RewardNotification.types[:redeemed]).create
 
     publish_reward!(quantity: true)
     publish_points!

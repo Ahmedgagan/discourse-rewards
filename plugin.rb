@@ -13,11 +13,13 @@ register_asset 'stylesheets/mobile/rewards.scss', :mobile
 
 if respond_to?(:register_svg_icon)
   register_svg_icon "fas fa-trophy"
+  register_svg_icon "fas fa-gift"
 end
 
 after_initialize do
   SeedFu.fixture_paths << Rails.root.join("plugins", "discourse-rewards", "db", "fixtures").to_s
   UploadSecurity.register_custom_public_type("reward_image")
+  Notification::types[:rewards] = 3190123 # a random number to avoid conflicts
 
   module ::DiscourseRewards
     PLUGIN_NAME ||= 'discourse-rewards'
@@ -53,6 +55,7 @@ after_initialize do
     "../lib/discourse-rewards/non_anonymous_user_constraint.rb",
     "../lib/discourse-rewards/user_extension.rb",
     "../lib/discourse-rewards/rewards.rb",
+    "../lib/discourse-rewards/reward_notification.rb",
     "../app/models/user_reward.rb",
     "../app/controllers/rewards_controller.rb",
     "../app/models/reward.rb",

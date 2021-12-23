@@ -125,3 +125,10 @@ en:
           badge: "Reward Badges earned"
           redeem: "Rewards Earned"
           uncategorized: "Uncategorized Transactions"
+    notifications:
+      titles:
+        rewards: "new user reward"
+      rewards:
+        redeemed: "has redeemed %{reward_title} reward."
+        new: "New %{reward_title} reward is here!"
+        new_user_reward: "<span>%{username}</span> %{description}"
