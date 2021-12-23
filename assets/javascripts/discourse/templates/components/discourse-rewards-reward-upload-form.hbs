@@ -37,7 +37,7 @@
 
     <div class="input-group">
       <label for="image">{{i18n "admin.rewards.image"}}</label>
-      {{image-uploader
+      {{uppy-image-uploader
         imageUrl=reward.upload_url
         onUploadDone=(action "setImage")
         onUploadDeleted=(action "removeImage")
