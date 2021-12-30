@@ -17,23 +17,17 @@ export default Controller.extend({
   page: 0,
   loading: false,
 
-  @computed("model.users")
-  get myRank() {
-    return (
-      this.model.users.findIndex(
-        (user) => user.username === this.currentUser.username
-      ) + 1
-    );
-  },
-
   get rankString() {
-    if (this.myRank <= 10) {
+    if (this.model.current_user_rank <= 10) {
       return I18n.t(
         `discourse_rewards.leaderboard.praise_user.top_10.praise_${
           Math.floor(Math.random() * 3) + 1
         }`
       );
-    } else if (this.myRank > 10 && this.myRank <= 100) {
+    } else if (
+      this.model.current_user_rank > 10 &&
+      this.model.current_user_rank <= 100
+    ) {
       return I18n.t(
         `discourse_rewards.leaderboard.praise_user.top_100.praise_${
           Math.floor(Math.random() * 3) + 1

@@ -17,12 +17,14 @@ createWidgetFrom(DefaultNotificationItem, "rewards-notification-item", {
     if (this.attrs.data.type == "redeemed") {
       return I18n.t("notifications.rewards.new_user_reward", {
         username: formatUsername(data.display_username),
-        description: I18n.t(`notifications.rewards.redeemed`, { reward_title: data.reward.title }),
+        description: I18n.t(`notifications.rewards.redeemed`, {
+          reward_title: data.reward.title,
+        }),
       });
     }
 
     return I18n.t("notifications.rewards.new", {
-      reward_title: data.reward.title
+      reward_title: data.reward.title,
     });
   },
 
@@ -31,6 +33,6 @@ createWidgetFrom(DefaultNotificationItem, "rewards-notification-item", {
       return "/admin/rewards/grant";
     }
 
-    return "/points-center/available-rewards"
+    return "/points-center/available-rewards";
   },
 });
