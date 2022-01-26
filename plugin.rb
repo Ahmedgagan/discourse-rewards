@@ -169,7 +169,7 @@ after_initialize do
   end
 
   on(:post_created) do |post|
-    if post.user_id > 0 && post.post_number > 1 && !post.topic.archetype == Archetype.private_message
+    if post.user_id > 0 && post.post_number > 1 && post.topic.archetype != Archetype.private_message
       top_posts = Post.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
         .where(user_id: post.user_id)
         .where("post_number > 1")
@@ -204,7 +204,7 @@ after_initialize do
   end
 
   on(:topic_created) do |topic|
-    if topic.user_id > 0 && !topic.archetype == Archetype.private_message
+    if topic.user_id > 0 && topic.archetype != Archetype.private_message
       top_topics = Topic.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
         .where(user_id: topic.user_id)
         .order(:created_at)
