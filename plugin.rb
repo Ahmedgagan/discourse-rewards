@@ -271,4 +271,24 @@ after_initialize do
       end
     end
   end
+
+  on(:user_created) do |user|
+    points = SiteSetting.discourse_rewards_points_for_invited_user_join.to_i
+
+    if user.invited_by
+      description = {
+        type: 'invited_user_joined',
+        invited_user_id: user.id,
+        invited_user_name: user.username,
+      }
+
+      DiscourseRewards::UserPoint.create(user_id: user.invited_by.id, user_points_category_id: 6, reward_points: points, description: description.to_json) if points > 0
+
+      user_message = {
+        available_points: user.available_points
+      }
+
+      MessageBus.publish("/u/#{user.invited_by.id}/rewards", user_message)
+    end
+  end
 end

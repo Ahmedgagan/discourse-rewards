@@ -50,6 +50,12 @@ export default Controller.extend({
           transaction.user_points_category.id === null
       );
 
+    if (filter === "invite")
+      return this.model.transactions.filter(
+        (transaction) =>
+          transaction.user_points_category &&
+          transaction.user_points_category.id === 6
+      );
     return this.model.transactions;
   },
 });

@@ -13,6 +13,7 @@ en:
     discourse_rewards_daily_top_topics_to_grant_points: "Number of daily top topics to grant points"
     discourse_rewards_daily_top_replies_to_grant_points: "Number of daily top replies to grant points"
     discourse_rewards_daily_top_like_received_to_grant_points: "Number of daily top like received to grant points"
+    discourse_rewards_points_for_invited_user_join: "Reward points for invited user joined the forum."
   badges:
     best_liked_in_a_month:
       name: "Best Liked in a month"

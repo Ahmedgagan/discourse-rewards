@@ -38,3 +38,6 @@ discourse_rewards:
   discourse_rewards_daily_top_like_received_to_grant_points:
     client: true
     default: 0
+  discourse_rewards_points_for_invited_user_join:
+    client: true
+    default: 0

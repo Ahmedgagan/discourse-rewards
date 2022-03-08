@@ -90,6 +90,7 @@ en:
         badge: "Earned a reward badge: %{title}."
         earned_points: "Earned reward points."
         daily_login: "Visited on %{date}."
+        invited_user_joined: "Invited user %{name} Joined."
       user:
         title: "User: "
       available_rewards:
@@ -142,6 +143,7 @@ en:
           like: "Like Received"
           badge: "Reward Badges earned"
           redeem: "Rewards Earned"
+          invite: "Invite User Joined"
           uncategorized: "Uncategorized Transactions"
     notifications:
       titles:

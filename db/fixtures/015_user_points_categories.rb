@@ -34,3 +34,10 @@ DiscourseRewards::UserPointsCategory.seed(:name) do |c|
   c.slug = "Rewards Earned"
   c.description = "Redeemed points for getting reward."
 end
+
+DiscourseRewards::UserPointsCategory.seed(:name) do |c|
+  c.id = 6
+  c.name = "invited_user_joined"
+  c.slug = "Invited User Joined"
+  c.description = "Earned points for invited user joined the forum."
+end

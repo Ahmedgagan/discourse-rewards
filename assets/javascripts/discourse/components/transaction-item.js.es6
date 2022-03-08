@@ -33,6 +33,15 @@ export default Component.extend({
         return I18n.t("discourse_rewards.my_points_center.daily_login", {
           date: description.date,
         });
+      } else if (description.type === "invited_user_joined") {
+        return I18n.t(
+          "discourse_rewards.my_points_center.invited_user_joined",
+          {
+            name: description.invited_user_name
+              ? description.invited_user_name
+              : description.invited_user_id,
+          }
+        );
       } else {
         return I18n.t("discourse_rewards.my_points_center.badge", {
           title: description.name,
