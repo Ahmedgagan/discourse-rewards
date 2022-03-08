@@ -1,6 +1,11 @@
 {{#load-more selector=".leaderboard-users-list div" action=(action "loadMore")}}
   <div class="leaderboard">
-    <p><h3>{{i18n "discourse_rewards.leaderboard.praise" rank=model.current_user_rank postfix=rankString}}</h3></p>
+    <div class="heading">
+      <span>{{i18n "discourse_rewards.leaderboard.praise" rank=model.current_user_rank postfix=rankString}}</span>
+      {{#if model.campaign}}
+        {{leaderboard-filter value=filter onChange=(action (mut filter))}}
+      {{/if}}
+    </div>
     <div class="leaderboard-users-list">
       {{#each model.users as |user index|}}
         {{leaderboard-card user=user index=index}}

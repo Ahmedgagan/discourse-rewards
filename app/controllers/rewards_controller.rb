@@ -3,7 +3,7 @@
 module DiscourseRewards
   class RewardsController < ::ApplicationController
     requires_login
-    before_action :ensure_admin, only: [:create, :update, :destroy, :grant_user_reward]
+    before_action :ensure_admin, only: [:create, :update, :destroy, :grant_user_reward, :create_campaign, :update_campaign]
 
     PAGE_SIZE = 30
 
@@ -16,6 +16,28 @@ module DiscourseRewards
       reward = DiscourseRewards::Rewards.new(current_user).add_reward(params)
 
       render_serialized(reward, RewardSerializer)
+    end
+
+    def create_campaign
+      params.require([:start_date, :end_date, :name])
+
+      raise Discourse::InvalidParameters.new(:start_date) if Date.parse(params[:start_date]) > Date.parse(params[:end_date])
+
+      campaign = DiscourseRewards::Rewards.new(current_user).create_campaign(params)
+
+      render_serialized(campaign, CampaignSerializer)
+    end
+
+    def update_campaign
+      params.require([:start_date, :end_date, :name, :id])
+
+      raise Discourse::InvalidParameters.new(:start_date) if Date.parse(params[:start_date]) > Date.parse(params[:end_date])
+
+      campaign = DiscourseRewards::Campaign.find(params[:id])
+
+      campaign = DiscourseRewards::Rewards.new(current_user).update_campaign(campaign, params)
+
+      render_serialized(campaign, CampaignSerializer)
     end
 
     def index
@@ -102,43 +124,53 @@ module DiscourseRewards
       render_serialized(user_reward, UserRewardSerializer)
     end
 
+    def get_current_campaign
+      render_serialized(DiscourseRewards::Campaign.first, CampaignSerializer)
+    end
+
     def leaderboard
       page = params[:page].to_i || 1
 
-      query = <<~SQL
-        SELECT earned.*, total_spent_points, (total_earned_points - total_spent_points) AS total_available_points FROM (
-          SELECT users.*, COALESCE(SUM(discourse_rewards_user_points.reward_points), 0) total_earned_points FROM "users"
-          LEFT OUTER JOIN "discourse_rewards_user_points" ON "discourse_rewards_user_points"."user_id" = "users"."id"
-          WHERE (users.id NOT IN(select user_id from anonymous_users) AND
-            silenced_till IS NULL AND
-            suspended_till IS NULL AND
-            active=true AND
-            users.id > 0)
-          GROUP BY "users"."id"
-        ) earned INNER JOIN (
-          SELECT users.*, COALESCE(SUM(discourse_rewards_user_rewards.points), 0) total_spent_points FROM "users"
-          LEFT OUTER JOIN "discourse_rewards_user_rewards" ON "discourse_rewards_user_rewards"."user_id" = "users"."id"
-          WHERE (users.id NOT IN(select user_id from anonymous_users)
-            AND silenced_till IS NULL
-            AND suspended_till IS NULL
-            AND active=true
-            AND users.id > 0)
-          GROUP BY "users"."id"
-        ) spent ON earned.id = spent.id
-        ORDER BY total_available_points desc, earned.username_lower
-      SQL
+      campaign = DiscourseRewards::Campaign.first
 
-      users = ActiveRecord::Base.connection.execute(query).to_a
+      if campaign && (!params[:filter] || params[:filter] == "campaign")
+        users = User.joins(:user_points).group(:id).select("users.*, COALESCE(SUM(discourse_rewards_user_points.reward_points), 0) AS total_available_points").order(total_available_points: :desc, username: :asc).where("discourse_rewards_user_points.created_at BETWEEN ? AND ?", campaign.start_date, campaign.end_date)
+      else
+        query = <<~SQL
+          SELECT earned.*, total_spent_points, (total_earned_points - total_spent_points) AS total_available_points FROM (
+            SELECT users.*, COALESCE(SUM(discourse_rewards_user_points.reward_points), 0) total_earned_points FROM "users"
+            LEFT OUTER JOIN "discourse_rewards_user_points" ON "discourse_rewards_user_points"."user_id" = "users"."id"
+            WHERE (users.id NOT IN(select user_id from anonymous_users) AND
+              silenced_till IS NULL AND
+              suspended_till IS NULL AND
+              active=true AND
+              users.id > 0)
+            GROUP BY "users"."id"
+          ) earned INNER JOIN (
+            SELECT users.*, COALESCE(SUM(discourse_rewards_user_rewards.points), 0) total_spent_points FROM "users"
+            LEFT OUTER JOIN "discourse_rewards_user_rewards" ON "discourse_rewards_user_rewards"."user_id" = "users"."id"
+            WHERE (users.id NOT IN(select user_id from anonymous_users)
+              AND silenced_till IS NULL
+              AND suspended_till IS NULL
+              AND active=true
+              AND users.id > 0)
+            GROUP BY "users"."id"
+          ) spent ON earned.id = spent.id
+          ORDER BY total_available_points desc, earned.username_lower
+        SQL
+
+        users = ActiveRecord::Base.connection.execute(query).to_a
+      end
 
       count = users.length
 
-      current_user_index = users.pluck("id").index(current_user.id)
+      current_user_index = users.pluck("id").index(current_user.id) || 0
 
       users = users.drop(page * PAGE_SIZE).first(PAGE_SIZE)
 
-      users = users.map { |user| User.new(user.with_indifferent_access.except!(:total_earned_points, :total_spent_points, :total_available_points)) } 
+      users = users.map { |user| User.new(user.with_indifferent_access.except!(:total_earned_points, :total_spent_points, :total_available_points)) } if !campaign || params[:filter] == "all-time"
 
-      render_json_dump({ count: count, current_user_rank: current_user_index + 1, users: serialize_data(users, BasicUserSerializer) })
+      render_json_dump({ campaign: campaign ? true : false, count: count, current_user_rank: current_user_index + 1, users: serialize_data(users, BasicUserSerializer) })
     end
 
     def transactions

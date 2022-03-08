@@ -16,6 +16,8 @@ export default Controller.extend({
   routing: service("-routing"),
   page: 0,
   loading: false,
+  queryParams: ["filter"],
+  filter: "campaign",
 
   get rankString() {
     if (this.model.current_user_rank <= 10) {

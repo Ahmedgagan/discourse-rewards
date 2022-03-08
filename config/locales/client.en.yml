@@ -34,6 +34,21 @@ en:
         delete_confirm: "Are you sure you want to grant this reward?"
         redeem_confirm: "Are you sure you want to redeem this reward?"
         new: "New"
+        campaign:
+          nav: "Campaign"
+          fields:
+            campaign_name:
+              title: "Campaign Name"
+              instructions: "Please enter campaign name"
+            campaign_description:
+              title: "Campaign Description"
+              instructions: "Please enter campaign description"
+            campaign_start_date:
+              title: "Campaign Start Date"
+              instructions: "Please enter campaign start date"
+            campaign_end_date:
+              title: "Campaign End Date"
+              instructions: "Please enter campaign end date"
         rewards:
           nav: "Rewards"
         user_rewards:
@@ -89,6 +104,9 @@ en:
         praise: "Your ranking is %{rank}, %{postfix}"
         nav: "Leaderboard"
         title: "Leaderboard"
+        filters:
+          all-time: "All Time"
+          campaign: "Campaign"
         praise_user:
           top_10:
             praise_1: "it's great."

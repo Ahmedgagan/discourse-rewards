@@ -2,23 +2,18 @@ import DiscourseRoute from "discourse/routes/discourse";
 import { ajax } from "discourse/lib/ajax";
 
 export default DiscourseRoute.extend({
-  queryParams: {
-    filter: {
-      refreshModel: true,
-    },
-  },
-
-  model(params) {
-    return ajax("/rewards-leaderboard.json", {
-      data: { filter: params.filter },
-    }).then((data) => {
-      return data;
+  model() {
+    return ajax("/rewards/campaign.json", {
+      type: "GET",
+    }).then((result) => {
+      return result;
     });
   },
 
   setupController(controller, model) {
     controller.setProperties({
       model,
+      disabled: model.campaign ? true : false,
     });
   },
 });

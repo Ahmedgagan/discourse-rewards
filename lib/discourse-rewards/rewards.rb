@@ -27,6 +27,32 @@ class DiscourseRewards::Rewards
     @reward
   end
 
+  def create_campaign(opts)
+    @campaign = DiscourseRewards::Campaign.create(
+      created_by_id: @user.id,
+      name: opts[:name],
+      description: opts[:description],
+      start_date: Date.parse(opts[:start_date]),
+      end_date: Date.parse(opts[:end_date]),
+      include_parameters: opts[:include_parameters],
+    )
+
+    @campaign
+  end
+
+  def update_campaign(campaign, opts)
+    campaign.update!(
+      created_by_id: campaign.created_by_id,
+      name: opts[:name],
+      description: opts[:description],
+      start_date: Date.parse(opts[:start_date]),
+      end_date: Date.parse(opts[:end_date]),
+      include_parameters: opts[:include_parameters],
+    ) if campaign
+
+    campaign
+  end
+
   def update_reward(opts)
     @reward.update!(opts) if @reward
 

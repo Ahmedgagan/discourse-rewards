@@ -179,6 +179,21 @@
   margin: 20px; /* for demo purpose  */
 }
 
+.leaderboard {
+  .heading {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    span {
+      font-size: $font-up-1;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
 .leaderboard-card {
   border: 1px solid var(--primary-low);
   padding: 0.5em;
@@ -370,5 +385,38 @@
         }
       }
     }
+  }
+}
+
+// admin rewards campaign
+.admin-rewards-campaign {
+  display: flex;
+
+  form,
+  .current-campaign {
+    width: 50%;
+  }
+
+  .form-horizontal {
+    input,
+    textarea {
+      width: 100%;
+    }
+
+    .campaign-description {
+      border: 1px solid var(--primary-low-mid);
+    }
+
+    input[disabled] {
+      background-color: var(--primary-low);
+    }
+  }
+
+  .current-campaign {
+    margin-left: 2em;
+  }
+
+  .title {
+    font-weight: bold;
   }
 }

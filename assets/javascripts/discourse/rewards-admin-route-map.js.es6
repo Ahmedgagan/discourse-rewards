@@ -6,6 +6,7 @@ export default {
       { path: "/rewards", resetNamespace: true },
       function () {
         this.route("grant");
+        this.route("campaign");
       }
     );
   },

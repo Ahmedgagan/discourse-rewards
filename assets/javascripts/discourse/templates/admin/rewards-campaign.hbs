@@ -1,0 +1,84 @@
+<div class="admin-rewards-campaign">
+  <form class="form-horizontal">
+    <div class="input-group">
+      <label for="name">{{i18n "admin.rewards.campaign.fields.campaign_name.title"}}</label>
+      {{input
+        type="text"
+        autofocus="autofocus"
+        name="campaign-name"
+        value=campaignName
+        class="campaign-name"
+        id="campaign-name"
+        aria-invalid=campaignNameValidation.failed
+        disabled=disabled
+      }}
+      {{input-tip validation=campaignNameValidation id="campaign-name-validation"}}
+      <div class="control-instructions">
+        <p class="help">{{i18n "admin.rewards.campaign.fields.campaign_name.instructions"}}</p>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="campaign-description">{{i18n "admin.rewards.campaign.fields.campaign_description.title"}}</label>
+      {{textarea name="campaign-description" value=campaignDescription class="campaign-description" disabled=disabled}}
+      <div class="control-instructions">
+        <p class="help">{{i18n "admin.rewards.campaign.fields.campaign_description.instructions"}}</p>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="start-date">{{i18n "admin.rewards.campaign.fields.campaign_start_date.title"}}</label>
+      {{input
+        type="date"
+        autofocus="autofocus"
+        name="start-date"
+        value=startDate
+        class="start-date"
+        id="campaign-start-date"
+        aria-invalid=startDateValidation.failed
+        disabled=disabled
+      }}
+      {{input-tip validation=startDateValidation id="start-date-validation"}}
+      <div class="control-instructions">
+        <p class="help">{{i18n "admin.rewards.campaign.fields.campaign_start_date.instructions"}}</p>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="end-date">{{i18n "admin.rewards.campaign.fields.campaign_end_date.title"}}</label>
+      {{input type="date"
+        id="campaign-end-date"
+        name="end-date"
+        value=endDate
+        class="end-date"
+        aria-invalid=endDateValidation.failed
+        disabled=disabled
+      }}
+      {{input-tip validation=endDateValidation id="end-date-validation"}}
+      <div class="control-instructions">
+        <p class="help">{{i18n "admin.rewards.campaign.fields.campaign_end_date.instructions"}}</p>
+      </div>
+    </div>
+
+    <div class="buttons">
+      {{d-button
+        class="btn-primary"
+        action=(action "saveCampaign")
+        type="submit"
+        disabled=(or saving disabled)
+        label="admin.rewards.save"}}
+      <span class="saving">{{savingStatus}}</span>
+    </div>
+  </form>
+  {{#if model.campaign}}
+    <div class="current-campaign">
+      <div class="card">
+        <div class="campaign-name"><span class="title">{{i18n "admin.rewards.campaign.fields.campaign_name.title"}}: </span>{{model.campaign.name}}</div>
+        <div class="campaign-description"><span class="title">{{i18n "admin.rewards.campaign.fields.campaign_description.title"}}: </span>{{model.campaign.description}}</div>
+        <div class="campaign-start-date"><span class="title">{{i18n "admin.rewards.campaign.fields.campaign_start_date.title"}}: </span>{{model.campaign.start_date}}</div>
+        <div class="campaign-end-date"><span class="title">{{i18n "admin.rewards.campaign.fields.campaign_end_date.title"}}: </span>{{model.campaign.end_date}}</div>
+      </div>
+      <div>{{d-button class="btn-icon" type="submit" icon="pencil-alt" action=(action "startUpdate")}}</div>
+    </div>
+  {{/if}}
+</div>
