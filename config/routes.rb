@@ -9,6 +9,7 @@ DiscourseRewards::Engine.routes.draw do
   post "rewards/campaign" => "rewards#create_campaign"
   get "rewards/campaign" => "rewards#get_current_campaign"
   put "rewards/campaign/:id" => "rewards#update_campaign"
+  delete "rewards/campaign/:id" => "rewards#destroy_campaign"
   get "user-rewards" => "rewards#user_rewards"
   post "user-rewards/:id" => "rewards#grant_user_reward"
   delete "user-rewards/:id" => "rewards#cancel_user_reward"

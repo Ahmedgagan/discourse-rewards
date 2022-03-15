@@ -126,6 +126,14 @@ module DiscourseRewards
       render_serialized(user_reward, UserRewardSerializer)
     end
 
+    def destroy_campaign
+      params.require(:id)
+
+      campaign = DiscourseRewards::Campaign.find(params[:id]).destroy
+
+      render_serialized(campaign, CampaignSerializer)
+    end
+
     def get_current_campaign
       campaign = DiscourseRewards::Campaign.first
       if campaign && campaign.end_date < Date.today

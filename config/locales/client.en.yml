@@ -35,6 +35,7 @@ en:
         redeem_confirm: "Are you sure you want to redeem this reward?"
         new: "New"
         campaign:
+          delete_campaign_confirm: "Are you sure you want to delete this campaign?"
           nav: "Campaign"
           fields:
             campaign_name:

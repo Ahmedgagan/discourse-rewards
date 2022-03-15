@@ -3,6 +3,7 @@ import discourseComputed from "discourse-common/utils/decorators";
 import { isEmpty } from "@ember/utils";
 import EmberObject, { action } from "@ember/object";
 import { ajax } from "discourse/lib/ajax";
+import bootbox from "bootbox";
 
 export default Controller.extend({
   saving: false,
@@ -192,5 +193,35 @@ export default Controller.extend({
       campaignDescription: this.model.campaign.description,
       update: true,
     });
+  },
+
+  @action
+  destroyCampaign() {
+    if (this.model.campaign && this.model.campaign.id) {
+      return bootbox.confirm(
+        I18n.t("admin.rewards.campaign.delete_campaign_confirm"),
+        I18n.t("no_value"),
+        I18n.t("yes_value"),
+        (result) => {
+          if (result) {
+            return ajax(`/rewards/campaign/${this.model.campaign.id}`, {
+              type: "DELETE",
+            })
+              .then((result) => {
+                this.set("update", false);
+                this.set("campaignName", null);
+                this.set("startDate", null);
+                this.set("endDate", null);
+                this.set("campaignDescription", null);
+                this.set("disabled", true);
+                this.set("model.campaign", null);
+              })
+              .catch(() => {
+                bootbox.alert(I18n.t("generic_error"));
+              });
+          }
+        }
+      );
+    }
   },
 });

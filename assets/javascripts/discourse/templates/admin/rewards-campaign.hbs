@@ -78,7 +78,18 @@
         <div class="campaign-start-date"><span class="title">{{i18n "admin.rewards.campaign.fields.campaign_start_date.title"}}: </span>{{model.campaign.start_date}}</div>
         <div class="campaign-end-date"><span class="title">{{i18n "admin.rewards.campaign.fields.campaign_end_date.title"}}: </span>{{model.campaign.end_date}}</div>
       </div>
-      <div>{{d-button class="btn-icon" type="submit" icon="pencil-alt" action=(action "startUpdate")}}</div>
+      <div>
+        {{d-button class="btn-icon"
+          type="submit"
+          icon="pencil-alt"
+          action=(action "startUpdate")
+        }}
+        {{d-button class="btn-icon"
+          type="submit"
+          icon="trash-alt"
+          action=(action "destroyCampaign")
+        }}
+        </div>
     </div>
   {{/if}}
 </div>
