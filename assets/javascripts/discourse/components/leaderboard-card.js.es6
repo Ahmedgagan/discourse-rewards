@@ -13,6 +13,11 @@ export default Component.extend({
     return this.user.username === this.currentUser.username;
   },
 
+  @computed("filter")
+  get isCampaign() {
+    return this.filter === "campaign";
+  },
+
   @computed("index")
   get appendString() {
     if (this.rank === 1) {

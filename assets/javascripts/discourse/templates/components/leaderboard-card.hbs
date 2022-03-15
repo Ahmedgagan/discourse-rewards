@@ -11,6 +11,10 @@
     {{/if}}
     <p class="username">{{user.username}}</p>
     <hr class="break-line">
-    <p class="points">{{user.available_points}}<p>{{i18n "discourse_rewards.point" count=user.available_points}}</p></p>
+    {{#if isCampaign}}
+      <p class="points">{{user.campaign_total_earned_points}}<p>{{i18n "discourse_rewards.point" count=user.campaign_total_earned_points}}</p></p>
+    {{else}}
+      <p class="points">{{user.available_points}}<p>{{i18n "discourse_rewards.point" count=user.available_points}}</p></p>
+    {{/if}}
   </div>
 </div>

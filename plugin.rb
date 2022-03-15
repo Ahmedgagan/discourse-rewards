@@ -107,12 +107,24 @@ after_initialize do
     self.total_earned_points - self.user_rewards.sum(:points)
   end
 
+  add_to_class(:user, :campaign_total_earned_points) do
+    campaign = DiscourseRewards::Campaign.first
+
+    if campaign && campaign.end_date > Date.today
+      return self.user_points.where(created_at: campaign.start_date.to_datetime..campaign.end_date.to_datetime).sum(:reward_points)
+    end
+  end
+
   add_to_class(:user, :rewards) do
     DiscourseRewards::Reward.where(created_by_id: self.id)
   end
 
   add_to_serializer(:basic_user, :total_earned_points) do
     user&.total_earned_points
+  end
+
+  add_to_serializer(:basic_user, :campaign_total_earned_points) do
+    user&.campaign_total_earned_points
   end
 
   add_to_serializer(:basic_user, :available_points) do

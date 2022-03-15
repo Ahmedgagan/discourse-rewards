@@ -8,7 +8,7 @@
     </div>
     <div class="leaderboard-users-list">
       {{#each model.users as |user index|}}
-        {{leaderboard-card user=user index=index}}
+        {{leaderboard-card user=user index=index filter=filter}}
       {{/each}}
     </div>
     {{conditional-loading-spinner condition=loading}}

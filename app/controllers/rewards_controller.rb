@@ -23,6 +23,8 @@ module DiscourseRewards
 
       raise Discourse::InvalidParameters.new(:start_date) if Date.parse(params[:start_date]) > Date.parse(params[:end_date])
 
+      DiscourseRewards::Campaign.destroy_all
+
       campaign = DiscourseRewards::Rewards.new(current_user).create_campaign(params)
 
       render_serialized(campaign, CampaignSerializer)
@@ -125,7 +127,12 @@ module DiscourseRewards
     end
 
     def get_current_campaign
-      render_serialized(DiscourseRewards::Campaign.first, CampaignSerializer)
+      campaign = DiscourseRewards::Campaign.first
+      if campaign && campaign.end_date < Date.today
+        render_serialized(nil, CampaignSerializer)
+      else
+        render_serialized(DiscourseRewards::Campaign.first, CampaignSerializer)
+      end
     end
 
     def leaderboard
@@ -133,7 +140,11 @@ module DiscourseRewards
 
       campaign = DiscourseRewards::Campaign.first
 
-      if campaign && (!params[:filter] || params[:filter] == "campaign")
+      if campaign && campaign.end_date > Date.today
+        campaign_valid = true
+      end
+
+      if campaign_valid && (!params[:filter] || params[:filter] == "campaign")
         users = User.joins(:user_points).group(:id).select("users.*, COALESCE(SUM(discourse_rewards_user_points.reward_points), 0) AS total_available_points").order(total_available_points: :desc, username: :asc).where("discourse_rewards_user_points.created_at BETWEEN ? AND ?", campaign.start_date, campaign.end_date)
       else
         query = <<~SQL
@@ -168,9 +179,9 @@ module DiscourseRewards
 
       users = users.drop(page * PAGE_SIZE).first(PAGE_SIZE)
 
-      users = users.map { |user| User.new(user.with_indifferent_access.except!(:total_earned_points, :total_spent_points, :total_available_points)) } if !campaign || params[:filter] == "all-time"
+      users = users.map { |user| User.new(user.with_indifferent_access.except!(:total_earned_points, :total_spent_points, :total_available_points)) } if !campaign_valid || params[:filter] == "all-time"
 
-      render_json_dump({ campaign: campaign ? true : false, count: count, current_user_rank: current_user_index + 1, users: serialize_data(users, BasicUserSerializer) })
+      render_json_dump({ campaign: campaign_valid ? true : false, count: count, current_user_rank: current_user_index + 1, users: serialize_data(users, BasicUserSerializer) })
     end
 
     def transactions
