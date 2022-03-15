@@ -15,7 +15,7 @@ export default Component.extend({
 
   @computed("filter")
   get isCampaign() {
-    return this.filter === "campaign";
+    return this.campaign && this.filter === "campaign";
   },
 
   @computed("index")
